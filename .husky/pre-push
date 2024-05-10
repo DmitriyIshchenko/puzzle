@@ -1,0 +1,6 @@
+#!/bin/sh
+. "$(dirname "$0")/_/husky.sh"
+
+# validate branch name before push
+
+npx validate-branch-name -r '^(feat|fix|refactor|chore|docs|init)\/PZ-\d+_\w+'
