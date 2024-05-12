@@ -8,9 +8,15 @@
     "build": "tsc && vite build",
     "preview": "vite preview",
     "format": "npx prettier --write src",
-    "ci:format": "npx prettier --check src",
-    "lint": "npx eslint src/**/*.ts",
-    "prepare": "husky"
+    "ci:format": "npx prettier --check",
+    "lint": "npx eslint",
+    "prepare": "husky install"
+  },
+  "lint-staged": {
+    "*.ts": [
+      "npm run lint",
+      "npm run ci:format"
+    ]
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3.0.2",
@@ -24,6 +30,7 @@
     "eslint-plugin-import": "^2.29.1",
     "globals": "^15.2.0",
     "husky": "^9.0.11",
+    "lint-staged": "^15.2.2",
     "prettier": "3.2.5",
     "typescript": "^5.2.2",
     "typescript-eslint": "^7.8.0",
