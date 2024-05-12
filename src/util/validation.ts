@@ -27,7 +27,7 @@ export function validate(input: Validatable): Array<string> {
     errors.push("Should start with capital letter.");
 
   if (minLength && value.length < minLength)
-    errors.push(`Should be at least ${minLength} characters long.`);
+    errors.push(`Should be at least ${minLength.toString()} characters long.`);
 
   if (pattern && !pattern.regexp.test(value)) errors.push(pattern.errorMessage);
 
