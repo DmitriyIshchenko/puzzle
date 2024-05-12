@@ -4,21 +4,21 @@ interface ComponentParams {
   text?: string;
 }
 
-export default abstract class BaseComponent {
-  private element: HTMLElement;
+export default abstract class BaseComponent<T extends HTMLElement> {
+  private element: T;
 
-  private children: Array<BaseComponent> = [];
+  private children: Array<BaseComponent<HTMLElement>> = [];
 
-  constructor(params: ComponentParams, ...children: Array<BaseComponent>) {
+  constructor(params: ComponentParams, ...children: Array<BaseComponent<T>>) {
     const { tag = "", text = "", className = "" } = params;
 
-    const element = document.createElement(tag);
+    const element = document.createElement(tag) as T;
     element.className = className;
     element.textContent = text;
 
     this.element = element;
 
-    if (children) {
+    if (children.length !== 0) {
       this.appendChildren(children);
     }
   }
@@ -27,13 +27,15 @@ export default abstract class BaseComponent {
     return this.element;
   }
 
-  append(child: BaseComponent) {
+  append(child: BaseComponent<HTMLElement>) {
     this.children.push(child);
     this.element.append(child.getElement());
   }
 
-  appendChildren(children: Array<BaseComponent>) {
-    children.forEach((child) => this.append(child));
+  appendChildren(children: Array<BaseComponent<HTMLElement>>) {
+    children.forEach((child) => {
+      this.append(child);
+    });
   }
 
   setTextContent(text: string) {
@@ -69,5 +71,9 @@ export default abstract class BaseComponent {
       this.element.firstElementChild.remove();
     }
     this.children.length = 0;
+  }
+
+  getChildren() {
+    return this.children;
   }
 }

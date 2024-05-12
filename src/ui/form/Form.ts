@@ -1,4 +1,4 @@
-import BaseComponent from "../../components/BaseComponent";
+import BaseComponent from "../../util/BaseComponent";
 
 import FormInput from "./FormInput";
 import FormLabel from "./FormLabel";
@@ -13,7 +13,7 @@ export interface TextInputParams {
   isRequired: boolean;
 }
 
-export default class Form extends BaseComponent {
+export default class Form extends BaseComponent<HTMLFormElement> {
   constructor(
     private fieldsParams: Array<TextInputParams>,
     private buttonText: string,

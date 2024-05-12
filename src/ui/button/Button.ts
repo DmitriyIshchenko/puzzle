@@ -1,8 +1,8 @@
-import BaseComponent from "../../components/BaseComponent";
+import BaseComponent from "../../util/BaseComponent";
 
 import styles from "./Button.module.css";
 
-export default class Button extends BaseComponent {
+export default class Button extends BaseComponent<HTMLButtonElement> {
   constructor(
     buttonText: string,
     private listener: EventListener,

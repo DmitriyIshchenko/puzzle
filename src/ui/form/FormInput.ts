@@ -1,8 +1,8 @@
-import BaseComponent from "../../components/BaseComponent";
+import BaseComponent from "../../util/BaseComponent";
 
 import styles from "./FormInput.module.css";
 
-export default class FormInput extends BaseComponent {
+export default class FormInput extends BaseComponent<HTMLInputElement> {
   constructor(
     private name: string,
     private isRequired: boolean,

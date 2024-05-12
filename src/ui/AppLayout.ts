@@ -1,8 +1,8 @@
-import BaseComponent from "../components/BaseComponent";
+import BaseComponent from "../util/BaseComponent";
 
 import styles from "./AppLayout.module.css";
 
-export default class AppLayout extends BaseComponent {
+export default class AppLayout extends BaseComponent<HTMLDivElement> {
   constructor() {
     super({
       tag: "div",
@@ -10,7 +10,7 @@ export default class AppLayout extends BaseComponent {
     });
   }
 
-  setContent(content: BaseComponent) {
+  setContent(content: BaseComponent<HTMLElement>) {
     this.clear();
 
     this.append(content);
