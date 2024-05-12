@@ -1,0 +1,9 @@
+.login {
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: 30rem;
+  align-content: center;
+  justify-content: center;
+  gap: 2rem;
+  background-color: var(--color-grey-100);
+}

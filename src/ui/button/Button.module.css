@@ -1,0 +1,14 @@
+.button {
+  border: none;
+  border-radius: var(--border-radius-sm);
+  box-shadow: var(--shadow-sm);
+  padding: 0.8rem 1rem;
+  font-weight: 500;
+  color: var(--color-brand-50);
+  background-color: var(--color-brand-600);
+  width: 100%;
+
+  &:hover {
+    background-color: var(--color-brand-700);
+  }
+}
