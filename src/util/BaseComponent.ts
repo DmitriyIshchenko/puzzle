@@ -5,7 +5,7 @@ interface ComponentParams {
 }
 
 export default abstract class BaseComponent<T extends HTMLElement> {
-  private element: T;
+  protected element: T;
 
   private children: Array<BaseComponent<HTMLElement>> = [];
 
@@ -75,5 +75,13 @@ export default abstract class BaseComponent<T extends HTMLElement> {
 
   getChildren() {
     return this.children;
+  }
+
+  addClass(className: string) {
+    this.element.classList.add(className);
+  }
+
+  removeClass(className: string) {
+    this.element.classList.remove(className);
   }
 }
