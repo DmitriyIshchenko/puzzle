@@ -1,5 +1,5 @@
 import globals from "globals";
-import pluginJs from "@eslint/js";
+import eslint from "@eslint/js";
 import tseslint from "typescript-eslint";
 import eslintConfigPrettier from "eslint-config-prettier";
 
@@ -15,16 +15,19 @@ const compat = new FlatCompat({
   baseDirectory: __dirname,
 });
 
-export default [
+export default tseslint.config(
   {
     languageOptions: {
       globals: globals.browser,
-      parserOptions: { project: "./tsconfig.json" },
+      parserOptions: {
+        project: true,
+        tsconfigRootDir: import.meta.dirname,
+      },
     },
     ignores: ["**/*.config.js"],
   },
-  pluginJs.configs.recommended,
-  ...tseslint.configs.recommended,
+  eslint.configs.recommended,
+  ...tseslint.configs.strictTypeChecked,
   ...compat.extends("airbnb-base", "airbnb-typescript/base"),
   eslintConfigPrettier,
   {
@@ -33,4 +36,26 @@ export default [
       "max-lines-per-function": ["error", 40],
     },
   },
-];
+);
+
+// export default [
+//   {
+//     languageOptions: {
+//       globals: globals.browser,
+//       parserOptions: { project: "./tsconfig.json" },
+//     },
+//     ignores: ["**/*.config.js"],
+//   },
+//   pluginJs.configs.recommended,
+//   ...tseslint.configs.recommended,
+//   ...compat.extends("airbnb-base", "airbnb-typescript/base"),
+//   eslintConfigPrettier,
+//   {
+//     rules: {
+//       "no-console": "error",
+//       "max-lines-per-function": ["error", 40],
+//     },
+//   },
+// ];
+
+// @ts-check

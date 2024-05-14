@@ -1,4 +1,4 @@
-import BaseComponent from "../../components/BaseComponent";
+import BaseComponent from "../../util/BaseComponent";
 
 import styles from "./Heading.module.css";
 
@@ -11,7 +11,7 @@ export enum HeadingTag {
   H6 = "h6",
 }
 
-export default class Heading extends BaseComponent {
+export default class Heading extends BaseComponent<HTMLHeadingElement> {
   constructor(tag: HeadingTag, text: string) {
     super({
       tag,

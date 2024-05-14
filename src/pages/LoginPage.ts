@@ -1,10 +1,10 @@
-import BaseComponent from "../components/BaseComponent";
+import BaseComponent from "../util/BaseComponent";
 import LoginForm from "../features/auth/LoginForm";
 import Heading, { HeadingTag } from "../ui/heading/Heading";
 
 import styles from "./LoginPage.module.css";
 
-export default class LoginPage extends BaseComponent {
+export default class LoginPage extends BaseComponent<HTMLElement> {
   constructor() {
     super({
       tag: "main",

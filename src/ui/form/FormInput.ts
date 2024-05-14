@@ -1,12 +1,9 @@
-import BaseComponent from "../../components/BaseComponent";
+import BaseComponent from "../../util/BaseComponent";
 
 import styles from "./FormInput.module.css";
 
-export default class FormInput extends BaseComponent {
-  constructor(
-    private name: string,
-    private isRequired: boolean,
-  ) {
+export default class FormInput extends BaseComponent<HTMLInputElement> {
+  constructor(public name: string) {
     super({
       tag: "input",
       className: styles.input,
@@ -17,6 +14,19 @@ export default class FormInput extends BaseComponent {
 
   configure() {
     this.setAttribute("name", this.name);
-    if (this.isRequired) this.setAttribute("required", "");
+  }
+
+  getValue() {
+    return this.element.value;
+  }
+
+  setValidityStyles(isValid: boolean) {
+    if (isValid) {
+      this.removeClass(styles.invalid);
+      this.addClass(styles.valid);
+    } else {
+      this.removeClass(styles.valid);
+      this.addClass(styles.invalid);
+    }
   }
 }
