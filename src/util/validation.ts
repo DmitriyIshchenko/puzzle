@@ -1,4 +1,3 @@
-// TODO: revert Validatable and <Omit> input value for input params
 export interface Validatable {
   value: string;
   required?: boolean;
@@ -10,7 +9,13 @@ export interface Validatable {
   };
 }
 
-export type ErrorsHandler = (message: Array<string>) => void;
+// TODO: maybe it would be a good idea to create something like class with static fields, since enums don't take objects
+export const ValidationPatterns = {
+  ONLY_ENGLISH_LETTERS: {
+    regexp: /^([A-z]|-)+$/,
+    errorMessage: "Only English letters and hyphens are allowed.",
+  },
+};
 
 export function validate(input: Validatable): Array<string> {
   const errors: Array<string> = [];

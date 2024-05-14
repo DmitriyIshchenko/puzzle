@@ -1,4 +1,5 @@
 import Form, { TextInputParams } from "../../ui/form/Form";
+import { ValidationPatterns } from "../../util/validation";
 
 const LOGIN_FORM_FIELDS: Array<TextInputParams> = [
   {
@@ -8,10 +9,7 @@ const LOGIN_FORM_FIELDS: Array<TextInputParams> = [
       required: true,
       minLength: 3,
       capitalized: true,
-      pattern: {
-        regexp: /^([A-z]|-)+$/,
-        errorMessage: "Only English letters and hyphens are allowed.",
-      },
+      pattern: ValidationPatterns.ONLY_ENGLISH_LETTERS,
     },
   },
   {
@@ -21,10 +19,7 @@ const LOGIN_FORM_FIELDS: Array<TextInputParams> = [
       required: true,
       minLength: 4,
       capitalized: true,
-      pattern: {
-        regexp: /^([A-z]|-)+$/,
-        errorMessage: "Only English letters and hyphens are allowed.",
-      },
+      pattern: ValidationPatterns.ONLY_ENGLISH_LETTERS,
     },
   },
 ];
