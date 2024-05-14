@@ -6,7 +6,7 @@ import FormLabel from "./FormLabel";
 import Button from "../button/Button";
 import FormErrorsLabel from "./FormErrorsLabel";
 
-import { Validatable } from "../../util/validation";
+import { Validatable, validate } from "../../util/validation";
 
 import styles from "./Form.module.css";
 
@@ -63,5 +63,26 @@ export default class Form extends BaseComponent<HTMLFormElement> {
     const button = new Button(this.buttonText, () => {});
 
     this.append(new FormRow(button));
+  }
+
+  validateTextInputs(): boolean {
+    let isFormValid = true;
+    this.textInputs.forEach(({ fieldInput, fieldErrors, params }) => {
+      fieldErrors.clear();
+
+      const errors = validate({
+        value: fieldInput.getValue(),
+        ...params.validationParams,
+      });
+
+      const isInputValid = errors.length === 0;
+      if (!isInputValid) {
+        isFormValid = false;
+        fieldErrors.setErrors(errors);
+      }
+      fieldInput.setValidityStyles(isInputValid);
+    });
+
+    return isFormValid;
   }
 }
