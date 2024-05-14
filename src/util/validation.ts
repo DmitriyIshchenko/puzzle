@@ -1,3 +1,4 @@
+// TODO: revert Validatable and <Omit> input value for input params
 export interface Validatable {
   value: string;
   required?: boolean;
@@ -21,9 +22,12 @@ export function validate(input: Validatable): Array<string> {
     pattern = null,
   } = input;
 
-  if (required && value === "") errors.push("This field is required.");
+  if (required && value === "") {
+    errors.push("This field is required.");
+    return errors;
+  }
 
-  if (capitalized && value[0] !== value[0].toUpperCase())
+  if (capitalized && (value[0] !== value[0].toUpperCase() || value[0] === "-"))
     errors.push("Should start with capital letter.");
 
   if (minLength && value.length < minLength)
