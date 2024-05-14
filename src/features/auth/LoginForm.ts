@@ -1,6 +1,12 @@
 import Form, { TextInputParams } from "../../ui/form/Form";
 import { ValidationPatterns } from "../../util/validation";
 
+// NOTE: consider moving this to the separate file, it doesn't really belong here in form component
+export interface UserCredentials {
+  firstName: string;
+  surname: string;
+}
+
 const LOGIN_FORM_FIELDS: Array<TextInputParams> = [
   {
     name: "firstName",
@@ -34,6 +40,26 @@ export default class LoginForm extends Form {
   handleSubmit(e: Event) {
     e.preventDefault();
 
-    this.validateTextInputs();
+    const isValid = this.validateTextInputs();
+
+    if (!isValid) return;
+
+    const credentials = new FormData(this.getElement());
+
+    LoginForm.loginUser(credentials);
+  }
+
+  // NOTE: eslint demands the use of 'this' inside class methods, made it static as a temporal measure
+  // TODO: make it a regular method and navigate to the start page
+  static loginUser(credentials: FormData) {
+    localStorage.setItem(
+      "userCredentials",
+
+      /* TODO: this doesn't look safe enough, 
+      find a way for <UserCredentials> and FormData work together.
+      Ideally, get rid of using localStorage altogether due to safety concerns. 
+      */
+      JSON.stringify(Object.fromEntries(credentials)),
+    );
   }
 }
