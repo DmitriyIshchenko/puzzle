@@ -1,4 +1,5 @@
 import { RESOURCE_SELECTOR } from "./pages";
+import AuthState from "../../features/auth/AuthState";
 
 export interface Route {
   path: string;
@@ -11,10 +12,30 @@ interface UrlData {
 }
 
 export default class Router {
-  constructor(private routes: Array<Route>) {
+  constructor(
+    private routes: Array<Route>,
+    private authState: AuthState,
+  ) {
     // go to the default page on load
     window.addEventListener("DOMContentLoaded", () => {
-      this.navigate(null);
+      if (!this.authState.isAuthenticated) {
+        this.navigate("login");
+      } else {
+        this.navigate(null);
+      }
+    });
+
+    window.addEventListener("popstate", (e: Event) => {
+      const { target } = e;
+      if (!target) return;
+
+      // TODO: consider creating a custom event type
+      const pathname = (target as Window).location.pathname.slice(1);
+
+      // restrict access to the login page for authenticated users with back button
+      if (this.authState.isAuthenticated && pathname === "login") {
+        window.history.pushState(null, "", "start");
+      }
     });
   }
 
@@ -31,11 +52,16 @@ export default class Router {
     };
     [urlData.path = "", urlData.resource = ""] = urlString.split("/");
 
+    if (urlData.path === "login" && this.authState.isAuthenticated) {
+      this.navigate("start");
+      return;
+    }
+
     this.handleUrlChange(urlData);
   }
 
   handleUrlChange(urlData: UrlData) {
-    const pathToFind = urlData.resource
+    const pathToFind = !urlData.resource
       ? urlData.path
       : `${urlData.path}/${RESOURCE_SELECTOR}`;
 

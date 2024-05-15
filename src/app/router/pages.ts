@@ -1,6 +1,6 @@
 export enum Pages {
   LOGIN = "login",
-  PUZZLE = "puzzle",
+  START = "start",
   NOT_FOUND = "not-found",
 }
 

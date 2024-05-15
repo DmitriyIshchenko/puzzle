@@ -1,0 +1,19 @@
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  box-shadow: var(--shadow-sm);
+  background-color: var(--color-grey-0);
+
+  padding: 0.8rem 1rem;
+
+  button {
+    width: min-content;
+  }
+}
+
+.logo {
+  font-size: 2rem;
+  font-weight: 500;
+}

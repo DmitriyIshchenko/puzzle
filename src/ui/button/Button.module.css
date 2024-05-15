@@ -7,6 +7,7 @@
   color: var(--color-brand-50);
   background-color: var(--color-brand-600);
   width: 100%;
+  transition: 0.3s;
 
   &:hover {
     background-color: var(--color-brand-700);
