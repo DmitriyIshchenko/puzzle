@@ -12,6 +12,8 @@ export default class Button extends BaseComponent<HTMLButtonElement> {
       className: styles.button,
       text: buttonText,
     });
+
+    this.configure();
   }
 
   configure() {
