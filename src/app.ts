@@ -1,32 +1,45 @@
-import LoginPage from "./pages/LoginPage";
 import AppLayout from "./ui/AppLayout";
-import Span from "./ui/form/Span";
-import { UserCredentials } from "./features/auth/LoginForm";
+import Router from "./app/router/router";
+import AuthState from "./features/auth/AuthState";
+
+import LoginPage from "./pages/LoginPage";
+import StartPage from "./pages/StartPage";
 
 export default class App {
   appLayout: AppLayout;
 
+  authState: AuthState;
+
+  router: Router;
+
   constructor() {
     this.appLayout = new AppLayout();
+    this.authState = new AuthState();
+    this.router = new Router(this.createRoutes(), this.authState);
 
     document.body.append(this.appLayout.getElement());
-
-    this.configure();
   }
 
-  configure() {
-    const userCredentialsString = localStorage.getItem("userCredentials");
-
-    if (userCredentialsString) {
-      // NOTE: it looks like there is no way around typecasting with JSON.parse()
-      const credentials = JSON.parse(userCredentialsString) as UserCredentials;
-
-      // TODO: redirect to start page instead
-      this.appLayout.setContent(
-        new Span("", `Welcome, ${credentials.firstName}`),
-      );
-    } else {
-      this.appLayout.setContent(new LoginPage());
-    }
+  createRoutes() {
+    return [
+      {
+        path: "",
+        callback: () => {
+          this.appLayout.setContent(new StartPage(this.authState, this.router));
+        },
+      },
+      {
+        path: "start",
+        callback: () => {
+          this.appLayout.setContent(new StartPage(this.authState, this.router));
+        },
+      },
+      {
+        path: "login",
+        callback: () => {
+          this.appLayout.setContent(new LoginPage(this.authState, this.router));
+        },
+      },
+    ];
   }
 }
