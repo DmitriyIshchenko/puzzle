@@ -1,8 +1,11 @@
 import Router from "../app/router/router";
 import AuthState from "../features/auth/AuthState";
-import Button from "../ui/button/Button";
+import PageContent from "../ui/PageContent";
 import Span from "../ui/form/Span";
+import Header from "../ui/header/Header";
 import BaseComponent from "../util/BaseComponent";
+
+import styles from "./StartPage.module.css";
 
 export default class StartPage extends BaseComponent<HTMLElement> {
   constructor(
@@ -10,19 +13,17 @@ export default class StartPage extends BaseComponent<HTMLElement> {
     private router: Router,
   ) {
     super({
-      tag: "main",
-      className: "start",
+      tag: "div",
+      className: styles.start,
     });
 
     this.configure();
   }
 
   configure() {
-    const message = `Welcome`;
-    const logoutBtn = new Button("logout", () => {
-      this.authState.logout();
-      this.router.navigate("login");
-    });
-    this.appendChildren([new Span("text", message), logoutBtn]);
+    this.appendChildren([
+      new Header(this.authState, this.router),
+      new PageContent(styles.content, new Span("", "Welcome!")),
+    ]);
   }
 }

@@ -1,0 +1,14 @@
+.start {
+  display: grid;
+  grid-template-rows: auto 1fr;
+  min-height: 100vh;
+  background-color: var(--color-grey-100);
+}
+
+.content {
+  display: grid;
+  place-content: center;
+
+  font-size: 3rem;
+  font-weight: 500;
+}
