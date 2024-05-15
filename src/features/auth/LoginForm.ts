@@ -1,11 +1,7 @@
+import Router from "../../app/router/router";
+import AuthState from "./AuthState";
 import Form, { TextInputParams } from "../../ui/form/Form";
 import { ValidationPatterns } from "../../util/validation";
-
-// NOTE: consider moving this to the separate file, it doesn't really belong here in form component
-export interface UserCredentials {
-  firstName: string;
-  surname: string;
-}
 
 const LOGIN_FORM_FIELDS: Array<TextInputParams> = [
   {
@@ -31,7 +27,10 @@ const LOGIN_FORM_FIELDS: Array<TextInputParams> = [
 ];
 
 export default class LoginForm extends Form {
-  constructor() {
+  constructor(
+    private authState: AuthState,
+    private router: Router,
+  ) {
     super(LOGIN_FORM_FIELDS, "Log in");
 
     this.addListener("submit", this.handleSubmit.bind(this));
@@ -44,22 +43,15 @@ export default class LoginForm extends Form {
 
     if (!isValid) return;
 
-    const credentials = new FormData(this.getElement());
+    const formData = new FormData(this.getElement());
 
-    LoginForm.loginUser(credentials);
-  }
+    // TODO: temp solution, find a way to convert form data to user credentials type
+    this.authState.login({
+      firstName: <string>formData.get("firstName"),
+      surname: <string>formData.get("surname"),
+    });
 
-  // NOTE: eslint demands the use of 'this' inside class methods, made it static as a temporal measure
-  // TODO: make it a regular method and navigate to the start page
-  static loginUser(credentials: FormData) {
-    localStorage.setItem(
-      "userCredentials",
-
-      /* TODO: this doesn't look safe enough, 
-      find a way for <UserCredentials> and FormData work together.
-      Ideally, get rid of using localStorage altogether due to safety concerns. 
-      */
-      JSON.stringify(Object.fromEntries(credentials)),
-    );
+    // TODO: consider redirecting to previous page instead, like this: random page -> login page -> back to the page
+    this.router.navigate("start");
   }
 }
