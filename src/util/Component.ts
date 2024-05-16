@@ -26,6 +26,10 @@ export default class Component<T extends HTMLElement = HTMLElement> {
     // save element
     this.element = element;
 
+    if (props.text) {
+      this.setTextContent(props.text);
+    }
+
     if (children.length !== 0) {
       this.appendChildren(children);
     }
