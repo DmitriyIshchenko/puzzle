@@ -1,4 +1,4 @@
-import { RESOURCE_SELECTOR } from "./pages";
+import { Pages, RESOURCE_SELECTOR } from "./pages";
 import AuthState from "../../features/auth/AuthState";
 
 export interface Route {
@@ -19,7 +19,7 @@ export default class Router {
     // go to the default page on load
     window.addEventListener("DOMContentLoaded", () => {
       if (!this.authState.isAuthenticated) {
-        this.navigate("login");
+        this.navigate(Pages.LOGIN);
       } else {
         this.navigate(null);
       }
@@ -32,9 +32,14 @@ export default class Router {
       // TODO: consider creating a custom event type
       const pathname = (target as Window).location.pathname.slice(1);
 
+      // prevent access to the random url
+      if (!Object.values(Pages).includes(pathname)) {
+        this.navigate(Pages.START);
+      }
+
       // restrict access to the login page for authenticated users with back button
-      if (this.authState.isAuthenticated && pathname === "login") {
-        window.history.pushState(null, "", "start");
+      if (this.authState.isAuthenticated && pathname === Pages.LOGIN) {
+        window.history.pushState(null, "", Pages.START);
       }
     });
   }
@@ -52,8 +57,8 @@ export default class Router {
     };
     [urlData.path = "", urlData.resource = ""] = urlString.split("/");
 
-    if (urlData.path === "login" && this.authState.isAuthenticated) {
-      this.navigate("start");
+    if (urlData.path === Pages.LOGIN && this.authState.isAuthenticated) {
+      this.navigate(Pages.START);
       return;
     }
 
@@ -79,7 +84,7 @@ export default class Router {
 
   redirectToNotFound() {
     const routeNotFound = this.routes.find(
-      (route) => route.path === "not-found",
+      (route) => route.path === Pages.NOT_FOUND,
     );
 
     if (routeNotFound) {
