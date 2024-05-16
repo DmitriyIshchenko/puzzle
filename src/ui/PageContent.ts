@@ -1,10 +1,7 @@
 import BaseComponent from "../util/BaseComponent";
 
-export default class PageContent extends BaseComponent<HTMLElement> {
-  constructor(
-    className: string,
-    ...children: Array<BaseComponent<HTMLElement>>
-  ) {
+export default class PageContent extends BaseComponent {
+  constructor(className: string, ...children: Array<BaseComponent>) {
     super({ tag: "main", className }, ...children);
   }
 }

@@ -10,7 +10,7 @@ export default class AppLayout extends BaseComponent<HTMLDivElement> {
     });
   }
 
-  setContent(content: BaseComponent<HTMLElement>) {
+  setContent(content: BaseComponent) {
     this.clear();
 
     this.append(content);

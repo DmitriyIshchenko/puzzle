@@ -6,7 +6,7 @@ import Span from "../form/Span";
 
 import styles from "./Header.module.css";
 
-export default class Header extends BaseComponent<HTMLElement> {
+export default class Header extends BaseComponent {
   constructor(
     private authState: AuthState,
     private router: Router,

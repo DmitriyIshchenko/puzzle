@@ -7,7 +7,7 @@ import Heading, { HeadingTag } from "../ui/heading/Heading";
 
 import styles from "./LoginPage.module.css";
 
-export default class LoginPage extends BaseComponent<HTMLElement> {
+export default class LoginPage extends BaseComponent {
   constructor(
     private authState: AuthState,
     private router: Router,

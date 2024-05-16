@@ -4,10 +4,12 @@ interface ComponentParams {
   text?: string;
 }
 
-export default abstract class BaseComponent<T extends HTMLElement> {
+export default abstract class BaseComponent<
+  T extends HTMLElement = HTMLElement,
+> {
   protected element: T;
 
-  private children: Array<BaseComponent<HTMLElement>> = [];
+  private children: Array<BaseComponent> = [];
 
   constructor(params: ComponentParams, ...children: Array<BaseComponent<T>>) {
     const { tag = "", text = "", className = "" } = params;
@@ -27,12 +29,12 @@ export default abstract class BaseComponent<T extends HTMLElement> {
     return this.element;
   }
 
-  append(child: BaseComponent<HTMLElement>) {
+  append(child: BaseComponent) {
     this.children.push(child);
     this.element.append(child.getElement());
   }
 
-  appendChildren(children: Array<BaseComponent<HTMLElement>>) {
+  appendChildren(children: Array<BaseComponent>) {
     children.forEach((child) => {
       this.append(child);
     });

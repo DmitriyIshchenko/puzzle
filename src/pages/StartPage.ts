@@ -7,7 +7,7 @@ import BaseComponent from "../util/BaseComponent";
 
 import styles from "./StartPage.module.css";
 
-export default class StartPage extends BaseComponent<HTMLElement> {
+export default class StartPage extends BaseComponent {
   constructor(
     private authState: AuthState,
     private router: Router,
