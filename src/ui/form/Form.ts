@@ -1,4 +1,4 @@
-import BaseComponent from "../../util/BaseComponent";
+import Component from "../../util/Component";
 
 import FormRow from "./FormRow";
 import FormInput from "./FormInput";
@@ -23,7 +23,7 @@ interface FormField {
   params: TextInputParams;
 }
 
-export default class Form extends BaseComponent<HTMLFormElement> {
+export default class Form extends Component<HTMLFormElement> {
   protected textInputs: Array<FormField> = [];
 
   constructor(

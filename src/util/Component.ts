@@ -1,23 +1,29 @@
-interface ComponentParams {
-  tag: string;
-  className: string;
+// takes all HTML element attributes you can set up and add optional props
+type Props<T extends HTMLElement = HTMLElement> = Partial<T> & {
+  tag?: keyof HTMLElementTagNameMap;
   text?: string;
-}
+};
 
-export default abstract class BaseComponent<
-  T extends HTMLElement = HTMLElement,
-> {
+// basically the same, but without tag, which will be passed directly to base component constructor
+// use it in functions that create simple html components like button or h1
+export type ElementFuncProps<T extends HTMLElement = HTMLElement> = Omit<
+  Props<T>,
+  "tag"
+>;
+
+export default class Component<T extends HTMLElement = HTMLElement> {
   protected element: T;
 
-  private children: Array<BaseComponent> = [];
+  private children: Array<Component> = [];
 
-  constructor(params: ComponentParams, ...children: Array<BaseComponent<T>>) {
-    const { tag = "", text = "", className = "" } = params;
+  constructor(props: Props<T>, ...children: Array<Component>) {
+    // create div by default
+    const element = document.createElement(props.tag || "div") as T;
 
-    const element = document.createElement(tag) as T;
-    element.className = className;
-    element.textContent = text;
+    // effectively sets the properties of the HTML element
+    Object.assign(element, props);
 
+    // save element
     this.element = element;
 
     if (children.length !== 0) {
@@ -29,12 +35,12 @@ export default abstract class BaseComponent<
     return this.element;
   }
 
-  append(child: BaseComponent) {
+  append(child: Component) {
     this.children.push(child);
     this.element.append(child.getElement());
   }
 
-  appendChildren(children: Array<BaseComponent>) {
+  appendChildren(children: Array<Component>) {
     children.forEach((child) => {
       this.append(child);
     });

@@ -1,7 +1,7 @@
-import BaseComponent from "../util/BaseComponent";
+import Component from "../util/Component";
 
-export default class PageContent extends BaseComponent {
-  constructor(className: string, ...children: Array<BaseComponent>) {
+export default class PageContent extends Component {
+  constructor(className: string, ...children: Array<Component>) {
     super({ tag: "main", className }, ...children);
   }
 }

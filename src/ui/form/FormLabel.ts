@@ -1,7 +1,7 @@
-import BaseComponent from "../../util/BaseComponent";
+import Component from "../../util/Component";
 import styles from "./FormLabel.module.css";
 
-export default class FormLabel extends BaseComponent<HTMLLabelElement> {
+export default class FormLabel extends Component<HTMLLabelElement> {
   constructor(text: string) {
     super({
       tag: "label",

@@ -1,9 +1,9 @@
-import BaseComponent from "../../util/BaseComponent";
+import Component from "../../util/Component";
 import Span from "./Span";
 
 import styles from "./FormErrorsLabel.module.css";
 
-export default class FormErrorsLabel extends BaseComponent<HTMLLabelElement> {
+export default class FormErrorsLabel extends Component<HTMLLabelElement> {
   constructor() {
     super({
       tag: "label",

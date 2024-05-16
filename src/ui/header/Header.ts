@@ -1,12 +1,12 @@
 import Router from "../../app/router/router";
 import AuthState from "../../features/auth/AuthState";
-import BaseComponent from "../../util/BaseComponent";
+import Component from "../../util/Component";
 import Button from "../button/Button";
 import Span from "../form/Span";
 
 import styles from "./Header.module.css";
 
-export default class Header extends BaseComponent {
+export default class Header extends Component {
   constructor(
     private authState: AuthState,
     private router: Router,

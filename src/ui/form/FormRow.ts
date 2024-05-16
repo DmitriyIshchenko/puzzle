@@ -1,9 +1,9 @@
-import BaseComponent from "../../util/BaseComponent";
+import Component from "../../util/Component";
 
 import styles from "./FormRow.module.css";
 
-export default class FormRow extends BaseComponent<HTMLDivElement> {
-  constructor(...children: Array<BaseComponent>) {
+export default class FormRow extends Component<HTMLDivElement> {
+  constructor(...children: Array<Component>) {
     super({
       tag: "div",
       className: styles.row,

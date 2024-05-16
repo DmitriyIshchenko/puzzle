@@ -3,11 +3,11 @@ import AuthState from "../features/auth/AuthState";
 import PageContent from "../ui/PageContent";
 import Span from "../ui/form/Span";
 import Header from "../ui/header/Header";
-import BaseComponent from "../util/BaseComponent";
+import Component from "../util/Component";
 
 import styles from "./StartPage.module.css";
 
-export default class StartPage extends BaseComponent {
+export default class StartPage extends Component {
   constructor(
     private authState: AuthState,
     private router: Router,

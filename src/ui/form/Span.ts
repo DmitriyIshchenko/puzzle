@@ -1,4 +1,4 @@
-import BaseComponent from "../../util/BaseComponent";
+import BaseComponent from "../../util/Component";
 
 export default class Span extends BaseComponent<HTMLSpanElement> {
   constructor(className: string, text: string) {

@@ -1,22 +1,22 @@
-import BaseComponent from "../../util/BaseComponent";
+import Component from "../../util/Component";
 
 import styles from "./Button.module.css";
 
-export default class Button extends BaseComponent<HTMLButtonElement> {
+export default class Button extends Component<HTMLButtonElement> {
   constructor(
-    buttonText: string,
-    private listener: EventListener,
+    text: string,
+    onClick: EventListener,
+    className: string = "",
+    ...children: Array<Component>
   ) {
-    super({
-      tag: "button",
-      className: styles.button,
-      text: buttonText,
-    });
-
-    this.configure();
-  }
-
-  configure() {
-    this.addListener("click", this.listener);
+    super(
+      {
+        tag: "button",
+        className: `${styles.button} ${className}`,
+        text,
+        onclick: onClick,
+      },
+      ...children,
+    );
   }
 }

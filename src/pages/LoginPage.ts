@@ -1,4 +1,4 @@
-import BaseComponent from "../util/BaseComponent";
+import Component from "../util/Component";
 import AuthState from "../features/auth/AuthState";
 import Router from "../app/router/router";
 
@@ -7,7 +7,7 @@ import Heading, { HeadingTag } from "../ui/heading/Heading";
 
 import styles from "./LoginPage.module.css";
 
-export default class LoginPage extends BaseComponent {
+export default class LoginPage extends Component {
   constructor(
     private authState: AuthState,
     private router: Router,
