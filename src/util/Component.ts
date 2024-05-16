@@ -1,5 +1,5 @@
 // takes all HTML element attributes you can set up and add optional props
-type Props<T extends HTMLElement = HTMLElement> = Partial<T> & {
+export type Props<T extends HTMLElement = HTMLElement> = Partial<T> & {
   tag?: keyof HTMLElementTagNameMap;
   text?: string;
 };
