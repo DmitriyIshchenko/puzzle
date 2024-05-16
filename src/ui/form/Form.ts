@@ -1,6 +1,6 @@
 import Component from "../../util/Component";
 
-import FormInput from "./FormInput";
+import Input from "../input/Input";
 import Button from "../button/Button";
 import { div, label, span } from "../tags";
 
@@ -15,7 +15,7 @@ export interface TextInputParams {
 }
 
 interface FormField {
-  fieldInput: FormInput;
+  fieldInput: Input;
   fieldErrors: Component<HTMLLabelElement>;
   params: TextInputParams;
 }
@@ -35,33 +35,35 @@ export default class Form extends Component<HTMLFormElement> {
     this.configure();
   }
 
-  configure() {
+  private configure() {
     this.populateForm();
   }
 
-  populateForm() {
+  private populateForm() {
     this.fieldsParams.forEach((params) => {
-      const input = new FormInput(params.name);
-      const labelEl = label({
-        className: styles.label,
-        text: params.labelText,
-      });
-      const errors = label({ className: styles.errors });
-
-      const row = div({ className: styles.row }, labelEl, input, errors);
-
-      this.textInputs.push({
-        fieldInput: input,
-        fieldErrors: errors,
-        params,
-      });
-
-      this.append(row);
+      this.append(this.createFormField(params));
     });
 
     const button = new Button(this.buttonText, () => {});
 
     this.append(div({ className: styles.row }, button));
+  }
+
+  private createFormField(params: TextInputParams) {
+    const input = new Input({ name: params.name });
+    const labelEl = label({
+      className: styles.label,
+      text: params.labelText,
+    });
+    const errors = label({ className: styles.errors });
+
+    this.textInputs.push({
+      fieldInput: input,
+      fieldErrors: errors,
+      params,
+    });
+
+    return div({ className: styles.row }, labelEl, input, errors);
   }
 
   validateTextInputs(): boolean {

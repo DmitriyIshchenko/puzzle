@@ -1,10 +1,14 @@
 import Component, { Props } from "../../util/Component";
 
-import styles from "./FormInput.module.css";
+import styles from "./Input.module.css";
 
 export default class Input extends Component<HTMLInputElement> {
   constructor(props: Props<HTMLInputElement>) {
-    super({ ...props, className: `${styles.input} ${props.className || ""}` });
+    super({
+      ...props,
+      tag: "input",
+      className: `${styles.input} ${props.className || ""}`,
+    });
   }
 
   getValue() {
