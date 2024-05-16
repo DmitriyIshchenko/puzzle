@@ -1,19 +1,10 @@
-import Component from "../../util/Component";
+import Component, { Props } from "../../util/Component";
 
 import styles from "./FormInput.module.css";
 
-export default class FormInput extends Component<HTMLInputElement> {
-  constructor(public name: string) {
-    super({
-      tag: "input",
-      className: styles.input,
-    });
-
-    this.configure();
-  }
-
-  configure() {
-    this.setAttribute("name", this.name);
+export default class Input extends Component<HTMLInputElement> {
+  constructor(props: Props<HTMLInputElement>) {
+    super({ ...props, className: `${styles.input} ${props.className || ""}` });
   }
 
   getValue() {

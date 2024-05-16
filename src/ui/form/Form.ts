@@ -1,10 +1,8 @@
 import Component from "../../util/Component";
 
-import FormRow from "./FormRow";
 import FormInput from "./FormInput";
-import FormLabel from "./FormLabel";
 import Button from "../button/Button";
-import FormErrorsLabel from "./FormErrorsLabel";
+import { div, label, span } from "../tags";
 
 import { Validatable, validate } from "../../util/validation";
 
@@ -18,8 +16,7 @@ export interface TextInputParams {
 
 interface FormField {
   fieldInput: FormInput;
-  fieldLabel: FormLabel;
-  fieldErrors: FormErrorsLabel;
+  fieldErrors: Component<HTMLLabelElement>;
   params: TextInputParams;
 }
 
@@ -44,14 +41,16 @@ export default class Form extends Component<HTMLFormElement> {
 
   populateForm() {
     this.fieldsParams.forEach((params) => {
-      const label = new FormLabel(params.labelText);
       const input = new FormInput(params.name);
-      const errors = new FormErrorsLabel();
+      const labelEl = label({
+        className: styles.label,
+        text: params.labelText,
+      });
+      const errors = label({ className: styles.errors });
 
-      const row = new FormRow(label, input, errors);
+      const row = div({ className: styles.row }, labelEl, input, errors);
 
       this.textInputs.push({
-        fieldLabel: label,
         fieldInput: input,
         fieldErrors: errors,
         params,
@@ -62,7 +61,7 @@ export default class Form extends Component<HTMLFormElement> {
 
     const button = new Button(this.buttonText, () => {});
 
-    this.append(new FormRow(button));
+    this.append(div({ className: styles.row }, button));
   }
 
   validateTextInputs(): boolean {
@@ -78,11 +77,23 @@ export default class Form extends Component<HTMLFormElement> {
       const isInputValid = errors.length === 0;
       if (!isInputValid) {
         isFormValid = false;
-        fieldErrors.setErrors(errors);
       }
+
+      Form.setErrors(fieldErrors, errors);
+
       fieldInput.setValidityStyles(isInputValid);
     });
 
     return isFormValid;
+  }
+
+  // all regular non-static method have to use 'this' according to typescript
+  private static setErrors(
+    fieldErrorsEl: Component<HTMLLabelElement>,
+    errors: Array<string>,
+  ) {
+    fieldErrorsEl.appendChildren(
+      errors.map((message) => span({ className: styles.error, text: message })),
+    );
   }
 }

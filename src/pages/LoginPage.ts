@@ -1,9 +1,9 @@
-import Component from "../util/Component";
 import AuthState from "../features/auth/AuthState";
 import Router from "../app/router/router";
 
+import Component from "../util/Component";
 import LoginForm from "../features/auth/LoginForm";
-import Heading, { HeadingTag } from "../ui/heading/Heading";
+import { h2 } from "../ui/tags";
 
 import styles from "./LoginPage.module.css";
 
@@ -21,7 +21,10 @@ export default class LoginPage extends Component {
   }
 
   configure() {
-    const pageTitle = new Heading(HeadingTag.H2, "Log in into your account");
+    const pageTitle = h2({
+      text: "Log in into your account",
+      className: styles.title,
+    });
     const form = new LoginForm(this.authState, this.router);
 
     this.appendChildren([pageTitle, form]);
