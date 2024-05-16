@@ -1,13 +1,14 @@
-import Router from "../app/router/router";
 import AuthState from "../features/auth/AuthState";
-import PageContent from "../ui/PageContent";
-import Span from "../ui/form/Span";
+import Router from "../app/router/router";
+
+import Component from "../shared/Component";
 import Header from "../ui/header/Header";
-import BaseComponent from "../util/BaseComponent";
+
+import { main, span } from "../ui/tags";
 
 import styles from "./StartPage.module.css";
 
-export default class StartPage extends BaseComponent<HTMLElement> {
+export default class StartPage extends Component {
   constructor(
     private authState: AuthState,
     private router: Router,
@@ -21,9 +22,8 @@ export default class StartPage extends BaseComponent<HTMLElement> {
   }
 
   configure() {
-    this.appendChildren([
-      new Header(this.authState, this.router),
-      new PageContent(styles.content, new Span("", "Welcome!")),
-    ]);
+    const message = span("Welcome!");
+    const pageContent = main({ className: styles.content }, message);
+    this.appendChildren([new Header(this.authState, this.router), pageContent]);
   }
 }

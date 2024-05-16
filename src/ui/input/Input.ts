@@ -1,19 +1,14 @@
-import BaseComponent from "../../util/BaseComponent";
+import Component, { Props } from "../../shared/Component";
 
-import styles from "./FormInput.module.css";
+import styles from "./Input.module.css";
 
-export default class FormInput extends BaseComponent<HTMLInputElement> {
-  constructor(public name: string) {
+export default class Input extends Component<HTMLInputElement> {
+  constructor(props: Props<HTMLInputElement>) {
     super({
+      ...props,
       tag: "input",
-      className: styles.input,
+      className: `${styles.input} ${props.className || ""}`,
     });
-
-    this.configure();
-  }
-
-  configure() {
-    this.setAttribute("name", this.name);
   }
 
   getValue() {

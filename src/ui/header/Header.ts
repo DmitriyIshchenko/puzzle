@@ -1,12 +1,13 @@
-import Router from "../../app/router/router";
 import AuthState from "../../features/auth/AuthState";
-import BaseComponent from "../../util/BaseComponent";
+import Router from "../../app/router/router";
+
+import Component from "../../shared/Component";
 import Button from "../button/Button";
-import Span from "../form/Span";
+import { span } from "../tags";
 
 import styles from "./Header.module.css";
 
-export default class Header extends BaseComponent<HTMLElement> {
+export default class Header extends Component {
   constructor(
     private authState: AuthState,
     private router: Router,
@@ -16,7 +17,7 @@ export default class Header extends BaseComponent<HTMLElement> {
         tag: "header",
         className: styles.header,
       },
-      new Span(styles.logo, "Puzzle"),
+      span({ className: styles.logo, text: "Puzzle" }),
       new Button("Logout", () => {
         this.authState.logout();
         this.router.navigate("login");

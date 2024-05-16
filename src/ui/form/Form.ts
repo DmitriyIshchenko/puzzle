@@ -1,12 +1,10 @@
-import BaseComponent from "../../util/BaseComponent";
+import Component from "../../shared/Component";
 
-import FormRow from "./FormRow";
-import FormInput from "./FormInput";
-import FormLabel from "./FormLabel";
+import Input from "../input/Input";
 import Button from "../button/Button";
-import FormErrorsLabel from "./FormErrorsLabel";
+import { div, label, span } from "../tags";
 
-import { Validatable, validate } from "../../util/validation";
+import { Validatable, validate } from "../../shared/validation";
 
 import styles from "./Form.module.css";
 
@@ -17,13 +15,12 @@ export interface TextInputParams {
 }
 
 interface FormField {
-  fieldInput: FormInput;
-  fieldLabel: FormLabel;
-  fieldErrors: FormErrorsLabel;
+  fieldInput: Input;
+  fieldErrors: Component<HTMLLabelElement>;
   params: TextInputParams;
 }
 
-export default class Form extends BaseComponent<HTMLFormElement> {
+export default class Form extends Component<HTMLFormElement> {
   protected textInputs: Array<FormField> = [];
 
   constructor(
@@ -38,31 +35,35 @@ export default class Form extends BaseComponent<HTMLFormElement> {
     this.configure();
   }
 
-  configure() {
+  private configure() {
     this.populateForm();
   }
 
-  populateForm() {
+  private populateForm() {
     this.fieldsParams.forEach((params) => {
-      const label = new FormLabel(params.labelText);
-      const input = new FormInput(params.name);
-      const errors = new FormErrorsLabel();
-
-      const row = new FormRow(label, input, errors);
-
-      this.textInputs.push({
-        fieldLabel: label,
-        fieldInput: input,
-        fieldErrors: errors,
-        params,
-      });
-
-      this.append(row);
+      this.append(this.createFormField(params));
     });
 
     const button = new Button(this.buttonText, () => {});
 
-    this.append(new FormRow(button));
+    this.append(div({ className: styles.row }, button));
+  }
+
+  private createFormField(params: TextInputParams) {
+    const input = new Input({ name: params.name });
+    const labelEl = label({
+      className: styles.label,
+      text: params.labelText,
+    });
+    const errors = label({ className: styles.errors });
+
+    this.textInputs.push({
+      fieldInput: input,
+      fieldErrors: errors,
+      params,
+    });
+
+    return div({ className: styles.row }, labelEl, input, errors);
   }
 
   validateTextInputs(): boolean {
@@ -78,11 +79,23 @@ export default class Form extends BaseComponent<HTMLFormElement> {
       const isInputValid = errors.length === 0;
       if (!isInputValid) {
         isFormValid = false;
-        fieldErrors.setErrors(errors);
       }
+
+      Form.setErrors(fieldErrors, errors);
+
       fieldInput.setValidityStyles(isInputValid);
     });
 
     return isFormValid;
+  }
+
+  // all regular non-static method have to use 'this' according to typescript
+  private static setErrors(
+    fieldErrorsEl: Component<HTMLLabelElement>,
+    errors: Array<string>,
+  ) {
+    fieldErrorsEl.appendChildren(
+      errors.map((message) => span({ className: styles.error, text: message })),
+    );
   }
 }

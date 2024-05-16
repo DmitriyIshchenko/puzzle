@@ -1,9 +1,0 @@
-.errors {
-  display: flex;
-  flex-direction: column;
-  font-size: 0.8rem;
-}
-
-.message {
-  color: var(--color-red-700);
-}
