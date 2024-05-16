@@ -1,7 +1,7 @@
 import AuthState from "../features/auth/AuthState";
 import Router from "../app/router/router";
 
-import Component from "../util/Component";
+import Component from "../shared/Component";
 import Header from "../ui/header/Header";
 
 import { main, span } from "../ui/tags";

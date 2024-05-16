@@ -1,10 +1,10 @@
-import Component from "../../util/Component";
+import Component from "../../shared/Component";
 
 import Input from "../input/Input";
 import Button from "../button/Button";
 import { div, label, span } from "../tags";
 
-import { Validatable, validate } from "../../util/validation";
+import { Validatable, validate } from "../../shared/validation";
 
 import styles from "./Form.module.css";
 

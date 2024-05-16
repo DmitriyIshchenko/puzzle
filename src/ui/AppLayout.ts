@@ -1,4 +1,4 @@
-import Component from "../util/Component";
+import Component from "../shared/Component";
 
 import styles from "./AppLayout.module.css";
 

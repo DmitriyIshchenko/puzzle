@@ -1,4 +1,4 @@
-import Component, { Props } from "../../util/Component";
+import Component, { Props } from "../../shared/Component";
 
 import styles from "./Input.module.css";
 

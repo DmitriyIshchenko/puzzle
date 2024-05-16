@@ -1,7 +1,7 @@
 import Router from "../../app/router/router";
 import AuthState from "./AuthState";
 import Form, { TextInputParams } from "../../ui/form/Form";
-import { ValidationPatterns } from "../../util/validation";
+import { ValidationPatterns } from "../../shared/validation";
 
 const LOGIN_FORM_FIELDS: Array<TextInputParams> = [
   {
