@@ -32,6 +32,11 @@ export default class Router {
       // TODO: consider creating a custom event type
       const pathname = (target as Window).location.pathname.slice(1);
 
+      // prevent access to the random url
+      if (!Object.values(Pages).includes(pathname)) {
+        this.navigate(Pages.START);
+      }
+
       // restrict access to the login page for authenticated users with back button
       if (this.authState.isAuthenticated && pathname === Pages.LOGIN) {
         window.history.pushState(null, "", Pages.START);
