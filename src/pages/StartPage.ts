@@ -22,7 +22,7 @@ export default class StartPage extends Component {
   }
 
   configure() {
-    const message = span("Welcome!");
+    const message = span({ text: "Welcome!" });
     const pageContent = main({ className: styles.content }, message);
     this.appendChildren([new Header(this.authState, this.router), pageContent]);
   }
