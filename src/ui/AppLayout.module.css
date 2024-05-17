@@ -2,7 +2,7 @@
   display: grid;
   grid-template-rows: auto 1fr;
   min-height: 100vh;
-  background-color: var(--color-grey-50);
   overflow: auto;
+  background-color: var(--color-grey-100);
   /* scrollbar-gutter: stable; */
 }
