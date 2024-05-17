@@ -2,11 +2,11 @@ import AppLayout from "./ui/AppLayout";
 import Router from "./app/router/router";
 import AuthState from "./features/auth/AuthState";
 
-import LoginPage from "./pages/LoginPage";
-import StartPage from "./pages/StartPage";
+import LoginPage from "./pages/login/LoginPage";
+import StartPage from "./pages/start/StartPage";
 
 import { Pages } from "./app/router/pages";
-import NotFoundPage from "./pages/NotFoundPage";
+import NotFoundPage from "./pages/not-found/NotFoundPage";
 
 export default class App {
   appLayout: AppLayout;
@@ -16,9 +16,9 @@ export default class App {
   router: Router;
 
   constructor() {
-    this.appLayout = new AppLayout();
     this.authState = new AuthState();
     this.router = new Router(this.createRoutes(), this.authState);
+    this.appLayout = new AppLayout(this.authState, this.router);
 
     document.body.append(this.appLayout.getElement());
   }
@@ -28,13 +28,13 @@ export default class App {
       {
         path: "",
         callback: () => {
-          this.appLayout.setContent(new StartPage(this.authState, this.router));
+          this.appLayout.setContent(new StartPage());
         },
       },
       {
         path: Pages.START,
         callback: () => {
-          this.appLayout.setContent(new StartPage(this.authState, this.router));
+          this.appLayout.setContent(new StartPage());
         },
       },
       {
@@ -46,9 +46,7 @@ export default class App {
       {
         path: Pages.NOT_FOUND,
         callback: () => {
-          this.appLayout.setContent(
-            new NotFoundPage(this.authState, this.router),
-          );
+          this.appLayout.setContent(new NotFoundPage());
         },
       },
     ];

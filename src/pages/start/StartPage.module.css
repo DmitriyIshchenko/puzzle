@@ -1,0 +1,9 @@
+.start {
+  display: grid;
+  place-content: center;
+
+  background-color: var(--color-grey-100);
+
+  font-size: 3rem;
+  font-weight: 500;
+}
