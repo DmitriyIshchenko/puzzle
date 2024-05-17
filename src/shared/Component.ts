@@ -85,6 +85,12 @@ export default class Component<T extends HTMLElement = HTMLElement> {
     this.children.length = 0;
   }
 
+  destroy() {
+    this.clear();
+
+    this.element.remove();
+  }
+
   getChildren() {
     return this.children;
   }
