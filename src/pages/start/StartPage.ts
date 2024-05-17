@@ -1,8 +1,19 @@
 import Component from "../../shared/Component";
+import Button from "../../ui/button/Button";
 
-import { span } from "../../ui/tags";
+import { div, h2, h3, li, p, ul } from "../../ui/tags";
 
 import styles from "./StartPage.module.css";
+
+// TODO: move this somewhere else
+const gameRules = [
+  "Choose from six difficulty levels and various rounds to tailor your learning experience.",
+  "Click on words or use drag-and-drop to arrange words into correct English sentences.",
+  "If you get stuck, use translation, play the voiced recording, or enable puzzle image hints.",
+  "Monitor your learning progress and review the artworks you've revealed on the statistics page.",
+  "Assemble sentences correctly to gradually unveil parts of a classical artwork puzzle.",
+  "When you feel ready, move on to the next challenge!",
+];
 
 export default class StartPage extends Component {
   constructor() {
@@ -15,7 +26,36 @@ export default class StartPage extends Component {
   }
 
   configure() {
-    const message = span({ text: "Welcome!" });
-    this.append(message);
+    const gameTitle = h2({
+      className: styles.title,
+      text: "Welcome to Puzzle game!",
+    });
+
+    const gameDescription = p({
+      className: styles.description,
+      text: "Step into “Puzzle game”, where words become your paint and sentences your brushstrokes! Create English sentences and reveal the secrets of famous paintings.",
+    });
+
+    const rules = gameRules.map((rule) =>
+      li({ className: styles.rule, text: rule }),
+    );
+
+    const rulesTitle = h3({
+      className: styles.rulesTitle,
+      text: "Rules are simple:",
+    });
+    const rulesList = ul({ className: styles.rules }, ...rules);
+
+    const startButton = new Button("Play!", () => {}, styles.button);
+
+    const descriptionBox = div(
+      { className: styles.box },
+      gameTitle,
+      gameDescription,
+      startButton,
+    );
+    const rulesBox = div({ className: styles.box }, rulesTitle, rulesList);
+
+    this.appendChildren([descriptionBox, rulesBox]);
   }
 }

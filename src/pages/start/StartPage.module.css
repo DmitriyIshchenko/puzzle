@@ -2,8 +2,54 @@
   display: grid;
   place-content: center;
 
+  max-width: 1440px;
+  margin: 0 auto;
+
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+
+  padding: 2rem;
   background-color: var(--color-grey-100);
 
-  font-size: 3rem;
-  font-weight: 500;
+  @media screen and (max-width: 900px) {
+    place-content: start;
+    grid-template-columns: 1fr;
+  }
+}
+
+.box {
+  display: grid;
+  justify-items: center;
+  grid-template-rows: min-content 1fr min-content;
+
+  row-gap: 1rem;
+
+  padding: 1.6rem;
+
+  border: 1px solid var(--color-grey-100);
+  border-radius: var(--border-radius-md);
+  background-color: var(--color-grey-0);
+}
+
+.title {
+  font-size: 2.4rem;
+  text-align: center;
+}
+
+.description {
+  align-self: center;
+  font-size: 1.2rem;
+}
+
+.button {
+  width: 7rem;
+}
+
+.rules {
+  padding-left: 1.4rem;
+  list-style: initial;
+}
+
+.rulesTitle {
+  font-size: 1.5rem;
 }
