@@ -37,5 +37,7 @@ export default class AppLayout extends Component<HTMLDivElement> {
     } else {
       this.append(content);
     }
+
+    this.header.updateUser();
   }
 }
