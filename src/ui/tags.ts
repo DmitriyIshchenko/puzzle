@@ -35,6 +35,16 @@ export const p = (
   ...children: Array<Component>
 ) => new Component<HTMLParagraphElement>({ ...props, tag: "p" }, ...children);
 
+export const ul = (
+  props: ElementFuncProps<HTMLUListElement>,
+  ...children: Array<Component>
+) => new Component<HTMLUListElement>({ ...props, tag: "ul" }, ...children);
+
+export const li = (
+  props: ElementFuncProps<HTMLLIElement>,
+  ...children: Array<Component>
+) => new Component<HTMLLIElement>({ ...props, tag: "li" }, ...children);
+
 // I could write a function to create a specific heading element, but I think it's fine as it is.
 // To me calling h1(props) looks more convenient than h(1, props), or even just h(props) with configurable level of heading
 export const h1 = (props: ElementFuncProps<HTMLHeadingElement>) =>
