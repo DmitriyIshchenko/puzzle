@@ -3,15 +3,16 @@
 }
 
 .inner {
-  max-width: 1440px;
-  margin: 0 auto;
   display: flex;
-  justify-content: space-between;
+  justify-content: end;
   align-items: center;
+  gap: 2rem;
+
+  margin: 0 auto;
+  padding: 0.8rem 1rem;
+  max-width: 1440px;
 
   box-shadow: var(--shadow-sm);
-
-  padding: 0.8rem 1rem;
 
   button {
     width: min-content;
@@ -19,6 +20,12 @@
 }
 
 .logo {
+  margin-right: auto;
   font-size: 2rem;
   font-weight: 500;
+}
+
+.user {
+  font-weight: 500;
+  font-size: 1.3rem;
 }
