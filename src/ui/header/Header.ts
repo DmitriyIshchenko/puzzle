@@ -41,7 +41,8 @@ export default class Header extends Component {
   }
 
   private getUserName() {
-    return `${this.authState.getValue("firstName")} ${this.authState.getValue("surname")}`;
+    return `Welcome, 
+    ${this.authState.getValue("firstName")} ${this.authState.getValue("surname")}!`;
   }
 
   updateUser() {
