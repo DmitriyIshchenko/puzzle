@@ -7,6 +7,7 @@ import StartPage from "./pages/start/StartPage";
 
 import { Pages } from "./app/router/pages";
 import NotFoundPage from "./pages/not-found/NotFoundPage";
+import GamePage from "./pages/game/GamePage";
 
 export default class App {
   appLayout: AppLayout;
@@ -28,13 +29,13 @@ export default class App {
       {
         path: "",
         callback: () => {
-          this.appLayout.setContent(new StartPage());
+          this.appLayout.setContent(new StartPage(this.router));
         },
       },
       {
         path: Pages.START,
         callback: () => {
-          this.appLayout.setContent(new StartPage());
+          this.appLayout.setContent(new StartPage(this.router));
         },
       },
       {
@@ -47,6 +48,12 @@ export default class App {
         path: Pages.NOT_FOUND,
         callback: () => {
           this.appLayout.setContent(new NotFoundPage());
+        },
+      },
+      {
+        path: Pages.GAME,
+        callback: () => {
+          this.appLayout.setContent(new GamePage());
         },
       },
     ];

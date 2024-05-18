@@ -1,6 +1,8 @@
+import Router from "../../app/router/router";
+import { Pages } from "../../app/router/pages";
+
 import Component from "../../shared/Component";
 import Button from "../../ui/button/Button";
-
 import { div, h2, h3, li, p, ul } from "../../ui/tags";
 
 import styles from "./StartPage.module.css";
@@ -16,7 +18,7 @@ const gameRules = [
 ];
 
 export default class StartPage extends Component {
-  constructor() {
+  constructor(private router: Router) {
     super({
       tag: "main",
       className: styles.start,
@@ -46,7 +48,13 @@ export default class StartPage extends Component {
     });
     const rulesList = ul({ className: styles.rules }, ...rules);
 
-    const startButton = new Button("Play!", () => {}, styles.button);
+    const startButton = new Button(
+      "Play!",
+      () => {
+        this.router.navigate(Pages.GAME);
+      },
+      styles.button,
+    );
 
     const descriptionBox = div(
       { className: styles.box },
