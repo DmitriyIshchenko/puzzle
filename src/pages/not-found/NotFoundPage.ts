@@ -2,13 +2,13 @@ import Component from "../../shared/Component";
 
 import { span } from "../../ui/tags";
 
-import styles from "../start/StartPage.module.css";
+import styles from "./NotRoundPage.module.css";
 
 export default class NotFoundPage extends Component {
   constructor() {
     super({
       tag: "main",
-      className: styles.start,
+      className: styles.page,
     });
 
     this.configure();

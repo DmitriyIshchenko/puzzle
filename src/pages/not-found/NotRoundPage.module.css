@@ -1,0 +1,7 @@
+.page {
+  display: grid;
+  place-content: center;
+
+  font-size: 2rem;
+  font-weight: 500;
+}
