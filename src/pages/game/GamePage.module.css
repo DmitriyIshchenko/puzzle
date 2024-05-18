@@ -1,7 +1,10 @@
 .page {
   display: grid;
-  place-content: center;
+  grid-template-columns: 1fr;
+  grid-template-rows: 3fr auto;
+  row-gap: 2rem;
 
-  font-size: 2rem;
-  font-weight: 500;
+  width: 768px;
+  margin: 0 auto;
+  padding: 2rem;
 }

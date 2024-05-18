@@ -1,0 +1,17 @@
+.words {
+  background-color: var(--color-grey-50);
+  box-shadow: var(--shadow-sm);
+  height: 3rem;
+}
+
+.word {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  border: 1px solid var(--color-grey-500);
+  height: 100%;
+
+  cursor: pointer;
+  user-select: none;
+}
