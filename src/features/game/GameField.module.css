@@ -1,3 +1,20 @@
 .field {
   background-color: var(--color-grey-300);
 }
+
+.row {
+  height: 3rem;
+  border-bottom: 1px solid var(--color-grey-500);
+}
+
+.word {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  border: 1px solid var(--color-grey-500);
+  height: 100%;
+
+  cursor: pointer;
+  user-select: none;
+}
