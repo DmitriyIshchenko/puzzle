@@ -1,16 +1,17 @@
 .words {
-  display: flex;
-  align-items: center;
   background-color: var(--color-grey-50);
   box-shadow: var(--shadow-sm);
+  height: 3rem;
 }
 
 .word {
-  text-align: center;
-  flex: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
   border: 1px solid var(--color-grey-500);
-  height: max-content;
-  padding: 0.5rem;
+  height: 100%;
+
   cursor: pointer;
   user-select: none;
 }
