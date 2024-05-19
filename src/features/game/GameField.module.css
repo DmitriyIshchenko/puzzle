@@ -4,10 +4,12 @@
 
 .row {
   height: 40px;
+  pointer-events: none;
 }
 
 .active {
   border-bottom: 1px solid var(--color-grey-500);
+  pointer-events: all;
 }
 
 .word {

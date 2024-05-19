@@ -25,8 +25,9 @@ export default class GameField extends Component implements Observer {
   }
 
   update(gameState: GameState) {
-    const row = this.rows[gameState.state.currentRow];
+    this.deselectRows();
 
+    const row = this.rows[gameState.state.currentRow];
     row.clear();
     row.addClass(styles.active);
 
@@ -45,5 +46,12 @@ export default class GameField extends Component implements Observer {
     });
 
     row.appendChildren(cards);
+  }
+
+  // prevent clicks on non-active rows
+  deselectRows() {
+    this.rows.forEach((row) => {
+      row.removeClass(styles.active);
+    });
   }
 }
