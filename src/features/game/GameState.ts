@@ -57,4 +57,18 @@ export default class GameState implements Publisher {
   startGame() {
     this.notifySubscribers();
   }
+
+  startNextStage() {
+    // TEMP
+    if (this.state.currentRow === 9) return;
+
+    this.state.currentRow += 1;
+    this.state.rowContent = [];
+    this.state.sentence =
+      words.rounds[0].words[this.state.currentRow].textExample;
+
+    this.state.pickAreaContent = splitSentence(this.state.sentence);
+
+    this.notifySubscribers();
+  }
 }
