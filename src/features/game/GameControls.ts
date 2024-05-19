@@ -17,9 +17,7 @@ export default class GameControls extends Component implements Observer {
   update(gameState: GameState) {
     this.clear();
 
-    const { sentence, rowContent } = gameState.state;
-
-    if (sentence !== rowContent.join(" ")) return;
+    if (!gameState.isSolved) return;
 
     const continueButton = new Button("Continue", () => {
       gameState.startNextStage();

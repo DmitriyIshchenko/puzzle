@@ -9,3 +9,7 @@
   cursor: pointer;
   user-select: none;
 }
+
+.borderless {
+  border: none;
+}

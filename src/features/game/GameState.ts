@@ -20,6 +20,18 @@ export default class GameState implements Publisher {
 
   private subscribers: Array<Observer> = [];
 
+  // TODO: figure out if using getters here is ok, or should you use methods
+  get isSolved(): boolean {
+    const { sentence, rowContent } = this.state;
+    return sentence === rowContent.join(" ");
+  }
+
+  get isFilled(): boolean {
+    const { sentence, rowContent } = this.state;
+
+    return splitSentence(sentence).length === rowContent.length;
+  }
+
   subscribe(subscriber: Observer): void {
     this.subscribers.push(subscriber);
   }
