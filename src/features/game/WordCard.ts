@@ -5,7 +5,7 @@ import styles from "./WordCard.module.css";
 interface WordCardData {
   text: string;
   width: number;
-  isSentenceSolved: boolean;
+  isSentenceSolved?: boolean;
 }
 
 export default class WordCard extends Component {
