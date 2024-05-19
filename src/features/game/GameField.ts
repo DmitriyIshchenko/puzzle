@@ -1,33 +1,38 @@
 import Component from "../../shared/Component";
 import { div } from "../../ui/tags";
 
-import { WordData } from "./WordsContainer";
+import { Observer } from "../../shared/Observer";
 
 import styles from "./GameField.module.css";
+import GameState from "./GameState";
+import WordCard from "./WordCard";
+import { calculateCardWidth } from "../../shared/helpers";
 
-export default class GameField extends Component {
-  private row: Component;
-
+export default class GameField extends Component implements Observer {
   constructor() {
     super({
       tag: "div",
       className: styles.field,
     });
-
-    this.row = div({ className: styles.row });
-    this.append(this.row);
-
-    // TODO: use observer pattern
-    window.addEventListener(
-      "move-word",
-      this.handler.bind(this) as (e: Event) => void,
-    );
   }
 
-  handler(e: CustomEvent<WordData>) {
-    const card = div({ className: styles.word, text: e.detail.word });
-    card.getElement().style.width = `${e.detail.width.toString()}%`;
+  update(gameState: GameState) {
+    this.clear();
 
-    this.row.append(card);
+    const cards = gameState.state.rowContent.map((word) => {
+      const card = new WordCard({
+        text: word,
+        width: calculateCardWidth(gameState.state.sentence, word),
+      });
+
+      // TODO: it is probably a good idea to use event delegation instead
+      card.addListener("click", () => {
+        gameState.discardWord(word);
+      });
+
+      return card;
+    });
+
+    this.append(div({ className: styles.row }, ...cards));
   }
 }
