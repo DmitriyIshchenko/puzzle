@@ -1,8 +1,8 @@
 .page {
   display: grid;
   grid-template-columns: 1fr;
-  grid-template-rows: 3fr auto;
-  row-gap: 2rem;
+  grid-template-rows: 400px auto;
+  row-gap: 1rem;
 
   width: 768px;
   margin: 0 auto;

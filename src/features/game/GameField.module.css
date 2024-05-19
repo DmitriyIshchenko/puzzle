@@ -1,10 +1,15 @@
 .field {
-  background-color: var(--color-grey-300);
+  background-color: var(--color-grey-200);
 }
 
 .row {
-  height: 3rem;
+  height: 40px;
+  pointer-events: none;
+}
+
+.active {
   border-bottom: 1px solid var(--color-grey-500);
+  pointer-events: all;
 }
 
 .word {
@@ -17,4 +22,20 @@
 
   cursor: pointer;
   user-select: none;
+}
+
+.correct {
+  border: 2px solid var(--color-green-700);
+}
+
+.correct:not(:first-child) {
+  border-top: none;
+}
+
+.incorrect {
+  border: 1px solid var(--color-red-700);
+}
+
+.incorrect:not(:first-child) {
+  border-top: none;
 }
