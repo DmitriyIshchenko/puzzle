@@ -8,6 +8,12 @@
 
   cursor: pointer;
   user-select: none;
+  transition: all 0.3s;
+
+  &:hover {
+    border-color: var(--color-brand-500);
+    color: var(--color-brand-500);
+  }
 }
 
 .borderless {
