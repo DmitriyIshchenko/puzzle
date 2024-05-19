@@ -4,6 +4,7 @@ import { splitSentence } from "../../shared/helpers";
 
 interface GameData {
   sentence: string;
+  currentRow: number;
   rowContent: Array<string>;
   pickAreaContent: Array<string>;
 }
@@ -12,6 +13,7 @@ export default class GameState implements Publisher {
   // temporary hardcoded
   public state: GameData = {
     sentence: words.rounds[0].words[0].textExample,
+    currentRow: 0,
     rowContent: [],
     pickAreaContent: splitSentence(words.rounds[0].words[0].textExample),
   };

@@ -3,7 +3,10 @@
 }
 
 .row {
-  height: 3rem;
+  height: 40px;
+}
+
+.active {
   border-bottom: 1px solid var(--color-grey-500);
 }
 
