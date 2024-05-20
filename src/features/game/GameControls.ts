@@ -1,7 +1,7 @@
 import Component from "../../shared/Component";
 import Button from "../../ui/button/Button";
 
-import GameState from "./GameState";
+import GameState, { RowStatus } from "./GameState";
 import { Observer } from "../../shared/Observer";
 
 import styles from "./GameControls.module.css";
@@ -17,12 +17,18 @@ export default class GameControls extends Component implements Observer {
   update(gameState: GameState) {
     this.clear();
 
-    if (!gameState.isSolved) return;
+    if (!gameState.isFilled()) return;
 
-    const continueButton = new Button("Continue", () => {
-      gameState.startNextStage();
-    });
+    const buttonText =
+      gameState.state.rowStatus === RowStatus.CORRECT ? "Continue" : "Check";
 
-    this.append(continueButton);
+    const buttonCallback =
+      gameState.state.rowStatus === RowStatus.CORRECT
+        ? gameState.startNextStage.bind(gameState)
+        : gameState.verifyAnswer.bind(gameState);
+
+    const button = new Button(buttonText, buttonCallback);
+
+    this.append(button);
   }
 }

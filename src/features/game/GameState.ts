@@ -1,8 +1,16 @@
-import words from "../../../data/words.json";
 import { Observer, Publisher } from "../../shared/Observer";
 import { splitSentence } from "../../shared/helpers";
 
+import words from "../../../data/words.json";
+
+export enum RowStatus {
+  NOT_COMPLETED = "not-completed",
+  CORRECT = "correct",
+  INCORRECT = "incorrect",
+}
+
 interface GameData {
+  rowStatus: RowStatus;
   sentence: string;
   currentRow: number;
   rowContent: Array<string>;
@@ -12,6 +20,7 @@ interface GameData {
 export default class GameState implements Publisher {
   // temporary hardcoded
   public state: GameData = {
+    rowStatus: RowStatus.NOT_COMPLETED,
     sentence: words.rounds[0].words[0].textExample,
     currentRow: 0,
     rowContent: [],
@@ -20,13 +29,7 @@ export default class GameState implements Publisher {
 
   private subscribers: Array<Observer> = [];
 
-  // TODO: figure out if using getters here is ok, or should you use methods
-  get isSolved(): boolean {
-    const { sentence, rowContent } = this.state;
-    return sentence === rowContent.join(" ");
-  }
-
-  get isFilled(): boolean {
+  isFilled() {
     const { sentence, rowContent } = this.state;
 
     return splitSentence(sentence).length === rowContent.length;
@@ -62,6 +65,7 @@ export default class GameState implements Publisher {
     this.state.rowContent.splice(index, 1);
 
     this.state.pickAreaContent.push(word);
+    this.state.rowStatus = RowStatus.NOT_COMPLETED;
 
     this.notifySubscribers();
   }
@@ -80,6 +84,15 @@ export default class GameState implements Publisher {
       words.rounds[0].words[this.state.currentRow].textExample;
 
     this.state.pickAreaContent = splitSentence(this.state.sentence);
+    this.state.rowStatus = RowStatus.NOT_COMPLETED;
+
+    this.notifySubscribers();
+  }
+
+  verifyAnswer() {
+    const isSolved = this.state.sentence === this.state.rowContent.join(" ");
+
+    this.state.rowStatus = isSolved ? RowStatus.CORRECT : RowStatus.INCORRECT;
 
     this.notifySubscribers();
   }
