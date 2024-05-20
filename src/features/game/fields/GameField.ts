@@ -1,12 +1,12 @@
-import Component from "../../shared/Component";
-import { div } from "../../ui/tags";
+import Component from "../../../shared/Component";
+import WordCard from "../card/WordCard";
+import { div } from "../../../ui/tags";
 
-import { Observer } from "../../shared/Observer";
+import GameState, { RowStatus } from "../model/GameState";
+import { Observer } from "../../../shared/Observer";
 
+import { calculateCardWidth } from "../../../shared/helpers";
 import styles from "./GameField.module.css";
-import GameState from "./GameState";
-import WordCard from "./WordCard";
-import { calculateCardWidth } from "../../shared/helpers";
 
 export default class GameField extends Component implements Observer {
   private rows: Array<Component>;
@@ -37,7 +37,7 @@ export default class GameField extends Component implements Observer {
       const card = new WordCard({
         text: word,
         width: calculateCardWidth(gameState.state.sentence, word),
-        isSentenceSolved: gameState.isSolved,
+        status: gameState.state.rowStatus,
       });
 
       // TODO: it is probably a good idea to use event delegation instead
@@ -64,9 +64,10 @@ export default class GameField extends Component implements Observer {
     row.removeClass(styles.correct);
     row.removeClass(styles.incorrect);
 
-    // set new styles
-    if (gameState.isSolved) row.addClass(styles.correct);
-    if (!gameState.isSolved && gameState.isFilled)
+    if (gameState.state.rowStatus === RowStatus.CORRECT)
+      row.addClass(styles.correct);
+
+    if (gameState.state.rowStatus === RowStatus.INCORRECT)
       row.addClass(styles.incorrect);
   }
 }
