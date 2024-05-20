@@ -1,8 +1,8 @@
-import Component from "../../shared/Component";
-import Button from "../../ui/button/Button";
+import Component from "../../../shared/Component";
+import Button from "../../../ui/button/Button";
 
-import GameState, { RowStatus } from "./GameState";
-import { Observer } from "../../shared/Observer";
+import GameState, { RowStatus } from "../model/GameState";
+import { Observer } from "../../../shared/Observer";
 
 import styles from "./GameControls.module.css";
 

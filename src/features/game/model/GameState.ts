@@ -1,7 +1,7 @@
-import { Observer, Publisher } from "../../shared/Observer";
-import { splitSentence } from "../../shared/helpers";
+import { Observer, Publisher } from "../../../shared/Observer";
+import { splitSentence } from "../../../shared/helpers";
 
-import words from "../../../data/words.json";
+import words from "../../../../data/words.json";
 
 export enum RowStatus {
   NOT_COMPLETED = "not-completed",

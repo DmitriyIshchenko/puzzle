@@ -1,11 +1,11 @@
-import Component from "../../shared/Component";
-import WordCard from "./WordCard";
-import { div } from "../../ui/tags";
+import Component from "../../../shared/Component";
+import WordCard from "../card/WordCard";
+import { div } from "../../../ui/tags";
 
-import GameState, { RowStatus } from "./GameState";
-import { Observer } from "../../shared/Observer";
+import GameState, { RowStatus } from "../model/GameState";
+import { Observer } from "../../../shared/Observer";
 
-import { calculateCardWidth } from "../../shared/helpers";
+import { calculateCardWidth } from "../../../shared/helpers";
 import styles from "./GameField.module.css";
 
 export default class GameField extends Component implements Observer {

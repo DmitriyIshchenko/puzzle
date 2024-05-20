@@ -1,5 +1,5 @@
-import Component from "../../shared/Component";
-import { RowStatus } from "./GameState";
+import Component from "../../../shared/Component";
+import { RowStatus } from "../model/GameState";
 
 import styles from "./WordCard.module.css";
 

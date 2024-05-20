@@ -1,12 +1,12 @@
-import Component from "../../shared/Component";
-import WordCard from "./WordCard";
+import Component from "../../../shared/Component";
+import WordCard from "../card/WordCard";
 
-import { Observer } from "../../shared/Observer";
+import { Observer } from "../../../shared/Observer";
+import GameState from "../model/GameState";
+
+import { calculateCardWidth } from "../../../shared/helpers";
 
 import styles from "./WordsContainer.module.css";
-import GameState from "./GameState";
-
-import { calculateCardWidth } from "../../shared/helpers";
 
 export default class WordsContainer extends Component implements Observer {
   constructor() {
