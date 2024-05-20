@@ -16,6 +16,7 @@
   }
 }
 
-.borderless {
+.correct {
   border: none;
+  pointer-events: none;
 }
