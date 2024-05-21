@@ -7,21 +7,29 @@ import { Observer } from "../../../shared/Observer";
 import styles from "./GameControls.module.css";
 
 export default class GameControls extends Component implements Observer {
+  autocompleteButton: Button;
+
+  gameFlowButton: Button;
+
   constructor() {
     super({
       tag: "div",
       className: styles.controls,
     });
+
+    // TODO: It would be convenient if the game state was a singleton
+    this.autocompleteButton = new Button("Autocomplete", () => {});
+    this.gameFlowButton = new Button("Check", () => {});
+
+    this.appendChildren([this.autocompleteButton, this.gameFlowButton]);
   }
 
-  private createAutoCompleteButton(gameState: GameState) {
-    const autoCompleteBtn = new Button("Autocomplete", () => {
+  update(gameState: GameState) {
+    this.gameFlowButton.destroy();
+    this.autocompleteButton.updateCallback(() => {
       gameState.autocompleteRow();
     });
-    this.append(autoCompleteBtn);
-  }
 
-  private createGameFlowButton(gameState: GameState) {
     const buttonText =
       gameState.state.rowStatus === RowStatus.CORRECT ? "Continue" : "Check";
 
@@ -30,20 +38,12 @@ export default class GameControls extends Component implements Observer {
         ? gameState.startNextStage.bind(gameState)
         : gameState.verifyAnswer.bind(gameState);
 
-    const button = new Button(buttonText, buttonCallback);
+    this.gameFlowButton = new Button(buttonText, buttonCallback);
 
-    this.append(button);
-  }
+    if (gameState.isFilled()) {
+      this.gameFlowButton.removeAttribute("disabled");
+    } else this.gameFlowButton.setAttribute("disabled", "");
 
-  update(gameState: GameState) {
-    this.clear();
-
-    if (gameState.state.rowStatus !== RowStatus.CORRECT) {
-      this.createAutoCompleteButton(gameState);
-    }
-
-    if (!gameState.isFilled()) return;
-
-    this.createGameFlowButton(gameState);
+    this.append(this.gameFlowButton);
   }
 }

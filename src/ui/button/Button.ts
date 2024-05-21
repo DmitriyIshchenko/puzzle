@@ -5,7 +5,7 @@ import styles from "./Button.module.css";
 export default class Button extends Component<HTMLButtonElement> {
   constructor(
     text: string,
-    onClick: EventListener,
+    private onClick: EventListener,
     className: string = "",
     ...children: Array<Component>
   ) {
@@ -18,5 +18,11 @@ export default class Button extends Component<HTMLButtonElement> {
       },
       ...children,
     );
+  }
+
+  updateCallback(newCallback: EventListener) {
+    this.removeListener("click", this.onClick);
+    this.onClick = newCallback;
+    this.addListener("click", this.onClick);
   }
 }
