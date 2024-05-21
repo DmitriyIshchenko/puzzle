@@ -2,8 +2,9 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  gap: 1rem;
 
   button {
-    width: max-content;
+    width: 150px;
   }
 }

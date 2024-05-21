@@ -96,4 +96,12 @@ export default class GameState implements Publisher {
 
     this.notifySubscribers();
   }
+
+  autocompleteRow() {
+    this.state.pickAreaContent = [];
+    this.state.rowContent = this.state.sentence.split(" ");
+    this.state.rowStatus = RowStatus.CORRECT;
+
+    this.notifySubscribers();
+  }
 }
