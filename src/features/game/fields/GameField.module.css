@@ -22,6 +22,10 @@
 
 .correct {
   border: 2px solid var(--color-green-700);
+
+  div {
+    border: none;
+  }
 }
 
 .correct:not(:first-child) {
