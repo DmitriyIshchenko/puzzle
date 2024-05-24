@@ -1,14 +1,14 @@
 import Component from "../../../shared/Component";
-import WordCard from "../card/WordCard";
+import Row from "./Row";
 
-import { Observer } from "../../../shared/Observer";
 import GameState from "../model/GameState";
-
-import { calculateCardWidth } from "../../../shared/helpers";
+import { Observer } from "../../../shared/Observer";
 
 import styles from "./WordsContainer.module.css";
 
 export default class WordsContainer extends Component implements Observer {
+  row: Row | null = null;
+
   constructor() {
     super({
       tag: "div",
@@ -18,21 +18,13 @@ export default class WordsContainer extends Component implements Observer {
 
   update(gameState: GameState) {
     this.clear();
+    this.row = new Row(
+      gameState.state.content.pickArea,
+      gameState.pickWord.bind(gameState),
+    );
 
-    const cards = gameState.state.pickAreaContent.map((word) => {
-      const card = new WordCard({
-        text: word,
-        width: calculateCardWidth(gameState.state.sentence, word),
-      });
+    this.append(this.row);
 
-      // TODO: it is probably a good idea to use event delegation instead
-      card.addListener("click", () => {
-        gameState.pickWord(word);
-      });
-
-      return card;
-    });
-
-    this.appendChildren(cards);
+    this.row.updateCells(gameState.state.content.pickArea);
   }
 }
