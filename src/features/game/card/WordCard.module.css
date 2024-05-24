@@ -1,8 +1,6 @@
 .word {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-
+  display: grid;
+  place-content: center;
   border: 1px solid var(--color-grey-500);
   height: 100%;
 
