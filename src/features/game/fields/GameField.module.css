@@ -1,9 +1,5 @@
 .field {
   background-color: var(--color-grey-200);
-}
-
-.row {
-  height: 40px;
   pointer-events: none;
 }
 
@@ -26,6 +22,10 @@
 
 .correct {
   border: 2px solid var(--color-green-700);
+
+  div {
+    border: none;
+  }
 }
 
 .correct:not(:first-child) {

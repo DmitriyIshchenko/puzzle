@@ -1,0 +1,14 @@
+.row {
+  height: 40px;
+  display: flex;
+}
+
+.cell {
+  flex: 1;
+  transition: all 0.3s;
+}
+
+.active {
+  border-bottom: 1px solid var(--color-grey-500);
+  pointer-events: all;
+}

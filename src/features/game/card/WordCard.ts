@@ -1,21 +1,18 @@
 import Component from "../../../shared/Component";
-import { RowStatus } from "../model/GameState";
-
 import styles from "./WordCard.module.css";
 
-interface WordCardData {
+export interface Word {
   text: string;
   width: number;
-  status?: RowStatus;
+  correctPosition: number;
+  currentPosition: number;
 }
 
 export default class WordCard extends Component {
-  constructor(data: WordCardData) {
+  constructor(data: Word) {
     super({
-      className: `${styles.word} ${data.status === RowStatus.CORRECT ? styles.correct : ""}`,
+      className: styles.word,
       text: data.text,
     });
-
-    this.getElement().style.width = `${data.width.toString()}%`;
   }
 }

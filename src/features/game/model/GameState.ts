@@ -1,73 +1,61 @@
-import { Observer, Publisher } from "../../../shared/Observer";
-import { splitSentence } from "../../../shared/helpers";
+import State from "../../../app/state/StatePublisher";
+import { Word } from "../card/WordCard";
 
-import words from "../../../../data/words.json";
+import { getShuffledSentence, splitSentence } from "../../../shared/helpers";
+import rawData from "../../../../data/words.json";
 
-export enum RowStatus {
-  NOT_COMPLETED = "not-completed",
-  CORRECT = "correct",
-  INCORRECT = "incorrect",
+const STAGES_PER_ROUND = 10;
+
+export enum StageStatus {
+  NOT_COMPLETED,
+  CORRECT,
+  INCORRECT,
+  AUTOCOMPLETED,
 }
 
 interface GameData {
-  rowStatus: RowStatus;
-  sentence: string;
-  currentRow: number;
-  rowContent: Array<string>;
-  pickAreaContent: Array<string>;
+  levels: {
+    round: number;
+    stage: number;
+    status: StageStatus;
+  };
+  content: {
+    roundSentences: Array<string>;
+    sentence: string;
+    sentenceLength: number;
+    pickArea: Array<Word | null>;
+    assembleArea: Array<Word | null>;
+  };
 }
 
-export default class GameState implements Publisher {
-  // temporary hardcoded
-  public state: GameData = {
-    rowStatus: RowStatus.NOT_COMPLETED,
-    sentence: words.rounds[0].words[0].textExample,
-    currentRow: 0,
-    rowContent: [],
-    pickAreaContent: splitSentence(words.rounds[0].words[0].textExample),
+function prepareState(round: number, stage: number): GameData {
+  const roundSentences = rawData.rounds[round].words.map(
+    (entry) => entry.textExample,
+  );
+  const sentence = roundSentences[stage];
+  const sentenceLength = sentence.length;
+
+  const shuffledSentence = getShuffledSentence(sentence);
+
+  return {
+    levels: {
+      round,
+      stage,
+      status: StageStatus.NOT_COMPLETED,
+    },
+    content: {
+      roundSentences,
+      sentence,
+      sentenceLength,
+      assembleArea: new Array<Word | null>(shuffledSentence.length).fill(null),
+      pickArea: shuffledSentence,
+    },
   };
+}
 
-  private subscribers: Array<Observer> = [];
-
-  isFilled() {
-    const { sentence, rowContent } = this.state;
-
-    return splitSentence(sentence).length === rowContent.length;
-  }
-
-  subscribe(subscriber: Observer): void {
-    this.subscribers.push(subscriber);
-  }
-
-  unsubscribe(subscriber: Observer): void {
-    const targetIndex = this.subscribers.indexOf(subscriber);
-
-    this.subscribers.splice(targetIndex, 1);
-  }
-
-  notifySubscribers(): void {
-    this.subscribers.forEach((subscriber) => {
-      subscriber.update(this);
-    });
-  }
-
-  pickWord(word: string) {
-    const index = this.state.pickAreaContent.indexOf(word);
-    this.state.pickAreaContent.splice(index, 1);
-
-    this.state.rowContent.push(word);
-
-    this.notifySubscribers();
-  }
-
-  discardWord(word: string) {
-    const index = this.state.rowContent.indexOf(word);
-    this.state.rowContent.splice(index, 1);
-
-    this.state.pickAreaContent.push(word);
-    this.state.rowStatus = RowStatus.NOT_COMPLETED;
-
-    this.notifySubscribers();
+export default class GameState extends State<GameData> {
+  constructor() {
+    super(prepareState(0, 0));
   }
 
   startGame() {
@@ -75,33 +63,76 @@ export default class GameState implements Publisher {
   }
 
   startNextStage() {
-    // TEMP
-    if (this.state.currentRow === 9) return;
+    // TODO: start next round
 
-    this.state.currentRow += 1;
-    this.state.rowContent = [];
-    this.state.sentence =
-      words.rounds[0].words[this.state.currentRow].textExample;
+    // zero-based
+    if (this.state.levels.stage === STAGES_PER_ROUND - 1) return;
 
-    this.state.pickAreaContent = splitSentence(this.state.sentence);
-    this.state.rowStatus = RowStatus.NOT_COMPLETED;
+    this.state = prepareState(0, this.state.levels.stage + 1);
+
+    this.notifySubscribers();
+  }
+
+  pickWord(word: Word | null) {
+    const { pickArea, assembleArea } = this.state.content;
+
+    const target = word;
+    if (!target) return;
+
+    // put in first empty cell
+    const positionToPut = assembleArea.indexOf(null);
+    assembleArea[positionToPut] = word;
+
+    // replace with null, then update position property
+    pickArea[target.currentPosition] = null;
+    target.currentPosition = positionToPut;
+
+    this.notifySubscribers();
+  }
+
+  discardWord(word: Word | null) {
+    const { pickArea, assembleArea } = this.state.content;
+    const target = word;
+
+    if (!target) return;
+
+    // put in first empty cell
+    const positionToPut = pickArea.indexOf(null);
+    pickArea[positionToPut] = word;
+
+    // replace with null, then update position property
+    assembleArea[target.currentPosition] = null;
+    target.currentPosition = positionToPut;
+
+    this.state.levels.status = StageStatus.NOT_COMPLETED;
 
     this.notifySubscribers();
   }
 
   verifyAnswer() {
-    const isSolved = this.state.sentence === this.state.rowContent.join(" ");
+    const isCorrect = this.state.content.assembleArea.every((word) =>
+      word ? word.correctPosition === word.currentPosition : false,
+    );
 
-    this.state.rowStatus = isSolved ? RowStatus.CORRECT : RowStatus.INCORRECT;
+    this.state.levels.status = isCorrect
+      ? StageStatus.CORRECT
+      : StageStatus.INCORRECT;
 
     this.notifySubscribers();
   }
 
   autocompleteRow() {
-    this.state.pickAreaContent = [];
-    this.state.rowContent = this.state.sentence.split(" ");
-    this.state.rowStatus = RowStatus.CORRECT;
+    const { pickArea, sentence } = this.state.content;
+
+    this.state.content.assembleArea = splitSentence(sentence);
+    pickArea.fill(null);
+
+    this.state.levels.status = StageStatus.AUTOCOMPLETED;
 
     this.notifySubscribers();
+  }
+
+  isFilled() {
+    return this.state.content.assembleArea.every((item) => item);
   }
 }
