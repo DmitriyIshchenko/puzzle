@@ -135,4 +135,26 @@ export default class GameState extends State<GameData> {
   isFilled() {
     return this.state.content.assembleArea.every((item) => item);
   }
+
+  dropWord(from: number, to: number | null) {
+    if (to === null) {
+      this.notifySubscribers();
+      return;
+    }
+
+    const newWord = this.state.content.pickArea[from];
+    const oldWord = this.state.content.assembleArea[to];
+
+    if (newWord) {
+      newWord.currentPosition = to;
+    }
+    if (oldWord) {
+      oldWord.currentPosition = from;
+    }
+
+    this.state.content.assembleArea[to] = newWord;
+    this.state.content.pickArea[from] = oldWord;
+
+    this.notifySubscribers();
+  }
 }

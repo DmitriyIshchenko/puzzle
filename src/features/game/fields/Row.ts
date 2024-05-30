@@ -9,7 +9,8 @@ export default class Row extends Component {
 
   constructor(
     private content: Array<Word | null>,
-    private callback: (word: Word) => void,
+    private clickCallback: (word: Word) => void,
+    private dropCallback: (from: number, to: number | null) => void,
   ) {
     super({ className: styles.row });
 
@@ -26,6 +27,7 @@ export default class Row extends Component {
     this.cells.forEach((cell, index) => {
       const word = content[index];
       const cellEl = this.cells[index].getElement();
+      cell.setAttribute("data-index", index.toString());
 
       // reset cell
       cell.clear();
@@ -33,12 +35,12 @@ export default class Row extends Component {
       cellEl.style.minWidth = `0`;
 
       if (word) {
-        cellEl.style.maxWidth = `${word.width.toString()}%`;
-        cellEl.style.minWidth = `${word.width.toString()}%`;
+        cellEl.style.maxWidth = `${word.width}px`;
+        cellEl.style.minWidth = `${word.width}px`;
 
-        const card = new WordCard(word);
+        const card = new WordCard(word, this.dropCallback);
         card.addListener("click", () => {
-          this.callback(word);
+          this.clickCallback(word);
         });
         cell.append(card);
       }
