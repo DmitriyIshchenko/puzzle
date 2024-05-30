@@ -1,14 +1,17 @@
 import { Word } from "../features/game/card/WordCard";
 
-export function calculateCardWidth(sentence: string, word: string) {
+const ROW_WIDTH = 728;
+
+export function calculateCardWidthPixels(sentence: string, word: string) {
   const totalCharacters = sentence.split(" ").join("").length;
-  return (word.length * 100) / totalCharacters;
+
+  return (ROW_WIDTH * word.length) / totalCharacters;
 }
 
 export function splitSentence(sentence: string): Array<Word> {
   return sentence.split(" ").map((word, index) => ({
     text: word,
-    width: calculateCardWidth(sentence, word),
+    width: calculateCardWidthPixels(sentence, word),
     correctPosition: index,
     currentPosition: index,
   }));
