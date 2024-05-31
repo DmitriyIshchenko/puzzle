@@ -17,6 +17,10 @@ export default class WordCard extends Component {
 
   private clientY: number = 0;
 
+  private shiftX: number = 0;
+
+  private shiftY: number = 0;
+
   constructor(
     private data: Word,
     private dropCallback: (from: number, to: number | null) => void,
@@ -40,6 +44,10 @@ export default class WordCard extends Component {
     this.clientY = e.clientY;
 
     const card = this.getElement();
+
+    // keep track of these coordinates to adjust the dragging point to any location on the card. otherwise, the center of the card will move to the cursor when clicked.
+    this.shiftX = e.clientX - card.getBoundingClientRect().left;
+    this.shiftY = e.clientY - card.getBoundingClientRect().top;
 
     // snap the card from the row
     card.style.position = "absolute";
@@ -107,7 +115,7 @@ export default class WordCard extends Component {
   private moveAt(pageX: number, pageY: number): void {
     const card = this.getElement();
 
-    card.style.left = `${pageX - card.offsetWidth / 2}px`;
-    card.style.top = `${pageY - card.offsetHeight / 2}px`;
+    card.style.left = `${pageX - this.shiftX}px`;
+    card.style.top = `${pageY - this.shiftY}px`;
   }
 }
