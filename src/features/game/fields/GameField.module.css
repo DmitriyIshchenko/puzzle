@@ -1,6 +1,7 @@
 .field {
   background-color: var(--color-grey-200);
   pointer-events: none;
+  border: 1px solid var(--color-grey-500);
 }
 
 .active {
@@ -22,21 +23,49 @@
 
 /* FIX: border stretches row */
 .correct {
-  border: 2px solid var(--color-green-700);
+  pointer-events: none;
+  /* outline: 2px solid var(--color-green-700); */
 
   div {
     border: none;
   }
+
+  position: relative;
+
+  &::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    left: -30px;
+
+    width: 20px;
+    height: 20px;
+    background-image: url(https://upload.wikimedia.org/wikipedia/commons/3/3b/Eo_circle_green_checkmark.svg);
+  }
 }
 
-.correct:not(:first-child) {
+/* TEMP */
+/* .correct:not(:first-child) {
   border-top: none;
-}
+} */
 
 .incorrect {
-  border: 1px solid var(--color-red-700);
+  position: relative;
+
+  &::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    left: -30px;
+
+    width: 20px;
+    height: 20px;
+    background-image: url(https://upload.wikimedia.org/wikipedia/commons/c/cc/Cross_red_circle.svg);
+  }
 }
 
-.incorrect:not(:first-child) {
+/* .incorrect:not(:first-child) {
   border-top: none;
-}
+} */
