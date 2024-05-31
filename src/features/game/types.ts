@@ -2,7 +2,6 @@ export interface Word {
   text: string;
   width: number;
   readonly correctPosition: number;
-  currentPosition: number;
 }
 
 export interface WordAction {

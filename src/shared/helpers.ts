@@ -13,14 +13,11 @@ export function splitSentence(sentence: string): Array<Word> {
     text: word,
     width: calculateCardWidthPixels(sentence, word),
     correctPosition: index,
-    currentPosition: index,
   }));
 }
 
 export function getShuffledSentence(sentence: string): Array<Word> {
-  return splitSentence(sentence)
-    .sort(() => Math.random() - 0.5)
-    .map((wordObj, index) => ({ ...wordObj, currentPosition: index }));
+  return splitSentence(sentence).sort(() => Math.random() - 0.5);
 }
 
 export function assertNonNull<T>(value: T | null | undefined): T {

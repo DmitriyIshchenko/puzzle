@@ -85,8 +85,8 @@ export default class GameState extends State<GameData> {
   }
 
   verifyAnswer() {
-    const isCorrect = this.state.content.assembleArea.every((word) =>
-      word ? word.correctPosition === word.currentPosition : false,
+    const isCorrect = this.state.content.assembleArea.every((word, index) =>
+      word ? word.correctPosition === index : false,
     );
 
     this.state.levels.status = isCorrect
