@@ -1,7 +1,8 @@
 import Component from "../../../shared/Component";
 import Button from "../../../ui/button/Button";
+import GameState from "../model/GameState";
 
-import GameState, { StageStatus } from "../model/GameState";
+import { StageStatus } from "../types";
 import { Observer } from "../../../shared/Observer";
 
 import styles from "./GameControls.module.css";

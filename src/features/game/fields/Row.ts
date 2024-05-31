@@ -1,6 +1,8 @@
 import Component from "../../../shared/Component";
+import WordCard from "../card/WordCard";
 import { div } from "../../../ui/tags";
-import WordCard, { Word } from "../card/WordCard";
+
+import { Word, WordAction, RowType, StageStatus } from "../types";
 
 import styles from "./Row.module.css";
 
@@ -8,8 +10,9 @@ export default class Row extends Component {
   private cells: Component[] = [];
 
   constructor(
+    private type: RowType,
     private content: Array<Word | null>,
-    private callback: (word: Word) => void,
+    private actionHandler: (action: WordAction) => void,
   ) {
     super({ className: styles.row });
 
@@ -26,6 +29,8 @@ export default class Row extends Component {
     this.cells.forEach((cell, index) => {
       const word = content[index];
       const cellEl = this.cells[index].getElement();
+      cell.setAttribute("data-index", index.toString());
+      cell.setAttribute("data-type", this.type);
 
       // reset cell
       cell.clear();
@@ -33,15 +38,25 @@ export default class Row extends Component {
       cellEl.style.minWidth = `0`;
 
       if (word) {
-        cellEl.style.maxWidth = `${word.width.toString()}%`;
-        cellEl.style.minWidth = `${word.width.toString()}%`;
+        cellEl.style.maxWidth = `${word.width}px`;
+        cellEl.style.minWidth = `${word.width}px`;
 
-        const card = new WordCard(word);
-        card.addListener("click", () => {
-          this.callback(word);
-        });
+        const card = new WordCard(word, this.actionHandler, this.type);
+        card.setAttribute("data-index", index.toString());
+
         cell.append(card);
       }
     });
+  }
+
+  updateStatusStyles(status: StageStatus) {
+    // reset styles
+    this.removeClass(styles.correct);
+    this.removeClass(styles.incorrect);
+
+    if ([StageStatus.CORRECT, StageStatus.AUTOCOMPLETED].includes(status))
+      this.addClass(styles.correct);
+
+    if (status === StageStatus.INCORRECT) this.addClass(styles.incorrect);
   }
 }

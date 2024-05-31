@@ -1,7 +1,8 @@
 import Component from "../../../shared/Component";
 import Row from "./Row";
-
 import GameState from "../model/GameState";
+
+import { RowType } from "../types";
 import { Observer } from "../../../shared/Observer";
 
 import styles from "./WordsContainer.module.css";
@@ -19,8 +20,9 @@ export default class WordsContainer extends Component implements Observer {
   update(gameState: GameState) {
     this.clear();
     this.row = new Row(
+      RowType.PICK,
       gameState.state.content.pickArea,
-      gameState.pickWord.bind(gameState),
+      gameState.actionHandler.bind(gameState),
     );
 
     this.append(this.row);

@@ -1,32 +1,10 @@
 import State from "../../../app/state/StatePublisher";
-import { Word } from "../card/WordCard";
+import { GameData, StageStatus, Word, WordAction } from "../types";
 
-import { getShuffledSentence, splitSentence } from "../../../shared/helpers";
 import rawData from "../../../../data/words.json";
+import { getShuffledSentence, splitSentence } from "../../../shared/helpers";
 
 const STAGES_PER_ROUND = 10;
-
-export enum StageStatus {
-  NOT_COMPLETED,
-  CORRECT,
-  INCORRECT,
-  AUTOCOMPLETED,
-}
-
-interface GameData {
-  levels: {
-    round: number;
-    stage: number;
-    status: StageStatus;
-  };
-  content: {
-    roundSentences: Array<string>;
-    sentence: string;
-    sentenceLength: number;
-    pickArea: Array<Word | null>;
-    assembleArea: Array<Word | null>;
-  };
-}
 
 function prepareState(round: number, stage: number): GameData {
   const roundSentences = rawData.rounds[round].words.map(
@@ -58,6 +36,38 @@ export default class GameState extends State<GameData> {
     super(prepareState(0, 0));
   }
 
+  actionHandler(action: WordAction) {
+    const { rowTo, rowFrom, indexTo, indexFrom } = action.payload;
+    const areaTo = this.state.content[rowTo];
+    const areaFrom = this.state.content[rowFrom];
+
+    switch (action.type) {
+      case "drop/swap": {
+        // swap
+        [areaFrom[indexFrom], areaTo[indexTo]] = [
+          areaTo[indexTo],
+          areaFrom[indexFrom],
+        ];
+        break;
+      }
+      case "drop/cancel":
+        break;
+      case "click/move": {
+        // insert in the first empty cell
+        const insertPosition = areaTo.indexOf(null);
+        areaTo[insertPosition] = areaFrom[indexFrom];
+        areaFrom[indexFrom] = null;
+        break;
+      }
+      default:
+        break;
+    }
+
+    this.state.levels.status = StageStatus.NOT_COMPLETED;
+
+    this.notifySubscribers();
+  }
+
   startGame() {
     this.notifySubscribers();
   }
@@ -73,45 +83,9 @@ export default class GameState extends State<GameData> {
     this.notifySubscribers();
   }
 
-  pickWord(word: Word | null) {
-    const { pickArea, assembleArea } = this.state.content;
-
-    const target = word;
-    if (!target) return;
-
-    // put in first empty cell
-    const positionToPut = assembleArea.indexOf(null);
-    assembleArea[positionToPut] = word;
-
-    // replace with null, then update position property
-    pickArea[target.currentPosition] = null;
-    target.currentPosition = positionToPut;
-
-    this.notifySubscribers();
-  }
-
-  discardWord(word: Word | null) {
-    const { pickArea, assembleArea } = this.state.content;
-    const target = word;
-
-    if (!target) return;
-
-    // put in first empty cell
-    const positionToPut = pickArea.indexOf(null);
-    pickArea[positionToPut] = word;
-
-    // replace with null, then update position property
-    assembleArea[target.currentPosition] = null;
-    target.currentPosition = positionToPut;
-
-    this.state.levels.status = StageStatus.NOT_COMPLETED;
-
-    this.notifySubscribers();
-  }
-
   verifyAnswer() {
-    const isCorrect = this.state.content.assembleArea.every((word) =>
-      word ? word.correctPosition === word.currentPosition : false,
+    const isCorrect = this.state.content.assembleArea.every((word, index) =>
+      word ? word.correctPosition === index : false,
     );
 
     this.state.levels.status = isCorrect

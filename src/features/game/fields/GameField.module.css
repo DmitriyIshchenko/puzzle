@@ -1,41 +1,5 @@
 .field {
   background-color: var(--color-grey-200);
   pointer-events: none;
-}
-
-.active {
-  border-bottom: 1px solid var(--color-grey-500);
-  pointer-events: all;
-}
-
-.word {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-
-  border: 1px solid var(--color-grey-500);
-  height: 100%;
-
-  cursor: pointer;
-  user-select: none;
-}
-
-.correct {
-  border: 2px solid var(--color-green-700);
-
-  div {
-    border: none;
-  }
-}
-
-.correct:not(:first-child) {
-  border-top: none;
-}
-
-.incorrect {
-  border: 1px solid var(--color-red-700);
-}
-
-.incorrect:not(:first-child) {
-  border-top: none;
+  outline: 1px solid var(--color-grey-500);
 }
