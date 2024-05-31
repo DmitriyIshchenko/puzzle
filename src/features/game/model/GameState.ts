@@ -48,25 +48,24 @@ export default class GameState extends State<GameData> {
           areaTo[indexTo],
           areaFrom[indexFrom],
         ];
-
-        this.notifySubscribers();
         break;
       }
       case "drop/cancel":
-        this.notifySubscribers();
         break;
       case "click/move": {
         // insert in the first empty cell
         const insertPosition = areaTo.indexOf(null);
         areaTo[insertPosition] = areaFrom[indexFrom];
         areaFrom[indexFrom] = null;
-
-        this.notifySubscribers();
         break;
       }
       default:
         break;
     }
+
+    this.state.levels.status = StageStatus.NOT_COMPLETED;
+
+    this.notifySubscribers();
   }
 
   startGame() {
