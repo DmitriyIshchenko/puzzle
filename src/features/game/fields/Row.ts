@@ -2,7 +2,7 @@ import Component from "../../../shared/Component";
 import WordCard from "../card/WordCard";
 import { div } from "../../../ui/tags";
 
-import { Word, WordAction, RowType } from "../types";
+import { Word, WordAction, RowType, StageStatus } from "../types";
 
 import styles from "./Row.module.css";
 
@@ -47,5 +47,16 @@ export default class Row extends Component {
         cell.append(card);
       }
     });
+  }
+
+  updateStatusStyles(status: StageStatus) {
+    // reset styles
+    this.removeClass(styles.correct);
+    this.removeClass(styles.incorrect);
+
+    if ([StageStatus.CORRECT, StageStatus.AUTOCOMPLETED].includes(status))
+      this.addClass(styles.correct);
+
+    if (status === StageStatus.INCORRECT) this.addClass(styles.incorrect);
   }
 }

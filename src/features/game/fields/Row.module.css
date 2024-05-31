@@ -1,6 +1,23 @@
 .row {
   height: 40px;
   display: flex;
+  position: relative;
+
+  &::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    left: -30px;
+
+    width: 20px;
+    height: 20px;
+  }
+}
+
+.active {
+  border-bottom: 1px solid var(--color-grey-500);
+  pointer-events: all;
 }
 
 .cell {
@@ -8,7 +25,20 @@
   transition: all 0.3s;
 }
 
-.active {
-  border-bottom: 1px solid var(--color-grey-500);
-  pointer-events: all;
+.correct {
+  pointer-events: none;
+
+  div {
+    border: none;
+  }
+
+  &::before {
+    background-image: url(https://upload.wikimedia.org/wikipedia/commons/3/3b/Eo_circle_green_checkmark.svg);
+  }
+}
+
+.incorrect {
+  &::before {
+    background-image: url(https://upload.wikimedia.org/wikipedia/commons/c/cc/Cross_red_circle.svg);
+  }
 }

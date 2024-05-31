@@ -2,12 +2,13 @@ import Component from "../../../shared/Component";
 import Row from "./Row";
 import GameState from "../model/GameState";
 
-import { RowType, StageStatus } from "../types";
+import { RowType } from "../types";
 import { Observer } from "../../../shared/Observer";
 
 import { splitSentence } from "../../../shared/helpers";
 
 import styles from "./GameField.module.css";
+import rowStyles from "./Row.module.css";
 
 export default class GameField extends Component implements Observer {
   private rows: Array<Row> = [];
@@ -27,8 +28,8 @@ export default class GameField extends Component implements Observer {
     }
 
     this.currentRow = this.rows[gameState.state.levels.stage];
-    this.selectRow(gameState.state.levels.stage);
-    this.updateStatusStyles(gameState.state.levels.status);
+    this.setActiveStyles(gameState.state.levels.stage);
+    this.currentRow.updateStatusStyles(gameState.state.levels.status);
     this.currentRow.updateCells(gameState.state.content.assembleArea);
   }
 
@@ -45,25 +46,11 @@ export default class GameField extends Component implements Observer {
     this.appendChildren(this.rows);
   }
 
-  private selectRow(rowIndex: number) {
+  private setActiveStyles(rowIndex: number) {
     this.rows.forEach((row) => {
-      row.removeClass(styles.active);
+      row.removeClass(rowStyles.active);
     });
 
-    this.rows[rowIndex].addClass(styles.active);
-  }
-
-  updateStatusStyles(status: StageStatus) {
-    if (!this.currentRow) return;
-
-    // reset styles
-    this.currentRow.removeClass(styles.correct);
-    this.currentRow.removeClass(styles.incorrect);
-
-    if ([StageStatus.CORRECT, StageStatus.AUTOCOMPLETED].includes(status))
-      this.currentRow.addClass(styles.correct);
-
-    if (status === StageStatus.INCORRECT)
-      this.currentRow.addClass(styles.incorrect);
+    this.rows[rowIndex].addClass(rowStyles.active);
   }
 }
