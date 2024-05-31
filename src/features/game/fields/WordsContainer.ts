@@ -20,7 +20,6 @@ export default class WordsContainer extends Component implements Observer {
     this.clear();
     this.row = new Row(
       gameState.state.content.pickArea,
-      gameState.pickWord.bind(gameState),
       gameState.dropWord.bind(gameState),
     );
 

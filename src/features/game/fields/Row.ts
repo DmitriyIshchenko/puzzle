@@ -9,7 +9,6 @@ export default class Row extends Component {
 
   constructor(
     private content: Array<Word | null>,
-    private clickCallback: (word: Word) => void,
     private dropCallback: (from: number, to: number | null) => void,
   ) {
     super({ className: styles.row });
@@ -39,9 +38,7 @@ export default class Row extends Component {
         cellEl.style.minWidth = `${word.width}px`;
 
         const card = new WordCard(word, this.dropCallback);
-        card.addListener("click", () => {
-          this.clickCallback(word);
-        });
+
         cell.append(card);
       }
     });

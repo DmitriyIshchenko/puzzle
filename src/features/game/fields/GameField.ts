@@ -35,7 +35,6 @@ export default class GameField extends Component implements Observer {
       (sentence) =>
         new Row(
           new Array<null>(splitSentence(sentence).length).fill(null),
-          gameState.discardWord.bind(gameState),
           gameState.dropWord.bind(gameState),
         ),
     );
