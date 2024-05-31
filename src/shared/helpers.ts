@@ -1,4 +1,4 @@
-import { Word } from "../features/game/card/WordCard";
+import type { Word } from "../features/game/types";
 
 const ROW_WIDTH = 728;
 
@@ -21,4 +21,11 @@ export function getShuffledSentence(sentence: string): Array<Word> {
   return splitSentence(sentence)
     .sort(() => Math.random() - 0.5)
     .map((wordObj, index) => ({ ...wordObj, currentPosition: index }));
+}
+
+export function assertNonNull<T>(value: T | null | undefined): T {
+  if (value === null || value === undefined) {
+    throw new Error(`Not defined!`);
+  }
+  return value;
 }
