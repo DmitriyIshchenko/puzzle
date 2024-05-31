@@ -20,6 +20,7 @@
   user-select: none;
 }
 
+/* FIX: border stretches row */
 .correct {
   border: 2px solid var(--color-green-700);
 

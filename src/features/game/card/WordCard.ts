@@ -1,14 +1,10 @@
 import Component from "../../../shared/Component";
+
+import { Word, WordAction, RowType } from "../types";
+import { assertNonNull } from "../../../shared/helpers";
+
 import styles from "./WordCard.module.css";
-
 import rowStyles from "../fields/Row.module.css";
-
-export interface Word {
-  text: string;
-  width: number;
-  readonly correctPosition: number;
-  currentPosition: number;
-}
 
 const DRAG_THRESHOLD = 5;
 
@@ -22,8 +18,9 @@ export default class WordCard extends Component {
   private shiftY: number = 0;
 
   constructor(
-    private data: Word,
-    private dropCallback: (from: number, to: number | null) => void,
+    data: Word,
+    private actionHandler: (action: WordAction) => void,
+    private initRowType: RowType,
   ) {
     super({
       className: styles.word,
@@ -81,19 +78,31 @@ export default class WordCard extends Component {
       Math.abs(this.clientY - e.clientY) > DRAG_THRESHOLD;
 
     if (isDrag) this.dropHandler(e);
-    // else this.clickHandler(e);
+    else this.clickHandler();
 
     // absolutely positioned card always gets destroyed
     this.destroy();
   }
 
-  // private clickHandler(e: MouseEvent) {
-  //   console.log("click");
-  // }
+  private clickHandler() {
+    // clicking always move to the opposite word
+    const oppositeRow =
+      this.initRowType === RowType.PICK ? RowType.ASSEMBLE : RowType.PICK;
+
+    const action: WordAction = {
+      type: "click/move",
+      payload: {
+        indexFrom: +assertNonNull(this.getElement().dataset.index),
+        rowFrom: this.initRowType,
+        indexTo: -1, // not relevant
+        rowTo: oppositeRow,
+      },
+    };
+
+    this.actionHandler(action);
+  }
 
   private dropHandler(e: MouseEvent) {
-    const { currentPosition } = this.data;
-
     // find the target cell underneath the dragged card
     const elementsBelow = document.elementsFromPoint(e.clientX, e.clientY);
     const dropTarget = elementsBelow.find((element) =>
@@ -102,13 +111,32 @@ export default class WordCard extends Component {
 
     if (!dropTarget) {
       // basically, nothing happens, but we need to synchronize the UI with the state because we snapped the card from the row, leaving a gap
-      this.dropCallback(currentPosition, null);
+      const action: WordAction = {
+        type: "drop/cancel",
+        payload: {
+          indexFrom: +assertNonNull(this.getElement().dataset.index),
+          rowFrom: this.initRowType,
+          indexTo: +assertNonNull(this.getElement().dataset.index),
+          rowTo: this.initRowType,
+        },
+      };
+
+      this.actionHandler(action);
     }
 
     // TODO: create assertion function
     if (dropTarget instanceof HTMLElement) {
-      const indexTo = dropTarget.dataset.index;
-      this.dropCallback(currentPosition, Number(indexTo));
+      const action: WordAction = {
+        type: "drop/swap",
+        payload: {
+          indexFrom: +assertNonNull(this.getElement().dataset.index),
+          rowFrom: this.initRowType,
+          indexTo: +assertNonNull(dropTarget.dataset.index),
+          // NOTE: had to use type casting, maybe there is an other way, but doesn't seem like it
+          rowTo: assertNonNull(dropTarget.dataset.type as RowType),
+        },
+      };
+      this.actionHandler(action);
     }
   }
 

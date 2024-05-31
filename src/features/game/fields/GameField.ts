@@ -1,8 +1,10 @@
 import Component from "../../../shared/Component";
 import Row from "./Row";
+import GameState from "../model/GameState";
 
-import GameState, { StageStatus } from "../model/GameState";
+import { RowType, StageStatus } from "../types";
 import { Observer } from "../../../shared/Observer";
+
 import { splitSentence } from "../../../shared/helpers";
 
 import styles from "./GameField.module.css";
@@ -34,8 +36,9 @@ export default class GameField extends Component implements Observer {
     this.rows = gameState.state.content.roundSentences.map(
       (sentence) =>
         new Row(
+          RowType.ASSEMBLE,
           new Array<null>(splitSentence(sentence).length).fill(null),
-          gameState.dropWord.bind(gameState),
+          gameState.actionHandler.bind(gameState),
         ),
     );
 
