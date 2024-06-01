@@ -29,7 +29,11 @@
   pointer-events: none;
 
   div {
+    transition: all 0.3s;
     border: none;
+    background: var(--color-grey-50);
+    text-shadow: none;
+    color: var(--color-grey-800);
   }
 
   &::before {
