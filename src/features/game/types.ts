@@ -2,6 +2,7 @@ export interface Word {
   text: string;
   width: number;
   readonly correctPosition: number;
+  isLast: boolean;
 }
 
 export interface WordAction {
