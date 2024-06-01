@@ -9,10 +9,11 @@ export function calculateCardWidthPixels(sentence: string, word: string) {
 }
 
 export function splitSentence(sentence: string): Array<Word> {
-  return sentence.split(" ").map((word, index) => ({
+  return sentence.split(" ").map((word, index, arr) => ({
     text: word,
     width: calculateCardWidthPixels(sentence, word),
     correctPosition: index,
+    isLast: index === arr.length - 1,
   }));
 }
 

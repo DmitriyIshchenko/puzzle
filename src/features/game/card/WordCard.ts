@@ -5,6 +5,7 @@ import { assertNonNull } from "../../../shared/helpers";
 
 import styles from "./WordCard.module.css";
 import rowStyles from "../fields/Row.module.css";
+import { div } from "../../../ui/tags";
 
 const DRAG_THRESHOLD = 2;
 
@@ -20,13 +21,16 @@ export default class WordCard extends Component {
   private lastDropTarget: HTMLElement | null = null;
 
   constructor(
-    data: Word,
+    private data: Word,
     private actionHandler: (action: WordAction) => void,
     private initRowType: RowType,
   ) {
+    const lastWordClassName = data.isLast ? styles.last : "";
+    const firstWordClassName = data.correctPosition === 0 ? styles.first : "";
+    const classNames = [styles.word, firstWordClassName, lastWordClassName];
+
     super({
-      className: styles.word,
-      text: data.text,
+      className: classNames.join(" "),
     });
 
     this.getElement().style.width = `${data.width}px`;
@@ -35,6 +39,15 @@ export default class WordCard extends Component {
       "mousedown",
       this.mouseDownHandler.bind(this),
     );
+
+    this.configure();
+  }
+
+  private configure() {
+    const content = div({ className: styles.content, text: this.data.text });
+    const convex = div({ className: styles.convex });
+
+    this.appendChildren([content, convex]);
   }
 
   private mouseDownHandler(e: MouseEvent): void {
