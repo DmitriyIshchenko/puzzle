@@ -5,7 +5,7 @@ import { assertNonNull } from "../../../shared/helpers";
 
 import styles from "./WordCard.module.css";
 import rowStyles from "../fields/Row.module.css";
-import { div } from "../../../ui/tags";
+import { div, span } from "../../../ui/tags";
 
 const DRAG_THRESHOLD = 2;
 
@@ -44,7 +44,10 @@ export default class WordCard extends Component {
   }
 
   private configure() {
-    const content = div({ className: styles.content, text: this.data.text });
+    const content = div(
+      { className: styles.content },
+      span({ className: styles.text, text: this.data.text }),
+    );
     const convex = div({ className: styles.convex });
 
     this.appendChildren([content, convex]);

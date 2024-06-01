@@ -26,13 +26,20 @@
 
 .content {
   display: grid;
-  place-content: center;
+  align-items: center;
+  text-align: center;
 
   width: 100%;
   height: 100%;
   background-color: var(--color-brand-700);
 
+  /* clip concave */
   mask: radial-gradient(10px at 0px 50%, #0000 90%, black);
+
+  /* take concave offset into account in order to visually align narrow pieces like "a", "I", "at" etc */
+  .text {
+    margin-left: 5px;
+  }
 }
 
 .convex {
@@ -54,7 +61,13 @@
 }
 
 .word.first .content {
+  /* there should be no concave for the first word */
   mask: none;
+
+  /* no concave, so there is no need for a margin */
+  .text {
+    margin: 0;
+  }
 }
 
 .word.last .convex {
