@@ -3,7 +3,7 @@ name: Feature request
 about: Suggest an idea for this project
 title: 'feat: PZ-'
 labels: enhancement
-assignees: ''
+assignees: DmitriyIshchenko
 
 ---
 
