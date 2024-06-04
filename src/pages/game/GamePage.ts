@@ -6,6 +6,7 @@ import GameState from "../../features/game/model/GameState";
 import styles from "./GamePage.module.css";
 import GameControls from "../../features/game/controls/GameControls";
 import TranslationHint from "../../features/game/hints/TranslationHint";
+import HintsControls from "../../features/game/hints/HintControls";
 
 export default class GamePage extends Component {
   gameState: GameState;
@@ -22,19 +23,27 @@ export default class GamePage extends Component {
   }
 
   private configure() {
-    const translationHint = new TranslationHint();
     const gameField = new GameField();
     const words = new WordsContainer();
-    const controls = new GameControls();
+    const stageControls = new GameControls();
+    const hintControls = new HintsControls();
+    const translationHint = new TranslationHint();
 
-    this.gameState.subscribe(translationHint);
-    this.gameState.subscribe(gameField);
-    this.gameState.subscribe(words);
-    this.gameState.subscribe(controls);
+    const children = [
+      hintControls,
+      translationHint,
+      gameField,
+      words,
+      stageControls,
+    ];
+
+    children.forEach((child) => {
+      this.gameState.subscribe(child);
+    });
 
     // questionable
     this.gameState.startGame();
 
-    this.appendChildren([translationHint, gameField, words, controls]);
+    this.appendChildren(children);
   }
 }

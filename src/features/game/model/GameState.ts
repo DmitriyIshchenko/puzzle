@@ -32,7 +32,7 @@ function prepareState(round: number, stage: number): GameData {
     },
     hints: {
       content: { translation },
-      settings: { translation: true },
+      settings: { translation: false },
     },
   };
 }
@@ -114,5 +114,12 @@ export default class GameState extends State<GameData> {
 
   isFilled() {
     return this.state.content.assembleArea.every((item) => item);
+  }
+
+  toggleTranslationHint() {
+    this.state.hints.settings.translation =
+      !this.state.hints.settings.translation;
+
+    this.notifySubscribers();
   }
 }
