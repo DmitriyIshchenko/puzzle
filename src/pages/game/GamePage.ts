@@ -5,6 +5,7 @@ import GameState from "../../features/game/model/GameState";
 
 import styles from "./GamePage.module.css";
 import GameControls from "../../features/game/controls/GameControls";
+import TranslationHint from "../../features/game/hints/TranslationHint";
 
 export default class GamePage extends Component {
   gameState: GameState;
@@ -21,10 +22,12 @@ export default class GamePage extends Component {
   }
 
   private configure() {
+    const translationHint = new TranslationHint();
     const gameField = new GameField();
     const words = new WordsContainer();
     const controls = new GameControls();
 
+    this.gameState.subscribe(translationHint);
     this.gameState.subscribe(gameField);
     this.gameState.subscribe(words);
     this.gameState.subscribe(controls);
@@ -32,6 +35,6 @@ export default class GamePage extends Component {
     // questionable
     this.gameState.startGame();
 
-    this.appendChildren([gameField, words, controls]);
+    this.appendChildren([translationHint, gameField, words, controls]);
   }
 }

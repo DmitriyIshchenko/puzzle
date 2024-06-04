@@ -58,6 +58,8 @@ body {
   color: var(--color-grey-700);
 
   min-height: 100vh;
+
+  overflow-x: hidden;
   line-height: 1.5;
 }
 

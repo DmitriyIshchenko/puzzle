@@ -13,6 +13,10 @@
     width: 20px;
     height: 20px;
   }
+
+  /* TEMP HOTFIX */
+  /* 768px - padding (2*20px) */
+  max-width: 728px;
 }
 
 .active {
