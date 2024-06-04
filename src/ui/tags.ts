@@ -55,3 +55,6 @@ export const h2 = (props: ElementFuncProps<HTMLHeadingElement>) =>
 
 export const h3 = (props: ElementFuncProps<HTMLHeadingElement>) =>
   new Component<HTMLHeadingElement>({ ...props, tag: "h3" });
+
+export const i = (props: ElementFuncProps) =>
+  new Component({ ...props, tag: "i" });
