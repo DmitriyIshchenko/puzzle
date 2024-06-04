@@ -7,10 +7,12 @@ import { getShuffledSentence, splitSentence } from "../../../shared/helpers";
 const STAGES_PER_ROUND = 10;
 
 function prepareState(round: number, stage: number): GameData {
-  const roundSentences = rawData.rounds[round].words.map(
-    (entry) => entry.textExample,
-  );
-  const sentence = roundSentences[stage];
+  const roundContent = rawData.rounds[round].words.map((entry) => ({
+    sentence: entry.textExample,
+    translation: entry.textExampleTranslate,
+  }));
+  const { sentence, translation } = roundContent[stage];
+  const allSentences = roundContent.map((entry) => entry.sentence);
   const sentenceLength = sentence.length;
 
   const shuffledSentence = getShuffledSentence(sentence);
@@ -22,11 +24,15 @@ function prepareState(round: number, stage: number): GameData {
       status: StageStatus.NOT_COMPLETED,
     },
     content: {
-      roundSentences,
+      roundSentences: allSentences,
       sentence,
       sentenceLength,
       assembleArea: new Array<Word | null>(shuffledSentence.length).fill(null),
       pickArea: shuffledSentence,
+    },
+    hints: {
+      content: { translation },
+      settings: { translation: true },
     },
   };
 }

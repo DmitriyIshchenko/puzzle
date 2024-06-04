@@ -37,4 +37,12 @@ export interface GameData {
     pickArea: Array<Word | null>;
     assembleArea: Array<Word | null>;
   };
+  hints: {
+    content: {
+      translation: string;
+    };
+    settings: {
+      translation: boolean;
+    };
+  };
 }
