@@ -6,3 +6,9 @@
   display: grid;
   place-content: center;
 }
+
+.button:disabled {
+  border-color: var(--color-brand-800);
+  color: var(--color-brand-800);
+  background-color: transparent;
+}
