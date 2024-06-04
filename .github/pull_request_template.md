@@ -1,7 +1,3 @@
----
-assignees: DmitriyIshchenko
----
-
 ## What was done
 
 
