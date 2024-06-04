@@ -25,7 +25,14 @@ export default class HintsControls extends Component implements Observer {
   }
 
   update(gameState: GameState): void {
-    const isTranslationShown = gameState.state.hints.settings.translation;
+    let isTranslationShown = gameState.state.hints.settings.translation;
+
+    if (gameState.isStageCompleted()) {
+      isTranslationShown = true;
+      this.translationButton.setAttribute("disabled", "");
+    } else {
+      this.translationButton.removeAttribute("disabled");
+    }
 
     const iconName = isTranslationShown
       ? "bi bi-lightbulb-off"
