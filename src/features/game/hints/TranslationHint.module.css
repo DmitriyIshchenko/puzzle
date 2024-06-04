@@ -1,4 +1,11 @@
 .translation {
   text-align: center;
   font-style: italic;
+
+  transition: filter 0.3s;
+  user-select: none;
+}
+
+.blurred {
+  filter: blur(7px);
 }

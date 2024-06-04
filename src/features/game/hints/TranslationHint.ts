@@ -13,6 +13,12 @@ export default class TranslationHint extends Component implements Observer {
   }
 
   update(gameState: GameState): void {
+    const isShown = gameState.state.hints.settings.translation;
+
+    if (isShown || gameState.isStageCompleted()) {
+      this.removeClass(styles.blurred);
+    } else this.addClass(styles.blurred);
+
     this.setTextContent(gameState.state.hints.content.translation);
   }
 }

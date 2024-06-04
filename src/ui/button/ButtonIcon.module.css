@@ -1,0 +1,14 @@
+.button {
+  width: 35px;
+  height: 35px;
+  border-radius: 100px;
+
+  display: grid;
+  place-content: center;
+}
+
+.button:disabled {
+  border-color: var(--color-brand-800);
+  color: var(--color-brand-800);
+  background-color: transparent;
+}

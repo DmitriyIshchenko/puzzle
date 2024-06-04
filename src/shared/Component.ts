@@ -95,8 +95,10 @@ export default class Component<T extends HTMLElement = HTMLElement> {
     return this.children;
   }
 
-  addClass(className: string) {
-    this.element.classList.add(className);
+  addClass(classNames: string) {
+    classNames.split(" ").forEach((className) => {
+      this.element.classList.add(className);
+    });
   }
 
   removeClass(className: string) {
