@@ -116,6 +116,12 @@ export default class GameState extends State<GameData> {
     return this.state.content.assembleArea.every((item) => item);
   }
 
+  isStageCompleted() {
+    return [StageStatus.AUTOCOMPLETED, StageStatus.CORRECT].includes(
+      this.state.levels.status,
+    );
+  }
+
   toggleTranslationHint() {
     this.state.hints.settings.translation =
       !this.state.hints.settings.translation;

@@ -2,7 +2,6 @@ import Component from "../../../shared/Component";
 import Button from "../../../ui/button/Button";
 import GameState from "../model/GameState";
 
-import { StageStatus } from "../types";
 import { Observer } from "../../../shared/Observer";
 
 import styles from "./GameControls.module.css";
@@ -39,15 +38,8 @@ export default class GameControls extends Component implements Observer {
   }
 
   updateFlowButton(gameState: GameState) {
-    const { status } = gameState.state.levels;
-
-    const isStageComplete = [
-      StageStatus.AUTOCOMPLETED,
-      StageStatus.CORRECT,
-    ].includes(status);
-
-    const text = isStageComplete ? "Continue" : "Check";
-    const callback = isStageComplete
+    const text = gameState.isStageCompleted() ? "Continue" : "Check";
+    const callback = gameState.isStageCompleted()
       ? gameState.startNextStage.bind(gameState)
       : gameState.verifyAnswer.bind(gameState);
 
