@@ -5,6 +5,7 @@
   padding: 0.8rem 1rem;
   font-weight: 500;
   color: var(--color-brand-50);
+  border: 1px solid transparent;
   background-color: var(--color-brand-600);
   width: 100%;
   transition: 0.3s;
