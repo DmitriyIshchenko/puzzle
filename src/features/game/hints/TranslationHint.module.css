@@ -3,6 +3,7 @@
   font-style: italic;
 
   transition: filter 0.3s;
+  user-select: none;
 }
 
 .blurred {
