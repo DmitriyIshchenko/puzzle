@@ -7,7 +7,7 @@ import styles from "./TranslationHint.module.css";
 export default class TranslationHint extends Component implements Observer {
   constructor() {
     super({
-      tag: "div",
+      tag: "p",
       className: styles.translation,
     });
   }
