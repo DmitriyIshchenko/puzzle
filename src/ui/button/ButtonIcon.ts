@@ -1,28 +1,22 @@
-import type Component from "../../shared/Component";
-
 import Button from "./Button";
 import { i } from "../tags";
 
 import styles from "./ButtonIcon.module.css";
 
 export default class ButtonIcon extends Button {
-  private icon: Component;
-
-  constructor(
-    private iconName: string,
-    onClick: EventListener,
-  ) {
+  constructor(icon: string | SVGSVGElement, onClick: EventListener) {
     super("", onClick, styles.button);
 
-    this.icon = i({ className: this.iconName });
-    this.append(this.icon);
+    this.updateIcon(icon);
   }
 
-  updateIcon(newIconName: string) {
-    this.icon.getElement().className = "";
+  updateIcon(icon: string | SVGSVGElement) {
+    this.clear();
 
-    // this.icon.getElement().className = newIconName;
-
-    this.icon.addClass(newIconName);
+    if (typeof icon === "string") {
+      this.append(i({ className: icon }));
+    } else {
+      this.getElement().append(icon);
+    }
   }
 }
