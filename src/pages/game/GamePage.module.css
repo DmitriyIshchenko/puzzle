@@ -9,3 +9,12 @@
   margin: 0 auto;
   padding: 20px;
 }
+
+.hints {
+  display: grid;
+  justify-items: center;
+  align-items: center;
+
+  grid-template-columns: auto 1fr;
+  gap: 20px;
+}
