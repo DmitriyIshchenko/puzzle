@@ -34,7 +34,7 @@ export default class PronunciationHint extends Component implements Observer {
     this.icon = new WaveIcon();
 
     this.playButton = new ButtonIcon(this.icon.svg, this.play.bind(this));
-    this.setButtonEnablement();
+    this.updateButtonEnablement();
 
     this.append(this.playButton);
   }
@@ -49,22 +49,18 @@ export default class PronunciationHint extends Component implements Observer {
   private createAudio(audioUrl: string) {
     if (this.audio && this.audio.src === audioUrl) return;
 
-    this.status = AudioStatus.IDLE;
-    this.setButtonEnablement();
-
+    this.updatePlaybackStatus(AudioStatus.IDLE);
     this.audio = new Audio(audioUrl);
 
     this.audio.addEventListener("canplaythrough", () => {
       // for some reason this event fire on every new play
       if (this.status !== AudioStatus.IDLE) return;
 
-      this.status = AudioStatus.READY;
-      this.setButtonEnablement();
+      this.updatePlaybackStatus(AudioStatus.READY);
     });
 
     this.audio.addEventListener("ended", () => {
-      this.status = AudioStatus.READY;
-      this.setButtonEnablement();
+      this.updatePlaybackStatus(AudioStatus.READY);
       this.icon.stopAnimation();
     });
   }
@@ -75,16 +71,20 @@ export default class PronunciationHint extends Component implements Observer {
     this.audio
       .play()
       .then(() => {
-        this.status = AudioStatus.PLAYING;
+        this.updatePlaybackStatus(AudioStatus.PLAYING);
         this.icon.startAnimation();
-        this.setButtonEnablement();
       })
       .catch(() => {
         throw new Error("Audio cannot be played.");
       });
   }
 
-  private setButtonEnablement() {
+  private updatePlaybackStatus(status: AudioStatus) {
+    this.status = status;
+    this.updateButtonEnablement();
+  }
+
+  private updateButtonEnablement() {
     if (this.status !== AudioStatus.READY) {
       this.playButton.setAttribute("disabled", "");
     } else {
