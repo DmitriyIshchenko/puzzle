@@ -40,9 +40,11 @@ export interface GameData {
   hints: {
     content: {
       translation: string;
+      audioPath: string;
     };
     settings: {
       translation: boolean;
+      audio: boolean;
     };
   };
 }

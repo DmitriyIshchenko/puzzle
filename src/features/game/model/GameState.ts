@@ -10,8 +10,9 @@ function prepareState(round: number, stage: number): GameData {
   const roundContent = rawData.rounds[round].words.map((entry) => ({
     sentence: entry.textExample,
     translation: entry.textExampleTranslate,
+    audioPath: entry.audioExample,
   }));
-  const { sentence, translation } = roundContent[stage];
+  const { sentence, translation, audioPath } = roundContent[stage];
   const allSentences = roundContent.map((entry) => entry.sentence);
   const sentenceLength = sentence.length;
 
@@ -31,8 +32,8 @@ function prepareState(round: number, stage: number): GameData {
       pickArea: shuffledSentence,
     },
     hints: {
-      content: { translation },
-      settings: { translation: false },
+      content: { translation, audioPath },
+      settings: { translation: false, audio: true },
     },
   };
 }
