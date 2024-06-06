@@ -1,0 +1,26 @@
+#wave {
+  width: 25px;
+  height: 25px;
+  fill: currentColor;
+}
+
+#wave[data-animated="true"] path {
+  animation: pulse 0.5s infinite;
+}
+
+@keyframes pulse {
+  0% {
+    transform: scaleY(1);
+    transform-origin: 50% 50%;
+  }
+
+  50% {
+    transform: scaleY(0.7);
+    transform-origin: 50% 50%;
+  }
+
+  100% {
+    transform: scaleY(1);
+    transform-origin: 50% 50%;
+  }
+}

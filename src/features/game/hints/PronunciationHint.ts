@@ -1,5 +1,5 @@
 import Component from "../../../shared/Component";
-import Button from "../../../ui/button/Button";
+import WaveIcon from "./WaveIcon";
 import ButtonIcon from "../../../ui/button/ButtonIcon";
 
 import GameState from "../model/GameState";
@@ -21,7 +21,9 @@ export default class PronunciationHint extends Component implements Observer {
 
   private status: AudioStatus = AudioStatus.IDLE;
 
-  private playButton: Button;
+  private playButton: ButtonIcon;
+
+  private icon: WaveIcon;
 
   constructor() {
     super({
@@ -29,8 +31,10 @@ export default class PronunciationHint extends Component implements Observer {
       className: styles.pronunciation,
     });
 
-    this.playButton = new ButtonIcon("bi bi-soundwave", this.play.bind(this));
-    this.updateButton();
+    this.icon = new WaveIcon();
+
+    this.playButton = new ButtonIcon(this.icon.svg, this.play.bind(this));
+    this.setButtonEnablement();
 
     this.append(this.playButton);
   }
@@ -45,6 +49,9 @@ export default class PronunciationHint extends Component implements Observer {
   private createAudio(audioUrl: string) {
     if (this.audio && this.audio.src === audioUrl) return;
 
+    this.status = AudioStatus.IDLE;
+    this.setButtonEnablement();
+
     this.audio = new Audio(audioUrl);
 
     this.audio.addEventListener("canplaythrough", () => {
@@ -52,12 +59,13 @@ export default class PronunciationHint extends Component implements Observer {
       if (this.status !== AudioStatus.IDLE) return;
 
       this.status = AudioStatus.READY;
-      this.updateButton();
+      this.setButtonEnablement();
     });
 
     this.audio.addEventListener("ended", () => {
       this.status = AudioStatus.READY;
-      this.updateButton();
+      this.setButtonEnablement();
+      this.icon.stopAnimation();
     });
   }
 
@@ -68,14 +76,15 @@ export default class PronunciationHint extends Component implements Observer {
       .play()
       .then(() => {
         this.status = AudioStatus.PLAYING;
-        this.updateButton();
+        this.icon.startAnimation();
+        this.setButtonEnablement();
       })
       .catch(() => {
         throw new Error("Audio cannot be played.");
       });
   }
 
-  private updateButton() {
+  private setButtonEnablement() {
     if (this.status !== AudioStatus.READY) {
       this.playButton.setAttribute("disabled", "");
     } else {
