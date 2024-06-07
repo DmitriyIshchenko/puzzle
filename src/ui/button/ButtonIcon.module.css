@@ -5,6 +5,7 @@
 
   display: grid;
   place-content: center;
+  font-size: 1.15rem;
 }
 
 .button:disabled {
