@@ -1,3 +1,10 @@
 .pronunciation {
   font-size: 1.5rem;
+  transition: all 0.3s;
+  pointer-events: all;
+}
+
+.hidden {
+  pointer-events: none;
+  opacity: 0;
 }
