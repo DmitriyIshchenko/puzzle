@@ -33,7 +33,7 @@ function prepareState(round: number, stage: number): GameData {
     },
     hints: {
       content: { translation, audioPath },
-      settings: { translation: false, audio: true },
+      settings: { translation: false, audio: false },
     },
   };
 }
@@ -85,6 +85,7 @@ export default class GameState extends State<GameData> {
     // zero-based
     if (this.state.levels.stage === STAGES_PER_ROUND - 1) return;
 
+    // FIX: resets settings
     this.state = prepareState(0, this.state.levels.stage + 1);
 
     this.notifySubscribers();
@@ -126,6 +127,12 @@ export default class GameState extends State<GameData> {
   toggleTranslationHint() {
     this.state.hints.settings.translation =
       !this.state.hints.settings.translation;
+
+    this.notifySubscribers();
+  }
+
+  togglePronunciationHint() {
+    this.state.hints.settings.audio = !this.state.hints.settings.audio;
 
     this.notifySubscribers();
   }

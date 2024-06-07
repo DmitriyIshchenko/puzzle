@@ -1,18 +1,17 @@
 import Component from "../../../shared/Component";
-import { Observer } from "../../../shared/Observer";
 import ButtonIcon from "../../../ui/button/ButtonIcon";
 import GameState from "../model/GameState";
+import { Observer } from "../../../shared/Observer";
 
 import styles from "./HintControls.module.css";
 
 // TODO: maybe use styled checkboxes instead of buttons
+// TODO: create settings type
+
 export default class HintsControls extends Component implements Observer {
   private translationButton: ButtonIcon;
 
-  // TODO: create settings type
-  // private currentSettings = {
-  //   translation: true,
-  // };
+  private pronunciationButton: ButtonIcon;
 
   constructor() {
     super({
@@ -21,10 +20,18 @@ export default class HintsControls extends Component implements Observer {
     });
 
     this.translationButton = new ButtonIcon("bi bi-lightbulb", () => {});
-    this.append(this.translationButton);
+    this.pronunciationButton = new ButtonIcon("bi bi-volume-up", () => {});
+
+    this.appendChildren([this.pronunciationButton, this.translationButton]);
   }
 
   update(gameState: GameState): void {
+    this.updateTranslationButton(gameState);
+    this.updatePronunciationButton(gameState);
+  }
+
+  // TODO: apply DRY
+  private updateTranslationButton(gameState: GameState) {
     let isTranslationShown = gameState.state.hints.settings.translation;
 
     if (gameState.isStageCompleted()) {
@@ -42,5 +49,23 @@ export default class HintsControls extends Component implements Observer {
       gameState.toggleTranslationHint.bind(gameState),
     );
     this.translationButton.updateIcon(iconName);
+  }
+
+  private updatePronunciationButton(gameState: GameState) {
+    let isAudioShown = gameState.state.hints.settings.audio;
+
+    if (gameState.isStageCompleted()) {
+      isAudioShown = true;
+      this.pronunciationButton.setAttribute("disabled", "");
+    } else {
+      this.pronunciationButton.removeAttribute("disabled");
+    }
+
+    const iconName = isAudioShown ? "bi bi-volume-mute" : "bi bi-volume-up";
+
+    this.pronunciationButton.updateCallback(
+      gameState.togglePronunciationHint.bind(gameState),
+    );
+    this.pronunciationButton.updateIcon(iconName);
   }
 }

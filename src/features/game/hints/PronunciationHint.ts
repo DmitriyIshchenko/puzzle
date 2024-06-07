@@ -40,6 +40,14 @@ export default class PronunciationHint extends Component implements Observer {
   }
 
   update(gameState: GameState): void {
+    const isShown = gameState.state.hints.settings.audio;
+
+    if (isShown || gameState.isStageCompleted()) {
+      this.removeAttribute("hidden");
+    } else {
+      this.setAttribute("hidden", "");
+    }
+
     const { audioPath } = gameState.state.hints.content;
     const audioUrl = `${BASE_URL}/${audioPath}`;
 
