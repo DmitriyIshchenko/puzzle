@@ -16,6 +16,7 @@ enum AudioStatus {
 const BASE_URL =
   "https://github.com/rolling-scopes-school/rss-puzzle-data/raw/main";
 
+// TODO: maybe create a generic hint class
 export default class PronunciationHint extends Component implements Observer {
   private audio: HTMLAudioElement | null = null;
 
@@ -40,6 +41,14 @@ export default class PronunciationHint extends Component implements Observer {
   }
 
   update(gameState: GameState): void {
+    const isShown = gameState.state.hints.settings.audio;
+
+    if (isShown || gameState.isStageCompleted()) {
+      this.removeClass(styles.hidden);
+    } else {
+      this.addClass(styles.hidden);
+    }
+
     const { audioPath } = gameState.state.hints.content;
     const audioUrl = `${BASE_URL}/${audioPath}`;
 
