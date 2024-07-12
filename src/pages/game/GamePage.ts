@@ -6,12 +6,15 @@ import GameState from "../../features/game/model/GameState";
 import styles from "./GamePage.module.css";
 import GameControls from "../../features/game/controls/GameControls";
 import TranslationHint from "../../features/game/hints/TranslationHint";
-import PronunciationHint from "../../features/game/hints/PronunciationHint";
+// import PronunciationHint from "../../features/game/hints/PronunciationHint";
 import HintsControls from "../../features/game/hints/HintControls";
 import { div } from "../../ui/tags";
+import HintSettings from "../../features/game/model/HintSettings";
 
 export default class GamePage extends Component {
   gameState: GameState;
+
+  hintSettings: HintSettings;
 
   constructor() {
     super({
@@ -20,36 +23,30 @@ export default class GamePage extends Component {
     });
 
     this.gameState = new GameState();
+    this.hintSettings = new HintSettings();
 
     this.configure();
   }
 
   private configure() {
-    const gameField = new GameField();
-    const words = new WordsContainer();
-    const stageControls = new GameControls();
-    const hintControls = new HintsControls();
-    const translationHint = new TranslationHint();
-    const pronunciationHint = new PronunciationHint();
+    const gameField = new GameField(this.gameState);
+    const words = new WordsContainer(this.gameState);
+    const stageControls = new GameControls(this.gameState);
+    const hintControls = new HintsControls(this.gameState, this.hintSettings);
+    const translationHint = new TranslationHint(
+      this.gameState,
+      this.hintSettings,
+    );
+    // const pronunciationHint = new PronunciationHint(
+    //   this.gameState,
+    //   this.hintSettings,
+    // );
 
     const hints = div(
       { className: styles.hints },
-      pronunciationHint,
+      // pronunciationHint,
       translationHint,
     );
-
-    const observers = [
-      hintControls,
-      translationHint,
-      pronunciationHint,
-      gameField,
-      words,
-      stageControls,
-    ];
-
-    observers.forEach((observer) => {
-      this.gameState.subscribe(observer);
-    });
 
     this.appendChildren([hintControls, hints, gameField, words, stageControls]);
 

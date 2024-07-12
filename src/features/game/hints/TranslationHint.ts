@@ -1,15 +1,20 @@
 import Component from "../../../shared/Component";
-import { Observer } from "../../../shared/Observer";
+
 import GameState from "../model/GameState";
+import HintSettings from "../model/HintSettings";
+import { Observer } from "../../../shared/Observer";
 
 import styles from "./TranslationHint.module.css";
 
 export default class TranslationHint extends Component implements Observer {
-  constructor() {
+  constructor(gameState: GameState, hintSettings: HintSettings) {
     super({
       tag: "p",
       className: styles.translation,
     });
+
+    gameState.subscribe(this);
+    hintSettings.subscribe(this);
   }
 
   update(gameState: GameState): void {

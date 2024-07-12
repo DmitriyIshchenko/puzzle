@@ -3,6 +3,7 @@ import WaveIcon from "./WaveIcon";
 import ButtonIcon from "../../../ui/button/ButtonIcon";
 
 import GameState from "../model/GameState";
+import HintSettings from "../model/HintSettings";
 import { Observer } from "../../../shared/Observer";
 
 import styles from "./PronunciationHint.module.css";
@@ -26,11 +27,14 @@ export default class PronunciationHint extends Component implements Observer {
 
   private icon: WaveIcon;
 
-  constructor() {
+  constructor(gameState: GameState, hintSettings: HintSettings) {
     super({
       tag: "div",
       className: styles.pronunciation,
     });
+
+    gameState.subscribe(this);
+    hintSettings.subscribe(this);
 
     this.icon = new WaveIcon();
 

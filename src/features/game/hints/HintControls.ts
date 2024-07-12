@@ -1,7 +1,9 @@
 import Component from "../../../shared/Component";
 import ButtonIcon from "../../../ui/button/ButtonIcon";
+
 import GameState from "../model/GameState";
-import { Observer } from "../../../shared/Observer";
+import HintSettings from "../model/HintSettings";
+import { Observer, Publisher } from "../../../shared/Observer";
 
 import styles from "./HintControls.module.css";
 
@@ -13,11 +15,14 @@ export default class HintsControls extends Component implements Observer {
 
   private pronunciationButton: ButtonIcon;
 
-  constructor() {
+  constructor(gameState: GameState, hintSettings: HintSettings) {
     super({
       tag: "div",
       className: styles.controls,
     });
+
+    gameState.subscribe(this);
+    hintSettings.subscribe(this);
 
     this.translationButton = new ButtonIcon("bi bi-lightbulb", () => {});
     this.pronunciationButton = new ButtonIcon("bi bi-volume-up", () => {});
@@ -25,9 +30,11 @@ export default class HintsControls extends Component implements Observer {
     this.appendChildren([this.pronunciationButton, this.translationButton]);
   }
 
-  update(gameState: GameState): void {
-    this.updateTranslationButton(gameState);
-    this.updatePronunciationButton(gameState);
+  update(state: Publisher): void {
+    if (state instanceof GameState) {
+      this.updateTranslationButton(state);
+      this.updatePronunciationButton(state);
+    }
   }
 
   // TODO: apply DRY

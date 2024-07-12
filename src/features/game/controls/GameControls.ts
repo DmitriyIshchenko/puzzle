@@ -1,7 +1,7 @@
 import Component from "../../../shared/Component";
 import Button from "../../../ui/button/Button";
-import GameState from "../model/GameState";
 
+import GameState from "../model/GameState";
 import { Observer } from "../../../shared/Observer";
 
 import styles from "./GameControls.module.css";
@@ -11,11 +11,12 @@ export default class GameControls extends Component implements Observer {
 
   gameFlowButton: Button;
 
-  constructor() {
+  constructor(gameState: GameState) {
     super({
       tag: "div",
       className: styles.controls,
     });
+    gameState.subscribe(this);
 
     this.autocompleteButton = new Button("Autocomplete", () => {});
     this.gameFlowButton = new Button("Check", () => {});
