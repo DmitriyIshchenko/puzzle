@@ -1,7 +1,7 @@
 import Component from "../../../shared/Component";
 import Row from "./Row";
-import GameState from "../model/GameState";
 
+import GameState from "../model/GameState";
 import { RowType } from "../types";
 import { Observer } from "../../../shared/Observer";
 
@@ -15,11 +15,13 @@ export default class GameField extends Component implements Observer {
 
   private currentRow: Row | null = null;
 
-  constructor() {
+  constructor(gameState: GameState) {
     super({
       tag: "div",
       className: styles.field,
     });
+
+    gameState.subscribe(this);
   }
 
   update(gameState: GameState) {

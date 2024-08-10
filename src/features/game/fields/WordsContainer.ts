@@ -1,7 +1,7 @@
 import Component from "../../../shared/Component";
 import Row from "./Row";
-import GameState from "../model/GameState";
 
+import GameState from "../model/GameState";
 import { RowType } from "../types";
 import { Observer } from "../../../shared/Observer";
 
@@ -10,11 +10,13 @@ import styles from "./WordsContainer.module.css";
 export default class WordsContainer extends Component implements Observer {
   row: Row | null = null;
 
-  constructor() {
+  constructor(gameState: GameState) {
     super({
       tag: "div",
       className: styles.words,
     });
+
+    gameState.subscribe(this);
   }
 
   update(gameState: GameState) {

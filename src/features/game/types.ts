@@ -42,9 +42,10 @@ export interface GameData {
       translation: string;
       audioPath: string;
     };
-    settings: {
-      translation: boolean;
-      audio: boolean;
-    };
   };
+}
+
+export interface HintSettingsData {
+  translation: boolean;
+  audio: boolean;
 }

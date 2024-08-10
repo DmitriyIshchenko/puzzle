@@ -1,9 +1,10 @@
 import Component from "../../../shared/Component";
 import WaveIcon from "./WaveIcon";
 import ButtonIcon from "../../../ui/button/ButtonIcon";
-
 import GameState from "../model/GameState";
-import { Observer } from "../../../shared/Observer";
+
+import HintSettings from "../model/HintSettings";
+import { Observer, Publisher } from "../../../shared/Observer";
 
 import styles from "./PronunciationHint.module.css";
 
@@ -26,11 +27,16 @@ export default class PronunciationHint extends Component implements Observer {
 
   private icon: WaveIcon;
 
-  constructor() {
+  private isShown: boolean | null = null;
+
+  constructor(gameState: GameState, hintSettings: HintSettings) {
     super({
       tag: "div",
       className: styles.pronunciation,
     });
+
+    gameState.subscribe(this);
+    hintSettings.subscribe(this);
 
     this.icon = new WaveIcon();
 
@@ -40,19 +46,25 @@ export default class PronunciationHint extends Component implements Observer {
     this.append(this.playButton);
   }
 
-  update(gameState: GameState): void {
-    const isShown = gameState.state.hints.settings.audio;
+  update(publisher: Publisher): void {
+    let isStageCompleted;
 
-    if (isShown || gameState.isStageCompleted()) {
-      this.removeClass(styles.hidden);
-    } else {
-      this.addClass(styles.hidden);
+    if (publisher instanceof GameState) {
+      isStageCompleted = publisher.isStageCompleted();
+
+      const { audioPath } = publisher.state.hints.content;
+      const audioUrl = `${BASE_URL}/${audioPath}`;
+
+      this.createAudio(audioUrl);
     }
 
-    const { audioPath } = gameState.state.hints.content;
-    const audioUrl = `${BASE_URL}/${audioPath}`;
+    if (publisher instanceof HintSettings) {
+      this.isShown = publisher.state.audio;
+    }
 
-    this.createAudio(audioUrl);
+    if (!this.isShown) this.addClass(styles.hidden);
+
+    if (isStageCompleted || this.isShown) this.removeClass(styles.hidden);
   }
 
   private createAudio(audioUrl: string) {
