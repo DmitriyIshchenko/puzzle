@@ -43,7 +43,3 @@
   color: var(--color-brand-800);
   background-color: transparent;
 }
-
-input {
-  display: none;
-}
