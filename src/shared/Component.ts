@@ -104,4 +104,12 @@ export default class Component<T extends HTMLElement = HTMLElement> {
   removeClass(className: string) {
     this.element.classList.remove(className);
   }
+
+  resetClasses(newClassName?: string) {
+    this.element.className = "";
+
+    if (newClassName) {
+      this.addClass(newClassName);
+    }
+  }
 }
