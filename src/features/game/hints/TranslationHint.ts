@@ -2,11 +2,14 @@ import Component from "../../../shared/Component";
 
 import GameState from "../model/GameState";
 import HintSettings from "../model/HintSettings";
-import { Observer } from "../../../shared/Observer";
+
+import { Observer, Publisher } from "../../../shared/Observer";
 
 import styles from "./TranslationHint.module.css";
 
 export default class TranslationHint extends Component implements Observer {
+  private isShown: boolean | null = null;
+
   constructor(gameState: GameState, hintSettings: HintSettings) {
     super({
       tag: "p",
@@ -17,13 +20,23 @@ export default class TranslationHint extends Component implements Observer {
     hintSettings.subscribe(this);
   }
 
-  update(gameState: GameState): void {
-    const isShown = gameState.state.hints.settings.translation;
+  update(publisher: Publisher): void {
+    let isStageCompleted;
 
-    if (isShown || gameState.isStageCompleted()) {
-      this.removeClass(styles.blurred);
-    } else this.addClass(styles.blurred);
+    if (publisher instanceof GameState) {
+      isStageCompleted = publisher.isStageCompleted();
 
-    this.setTextContent(gameState.state.hints.content.translation);
+      this.setTextContent(publisher.state.hints.content.translation);
+    }
+
+    // this state must be saved inside this class; otherwise, there will be no blur after the stage is completed
+    if (publisher instanceof HintSettings) {
+      this.isShown = publisher.state.translation;
+    }
+
+    if (!this.isShown) this.addClass(styles.blurred);
+
+    // the blur should always be removed when the stage is complete.
+    if (isStageCompleted || this.isShown) this.removeClass(styles.blurred);
   }
 }
