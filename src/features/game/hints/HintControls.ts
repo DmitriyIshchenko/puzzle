@@ -1,78 +1,85 @@
 import Component from "../../../shared/Component";
-import ButtonIcon from "../../../ui/button/ButtonIcon";
-
-import GameState from "../model/GameState";
 import HintSettings from "../model/HintSettings";
+import { HintSettingsData } from "../types";
+
 import { Observer, Publisher } from "../../../shared/Observer";
+import { i, input, label } from "../../../ui/tags";
 
 import styles from "./HintControls.module.css";
 
-// TODO: maybe use styled checkboxes instead of buttons
-// TODO: create settings type
+const iconClasses: Record<keyof HintSettingsData, { on: string; off: string }> =
+  {
+    translation: {
+      on: "bi bi-lightbulb",
+      off: "bi bi-lightbulb-off",
+    },
+    audio: {
+      on: "bi bi-volume-up",
+      off: "bi bi-volume-mute",
+    },
+  };
+
+// type guard
+function isKeyOfHintSettingsData(key: string): key is keyof HintSettingsData {
+  return key in ({} as HintSettingsData);
+}
 
 export default class HintsControls extends Component implements Observer {
-  private translationButton: ButtonIcon;
-
-  private pronunciationButton: ButtonIcon;
-
-  constructor(gameState: GameState, hintSettings: HintSettings) {
+  constructor(private hintSettings: HintSettings) {
     super({
-      tag: "div",
+      tag: "form",
       className: styles.controls,
     });
 
-    gameState.subscribe(this);
     hintSettings.subscribe(this);
 
-    this.translationButton = new ButtonIcon("bi bi-lightbulb", () => {});
-    this.pronunciationButton = new ButtonIcon("bi bi-volume-up", () => {});
+    this.appendChildren([
+      label(
+        { className: styles.button },
+        i({ className: iconClasses.translation.on }),
+        input({ type: "checkbox", name: "translation" }),
+      ),
+      label(
+        { className: styles.button },
+        i({ className: iconClasses.audio.on }),
+        input({ type: "checkbox", name: "audio" }),
+      ),
+    ]);
 
-    this.appendChildren([this.pronunciationButton, this.translationButton]);
+    this.addListener("change", this.handleChangeSetting.bind(this));
   }
 
-  update(state: Publisher): void {
-    if (state instanceof GameState) {
-      this.updateTranslationButton(state);
-      this.updatePronunciationButton(state);
+  private handleChangeSetting(e: Event) {
+    const { target } = e;
+    if (
+      target instanceof HTMLInputElement &&
+      isKeyOfHintSettingsData(target.name)
+    ) {
+      this.hintSettings.toggleSetting(target.name);
     }
   }
 
-  // TODO: apply DRY
-  private updateTranslationButton(gameState: GameState) {
-    let isTranslationShown = gameState.state.hints.settings.translation;
+  update(publisher: Publisher): void {
+    if (publisher instanceof HintSettings) {
+      this.getChildren().forEach((labelChild) => {
+        const [icon, checkbox] = labelChild.getChildren();
+        const checkboxEl = checkbox.getElement();
 
-    if (gameState.isStageCompleted()) {
-      isTranslationShown = true;
-      this.translationButton.setAttribute("disabled", "");
-    } else {
-      this.translationButton.removeAttribute("disabled");
+        if (
+          checkboxEl instanceof HTMLInputElement &&
+          isKeyOfHintSettingsData(checkboxEl.name)
+        ) {
+          // update value
+          checkboxEl.checked = publisher.state[checkboxEl.name];
+
+          // update icon
+          icon.resetClasses(
+            checkboxEl.checked
+              ? iconClasses[checkboxEl.name].on
+              : iconClasses[checkboxEl.name].off,
+          );
+        }
+      });
     }
-
-    const iconName = isTranslationShown
-      ? "bi bi-lightbulb-off"
-      : "bi bi-lightbulb";
-
-    this.translationButton.updateCallback(
-      gameState.toggleTranslationHint.bind(gameState),
-    );
-    this.translationButton.updateIcon(iconName);
-  }
-
-  private updatePronunciationButton(gameState: GameState) {
-    let isAudioShown = gameState.state.hints.settings.audio;
-
-    if (gameState.isStageCompleted()) {
-      isAudioShown = true;
-      this.pronunciationButton.setAttribute("disabled", "");
-    } else {
-      this.pronunciationButton.removeAttribute("disabled");
-    }
-
-    const iconName = isAudioShown ? "bi bi-volume-mute" : "bi bi-volume-up";
-
-    this.pronunciationButton.updateCallback(
-      gameState.togglePronunciationHint.bind(gameState),
-    );
-    this.pronunciationButton.updateIcon(iconName);
   }
 }
