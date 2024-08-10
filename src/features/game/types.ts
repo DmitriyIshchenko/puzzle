@@ -42,10 +42,6 @@ export interface GameData {
       translation: string;
       audioPath: string;
     };
-    settings: {
-      translation: boolean;
-      audio: boolean;
-    };
   };
 }
 
