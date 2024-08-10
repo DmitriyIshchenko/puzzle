@@ -33,12 +33,12 @@ export default class HintsControls extends Component implements Observer {
       label(
         { className: styles.button },
         i({ className: iconClasses.audio.on }),
-        input({ type: "checkbox", id: "audio" }),
+        input({ type: "checkbox", id: "audio", hidden: true }),
       ),
       label(
         { className: styles.button },
         i({ className: iconClasses.translation.on }),
-        input({ type: "checkbox", id: "translation" }),
+        input({ type: "checkbox", id: "translation", hidden: true }),
       ),
     ]);
 
