@@ -5,8 +5,6 @@ import GameState from "../model/GameState";
 import { RowType } from "../types";
 import { Observer } from "../../../shared/Observer";
 
-import { splitSentence } from "../../../shared/helpers";
-
 import styles from "./GameField.module.css";
 import rowStyles from "./Row.module.css";
 
@@ -40,7 +38,7 @@ export default class GameField extends Component implements Observer {
       (sentence) =>
         new Row(
           RowType.ASSEMBLE,
-          new Array<null>(splitSentence(sentence).length).fill(null),
+          new Array<null>(sentence.split(" ").length).fill(null),
           gameState.actionHandler.bind(gameState),
         ),
     );
