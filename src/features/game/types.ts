@@ -3,6 +3,9 @@ export interface Word {
   width: number;
   readonly correctPosition: number;
   isLast: boolean;
+  offset: number;
+  stage: number;
+  backgroundImage: string;
 }
 
 export interface WordAction {
@@ -41,6 +44,7 @@ export interface GameData {
     content: {
       translation: string;
       audioPath: string;
+      backgroundImage: string;
     };
   };
 }
