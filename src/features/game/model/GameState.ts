@@ -15,8 +15,13 @@ function prepareState(round: number, stage: number): GameData {
   const { sentence, translation, audioPath } = roundContent[stage];
   const allSentences = roundContent.map((entry) => entry.sentence);
   const sentenceLength = sentence.length;
+  const backgroundImage = rawData.rounds[round].levelData.imageSrc;
 
-  const shuffledSentence = getShuffledSentence(sentence);
+  const shuffledSentence = getShuffledSentence(
+    sentence,
+    stage,
+    backgroundImage,
+  );
 
   return {
     levels: {
@@ -32,7 +37,7 @@ function prepareState(round: number, stage: number): GameData {
       pickArea: shuffledSentence,
     },
     hints: {
-      content: { translation, audioPath },
+      content: { translation, audioPath, backgroundImage },
     },
   };
 }
@@ -103,8 +108,15 @@ export default class GameState extends State<GameData> {
 
   autocompleteRow() {
     const { pickArea, sentence } = this.state.content;
+    const { stage } = this.state.levels;
+    const { backgroundImage } = this.state.hints.content;
 
-    this.state.content.assembleArea = splitSentence(sentence);
+    // TODO: pass an object
+    this.state.content.assembleArea = splitSentence(
+      sentence,
+      stage,
+      backgroundImage,
+    );
     pickArea.fill(null);
 
     this.state.levels.status = StageStatus.AUTOCOMPLETED;

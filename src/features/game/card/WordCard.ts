@@ -1,13 +1,19 @@
 import Component from "../../../shared/Component";
 
 import { Word, WordAction, RowType } from "../types";
+
+import { div, span } from "../../../ui/tags";
 import { assertNonNull } from "../../../shared/helpers";
 
 import styles from "./WordCard.module.css";
 import rowStyles from "../fields/Row.module.css";
-import { div, span } from "../../../ui/tags";
 
 const DRAG_THRESHOLD = 2;
+
+const IMAGES_BASE_URL =
+  "https://raw.githubusercontent.com/rolling-scopes-school/rss-puzzle-data/main/images";
+const CARD_HEIGHT = 40;
+const CONVEX_HEIGHT = 20;
 
 export default class WordCard extends Component {
   private clientX: number = 0;
@@ -51,6 +57,29 @@ export default class WordCard extends Component {
     const convex = div({ className: styles.convex });
 
     this.appendChildren([content, convex]);
+    this.setBackground();
+    this.calculateBackgroundPositions();
+  }
+
+  setBackground() {
+    this.getChildren().forEach((child) => {
+      const element = child.getElement();
+      element.style.backgroundImage = `url(${IMAGES_BASE_URL}/${this.data.backgroundImage})`;
+    });
+  }
+
+  private calculateBackgroundPositions() {
+    const [content, convex] = this.getChildren();
+
+    const rowOffsetY = this.data.stage * CARD_HEIGHT;
+    const contentOffsetX = this.data.offset;
+    content.getElement().style.backgroundPosition = `-${contentOffsetX}px -${rowOffsetY}px`;
+
+    // the convex starts at the same place as the next piece
+    const convexOffsetX = this.data.offset + this.data.width;
+    // align the convex in the middle, the same as  `top: 50%; transformY: -50%`
+    const convexOffsetY = rowOffsetY + CARD_HEIGHT / 2 - CONVEX_HEIGHT / 2;
+    convex.getElement().style.backgroundPosition = `-${convexOffsetX}px -${convexOffsetY}px`;
   }
 
   private mouseDownHandler(e: MouseEvent): void {

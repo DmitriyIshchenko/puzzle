@@ -40,6 +40,9 @@
   .text {
     margin-left: 5px;
   }
+
+  background-size: 768px;
+  background-repeat: no-repeat;
 }
 
 .convex {
@@ -58,6 +61,9 @@
   border-radius: 0 100px 100px 0;
 
   background-color: var(--color-brand-700);
+
+  background-size: 768px;
+  background-repeat: no-repeat;
 }
 
 .word.first .content {
