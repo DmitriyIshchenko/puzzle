@@ -1,16 +1,22 @@
 import Component from "../../../shared/Component";
 import Row from "./Row";
 
-import GameState from "../model/GameState";
 import { RowType } from "../types";
-import { Observer } from "../../../shared/Observer";
+import { Observer, Publisher } from "../../../shared/Observer";
+import GameState from "../model/GameState";
+import HintSettings from "../model/HintSettings";
 
 import styles from "./WordsContainer.module.css";
 
 export default class WordsContainer extends Component implements Observer {
-  row: Row | null = null;
+  private row: Row | null = null;
 
-  constructor(gameState: GameState) {
+  private currentStage: number = 0;
+
+  constructor(
+    gameState: GameState,
+    private hintSettings: HintSettings,
+  ) {
     super({
       tag: "div",
       className: styles.words,
@@ -19,16 +25,33 @@ export default class WordsContainer extends Component implements Observer {
     gameState.subscribe(this);
   }
 
-  update(gameState: GameState) {
-    this.clear();
-    this.row = new Row(
+  update(publisher: Publisher) {
+    if (publisher instanceof GameState) {
+      if (!this.row) {
+        this.row = this.createRow(publisher);
+      }
+
+      if (this.currentStage !== publisher.state.levels.stage) {
+        this.row = this.createRow(publisher);
+        this.currentStage = publisher.state.levels.stage;
+      }
+
+      this.row.fillCells(publisher.state.content.pickArea);
+    }
+  }
+
+  private createRow(gameState: GameState): Row {
+    if (this.row) this.row.deleteRow();
+
+    const row = new Row(
       RowType.PICK,
       gameState.state.content.pickArea,
       gameState.actionHandler.bind(gameState),
+      this.hintSettings,
     );
 
-    this.append(this.row);
+    this.append(row);
 
-    this.row.updateCells(gameState.state.content.pickArea);
+    return row;
   }
 }
