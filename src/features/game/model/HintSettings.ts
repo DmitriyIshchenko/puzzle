@@ -4,6 +4,7 @@ import { HintSettingsData } from "../types";
 const initialState: HintSettingsData = {
   translation: false,
   audio: false,
+  background: false,
 };
 
 export default class HintSettings extends State<HintSettingsData> {

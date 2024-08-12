@@ -1,9 +1,10 @@
 import Component from "../../../shared/Component";
 import Row from "./Row";
 
-import GameState from "../model/GameState";
 import { RowType } from "../types";
-import { Observer } from "../../../shared/Observer";
+import { Observer, Publisher } from "../../../shared/Observer";
+import GameState from "../model/GameState";
+import HintSettings from "../model/HintSettings";
 
 import styles from "./GameField.module.css";
 import rowStyles from "./Row.module.css";
@@ -13,7 +14,10 @@ export default class GameField extends Component implements Observer {
 
   private currentRow: Row | null = null;
 
-  constructor(gameState: GameState) {
+  constructor(
+    gameState: GameState,
+    private hintSettings: HintSettings,
+  ) {
     super({
       tag: "div",
       className: styles.field,
@@ -22,15 +26,17 @@ export default class GameField extends Component implements Observer {
     gameState.subscribe(this);
   }
 
-  update(gameState: GameState) {
-    if (!this.rows.length) {
-      this.createRows(gameState);
-    }
+  update(publisher: Publisher) {
+    if (publisher instanceof GameState) {
+      if (!this.rows.length) {
+        this.createRows(publisher);
+      }
 
-    this.currentRow = this.rows[gameState.state.levels.stage];
-    this.setActiveStyles(gameState.state.levels.stage);
-    this.currentRow.updateStatusStyles(gameState.state.levels.status);
-    this.currentRow.updateCells(gameState.state.content.assembleArea);
+      this.currentRow = this.rows[publisher.state.levels.stage];
+      this.setActiveStyles(publisher.state.levels.stage);
+      this.currentRow.fillCells(publisher.state.content.assembleArea);
+      this.currentRow.updateStatusStyles(publisher.state.levels.status);
+    }
   }
 
   createRows(gameState: GameState) {
@@ -40,6 +46,7 @@ export default class GameField extends Component implements Observer {
           RowType.ASSEMBLE,
           new Array<null>(sentence.split(" ").length).fill(null),
           gameState.actionHandler.bind(gameState),
+          this.hintSettings,
         ),
     );
 

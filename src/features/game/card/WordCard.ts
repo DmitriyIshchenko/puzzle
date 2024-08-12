@@ -15,6 +15,7 @@ const IMAGES_BASE_URL =
 const CARD_HEIGHT = 40;
 const CONVEX_HEIGHT = 20;
 
+// TODO: this class is too bloated. extract the Drag & Drop functionality into the Draggable class
 export default class WordCard extends Component {
   private clientX: number = 0;
 
@@ -30,6 +31,7 @@ export default class WordCard extends Component {
     private data: Word,
     private actionHandler: (action: WordAction) => void,
     private initRowType: RowType,
+    private isBackgroundDisplayed: boolean | null,
   ) {
     const lastWordClassName = data.isLast ? styles.last : "";
     const firstWordClassName = data.correctPosition === 0 ? styles.first : "";
@@ -57,14 +59,16 @@ export default class WordCard extends Component {
     const convex = div({ className: styles.convex });
 
     this.appendChildren([content, convex]);
-    this.setBackground();
     this.calculateBackgroundPositions();
+    this.setBackground(this.isBackgroundDisplayed);
   }
 
-  setBackground() {
+  setBackground(isHintEnabled: boolean | null) {
     this.getChildren().forEach((child) => {
       const element = child.getElement();
-      element.style.backgroundImage = `url(${IMAGES_BASE_URL}/${this.data.backgroundImage})`;
+      element.style.backgroundImage = isHintEnabled
+        ? `url(${IMAGES_BASE_URL}/${this.data.backgroundImage})`
+        : "none";
     });
   }
 

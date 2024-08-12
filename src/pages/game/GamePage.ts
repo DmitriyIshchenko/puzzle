@@ -29,8 +29,10 @@ export default class GamePage extends Component {
   }
 
   private configure() {
-    const gameField = new GameField(this.gameState);
-    const words = new WordsContainer(this.gameState);
+    // TODO: now I have to drill hint settings all the way down to the WordCard, find a better way
+    const gameField = new GameField(this.gameState, this.hintSettings);
+    const words = new WordsContainer(this.gameState, this.hintSettings);
+
     const stageControls = new GameControls(this.gameState);
     const hintControls = new HintsControls(this.hintSettings);
     const translationHint = new TranslationHint(

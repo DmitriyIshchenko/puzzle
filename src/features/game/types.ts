@@ -52,4 +52,5 @@ export interface GameData {
 export interface HintSettingsData {
   translation: boolean;
   audio: boolean;
+  background: boolean;
 }
