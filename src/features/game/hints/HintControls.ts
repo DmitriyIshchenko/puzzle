@@ -18,6 +18,10 @@ const iconClasses: Record<keyof HintSettingsData, { on: string; off: string }> =
       on: "bi bi-volume-up",
       off: "bi bi-volume-mute",
     },
+    background: {
+      on: "bi bi-eye",
+      off: "bi bi-eye-slash",
+    },
   };
 
 export default class HintsControls extends Component implements Observer {
@@ -30,6 +34,11 @@ export default class HintsControls extends Component implements Observer {
     hintSettings.subscribe(this);
 
     this.appendChildren([
+      label(
+        { className: styles.button },
+        i({ className: iconClasses.background.on }),
+        input({ type: "checkbox", id: "background", hidden: true }),
+      ),
       label(
         { className: styles.button },
         i({ className: iconClasses.audio.on }),
