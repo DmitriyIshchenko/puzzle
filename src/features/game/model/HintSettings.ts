@@ -1,15 +1,15 @@
 import State from "../../../app/state/StatePublisher";
 import { HintSettingsData } from "../types";
 
-const initialState: HintSettingsData = {
-  translation: false,
-  audio: false,
-  background: false,
+const defaultState: HintSettingsData = {
+  translation: true,
+  audio: true,
+  background: true,
 };
 
 export default class HintSettings extends State<HintSettingsData> {
   constructor() {
-    super(initialState);
+    super(defaultState, "hintSettings");
   }
 
   toggleSetting(setting: keyof HintSettingsData) {
