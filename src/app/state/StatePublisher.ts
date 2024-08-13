@@ -20,6 +20,12 @@ export default class State<T> implements Publisher {
     return this.defaultState;
   }
 
+  saveState() {
+    if (this.key) {
+      localStorage.setItem(this.key, JSON.stringify(this.state));
+    }
+  }
+
   subscribe(subscriber: Observer): void {
     this.subscribers.push(subscriber);
   }

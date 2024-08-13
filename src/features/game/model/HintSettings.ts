@@ -14,6 +14,7 @@ export default class HintSettings extends State<HintSettingsData> {
 
   toggleSetting(setting: keyof HintSettingsData) {
     this.state[setting] = !this.state[setting];
+    this.saveState();
     this.notifySubscribers();
   }
 }
