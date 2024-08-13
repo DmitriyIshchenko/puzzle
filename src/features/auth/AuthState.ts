@@ -17,6 +17,9 @@ export default class AuthState extends State<UserCredentials> {
   }
 
   logout() {
+    // NOTE: although it may seem somewhat unrelated to do it within this state, I believe it's a much simpler solution than trying to synchronize multiple states/components, so I decided to go with it
+    localStorage.removeItem("hintSettings");
+
     this.resetState();
     this.saveState();
   }
