@@ -2,7 +2,7 @@ import State from "../../../app/state/StatePublisher";
 import { GameData, StageStatus, Word, WordAction } from "../types";
 
 import rawData from "../../../../data/words.json";
-import { getShuffledSentence, splitSentence } from "../../../shared/helpers";
+import { getShuffledSentence } from "../../../shared/helpers";
 
 const STAGES_PER_ROUND = 10;
 
@@ -107,17 +107,18 @@ export default class GameState extends State<GameData> {
   }
 
   autocompleteRow() {
-    const { pickArea, sentence } = this.state.content;
-    const { stage } = this.state.levels;
-    const { backgroundImage } = this.state.hints.content;
+    this.state.content.assembleArea = this.state.content.pickArea
+      .concat(this.state.content.assembleArea)
+      .filter((word) => word)
+      .sort((a, b) => {
+        if (a && b) {
+          return a.correctPosition - b.correctPosition;
+        }
 
-    // TODO: pass an object
-    this.state.content.assembleArea = splitSentence(
-      sentence,
-      stage,
-      backgroundImage,
-    );
-    pickArea.fill(null);
+        return 0;
+      });
+
+    this.state.content.pickArea.fill(null);
 
     this.state.levels.status = StageStatus.AUTOCOMPLETED;
 
