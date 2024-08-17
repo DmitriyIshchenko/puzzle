@@ -3,7 +3,7 @@
   place-content: center;
 
   grid-template-columns: 1fr;
-  row-gap: 1rem;
+  row-gap: 1.2rem;
 
   width: 768px;
   margin: 0 auto;
@@ -18,4 +18,9 @@
   grid-template-columns: 35px 1fr;
   grid-template-rows: 35px;
   gap: 20px;
+}
+
+.controls {
+  display: flex;
+  justify-content: space-between;
 }

@@ -2,6 +2,8 @@ import State from "../../../app/state/StatePublisher";
 import data from "../../../../data/words.json";
 import { calculateCardWidthPixels } from "../../../shared/helpers";
 import { MoveCardAction, Round, Stage, StageStatus, Word } from "../types";
+import RoundSettings from "./RoundSettings";
+import { Publisher } from "../../../shared/Observer";
 
 function generateStageWords(stage: Stage, imageSrc: string): Array<Word> {
   const { sentence, stageNumber } = stage;
@@ -26,9 +28,9 @@ function generateStageWords(stage: Stage, imageSrc: string): Array<Word> {
     .sort(() => Math.random() - 0.5);
 }
 
-function prepareRound(): Round {
-  const rawData = data.rounds[0].words;
-  const { author, name, imageSrc } = data.rounds[0].levelData;
+function prepareRound(round: number): Round {
+  const rawData = data.rounds[round].words;
+  const { author, name, imageSrc } = data.rounds[round].levelData;
 
   const stages = rawData.map((entry, index) => ({
     stageNumber: index,
@@ -51,8 +53,18 @@ function prepareRound(): Round {
 }
 
 export default class RoundState extends State<Round> {
-  constructor() {
-    super(prepareRound());
+  constructor(private roundSettings: RoundSettings) {
+    super(prepareRound(0));
+
+    this.roundSettings.subscribe(this);
+  }
+
+  update(publisher: Publisher) {
+    if (publisher instanceof RoundSettings) {
+      const { roundNumber } = publisher.state;
+      this.state = prepareRound(roundNumber);
+      this.startRound();
+    }
   }
 
   startStage(stageNumber: number): void {

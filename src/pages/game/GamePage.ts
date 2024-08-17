@@ -10,8 +10,12 @@ import PronunciationHint from "../../features/game/hints/PronunciationHint";
 import HintsControls from "../../features/game/hints/HintControls";
 import { div } from "../../ui/tags";
 import HintSettings from "../../features/game/model/HintSettings";
+import RoundControls from "../../features/game/controls/RoundControls";
+import RoundSettings from "../../features/game/model/RoundSettings";
 
 export default class GamePage extends Component {
+  roundSettings: RoundSettings;
+
   roundState: RoundState;
 
   hintSettings: HintSettings;
@@ -22,7 +26,8 @@ export default class GamePage extends Component {
       className: styles.page,
     });
 
-    this.roundState = new RoundState();
+    this.roundSettings = new RoundSettings();
+    this.roundState = new RoundState(this.roundSettings);
     this.hintSettings = new HintSettings();
 
     this.configure();
@@ -41,6 +46,15 @@ export default class GamePage extends Component {
       this.roundState,
       this.hintSettings,
     );
+    const roundControls = new RoundControls(this.roundSettings);
+
+    const controls = div(
+      {
+        className: styles.controls,
+      },
+      roundControls,
+      hintControls,
+    );
 
     const hints = div(
       { className: styles.hints },
@@ -49,7 +63,7 @@ export default class GamePage extends Component {
     );
 
     this.appendChildren([
-      hintControls,
+      controls,
       hints,
       gameField,
       wordsPicker,
