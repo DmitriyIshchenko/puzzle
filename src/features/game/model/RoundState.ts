@@ -1,9 +1,9 @@
 import State from "../../../app/state/StatePublisher";
-
-import { calculateCardWidthPixels } from "../../../shared/helpers";
-import { MoveCardAction, Round, Stage, StageStatus, Word } from "../types";
 import RoundSettings from "./RoundSettings";
-import { Publisher } from "../../../shared/Observer";
+import { Observer, Publisher } from "../../../shared/Observer";
+
+import { MoveCardAction, Round, StageStatus } from "../types";
+import { generateStageWords } from "../../../shared/helpers";
 
 import level1 from "../../../../data/wordCollectionLevel1.json";
 import level2 from "../../../../data/wordCollectionLevel2.json";
@@ -11,29 +11,6 @@ import level3 from "../../../../data/wordCollectionLevel3.json";
 import level4 from "../../../../data/wordCollectionLevel4.json";
 import level5 from "../../../../data/wordCollectionLevel5.json";
 import level6 from "../../../../data/wordCollectionLevel6.json";
-
-function generateStageWords(stage: Stage, imageSrc: string): Array<Word> {
-  const { sentence, stageNumber } = stage;
-
-  let offset = 0;
-  return sentence
-    .split(" ")
-    .map((text, index, arr) => {
-      const width = calculateCardWidthPixels(sentence, text);
-      const word = {
-        text,
-        width,
-        correctPosition: index,
-        isLast: index === arr.length - 1,
-        offset,
-        stage: stageNumber,
-        image: imageSrc,
-      };
-      offset += width;
-      return word;
-    })
-    .sort(() => Math.random() - 0.5);
-}
 
 // TODO: fetch this data
 const LEVELS = [level1, level2, level3, level4, level5, level6];
@@ -62,7 +39,7 @@ function prepareRound(difficulty: number, round: number): Round {
   };
 }
 
-export default class RoundState extends State<Round> {
+export default class RoundState extends State<Round> implements Observer {
   constructor(private roundSettings: RoundSettings) {
     super(prepareRound(0, 0));
 

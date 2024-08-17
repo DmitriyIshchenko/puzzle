@@ -1,16 +1,10 @@
 import Component from "../../../shared/Component";
+import { isValidSetting } from "../../../shared/helpers";
 import { Observer, Publisher } from "../../../shared/Observer";
 import { label, option, select } from "../../../ui/tags";
 import RoundSettings from "../model/RoundSettings";
 
 import styles from "./RoundControls.module.css";
-
-function isValidSetting<T extends object>(
-  key: string | number | symbol,
-  state: T,
-): key is keyof T {
-  return key in state;
-}
 
 // TODO: create generic controls class?
 export default class RoundControls extends Component implements Observer {
