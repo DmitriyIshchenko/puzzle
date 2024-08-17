@@ -1,9 +1,16 @@
 import State from "../../../app/state/StatePublisher";
-import data from "../../../../data/words.json";
+
 import { calculateCardWidthPixels } from "../../../shared/helpers";
 import { MoveCardAction, Round, Stage, StageStatus, Word } from "../types";
 import RoundSettings from "./RoundSettings";
 import { Publisher } from "../../../shared/Observer";
+
+import level1 from "../../../../data/wordCollectionLevel1.json";
+import level2 from "../../../../data/wordCollectionLevel2.json";
+import level3 from "../../../../data/wordCollectionLevel3.json";
+import level4 from "../../../../data/wordCollectionLevel4.json";
+import level5 from "../../../../data/wordCollectionLevel5.json";
+import level6 from "../../../../data/wordCollectionLevel6.json";
 
 function generateStageWords(stage: Stage, imageSrc: string): Array<Word> {
   const { sentence, stageNumber } = stage;
@@ -28,9 +35,12 @@ function generateStageWords(stage: Stage, imageSrc: string): Array<Word> {
     .sort(() => Math.random() - 0.5);
 }
 
-function prepareRound(round: number): Round {
-  const rawData = data.rounds[round].words;
-  const { author, name, imageSrc } = data.rounds[round].levelData;
+// TODO: fetch this data
+const levels = [level1, level2, level3, level4, level5, level6];
+
+function prepareRound(difficulty: number, round: number): Round {
+  const rawData = levels[difficulty].rounds[round].words;
+  const { author, name, imageSrc } = levels[difficulty].rounds[round].levelData;
 
   const stages = rawData.map((entry, index) => ({
     stageNumber: index,
@@ -54,15 +64,15 @@ function prepareRound(round: number): Round {
 
 export default class RoundState extends State<Round> {
   constructor(private roundSettings: RoundSettings) {
-    super(prepareRound(0));
+    super(prepareRound(0, 0));
 
     this.roundSettings.subscribe(this);
   }
 
   update(publisher: Publisher) {
     if (publisher instanceof RoundSettings) {
-      const { roundNumber } = publisher.state;
-      this.state = prepareRound(roundNumber);
+      const { difficultyLevel, roundNumber } = publisher.state;
+      this.state = prepareRound(difficultyLevel, roundNumber);
       this.startRound();
     }
   }
