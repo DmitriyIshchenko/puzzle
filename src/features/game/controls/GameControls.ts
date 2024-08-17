@@ -1,7 +1,7 @@
 import Component from "../../../shared/Component";
 import Button from "../../../ui/button/Button";
 
-import GameState from "../model/GameState";
+import RoundState from "../model/RoundState";
 import { Observer } from "../../../shared/Observer";
 
 import styles from "./GameControls.module.css";
@@ -11,12 +11,12 @@ export default class GameControls extends Component implements Observer {
 
   gameFlowButton: Button;
 
-  constructor(gameState: GameState) {
+  constructor(roundState: RoundState) {
     super({
       tag: "div",
       className: styles.controls,
     });
-    gameState.subscribe(this);
+    roundState.subscribe(this);
 
     this.autocompleteButton = new Button("Autocomplete", () => {});
     this.gameFlowButton = new Button("Check", () => {});
@@ -24,25 +24,25 @@ export default class GameControls extends Component implements Observer {
     this.appendChildren([this.autocompleteButton, this.gameFlowButton]);
   }
 
-  update(gameState: GameState) {
+  update(roundState: RoundState) {
     this.autocompleteButton.updateCallback(() => {
-      gameState.autocompleteRow();
+      roundState.autocompleteStage();
     });
 
-    this.updateFlowButton(gameState);
+    this.updateFlowButton(roundState);
 
-    if (gameState.isFilled()) {
+    if (roundState.isAssembled()) {
       this.gameFlowButton.removeAttribute("disabled");
     } else this.gameFlowButton.setAttribute("disabled", "");
 
     this.append(this.gameFlowButton);
   }
 
-  updateFlowButton(gameState: GameState) {
-    const text = gameState.isStageCompleted() ? "Continue" : "Check";
-    const callback = gameState.isStageCompleted()
-      ? gameState.startNextStage.bind(gameState)
-      : gameState.verifyAnswer.bind(gameState);
+  updateFlowButton(roundState: RoundState) {
+    const text = roundState.isStageCompleted() ? "Continue" : "Check";
+    const callback = roundState.isStageCompleted()
+      ? roundState.startNextStage.bind(roundState)
+      : roundState.verifyAnswer.bind(roundState);
 
     this.gameFlowButton.setTextContent(text);
     this.gameFlowButton.updateCallback(callback);

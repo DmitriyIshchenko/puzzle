@@ -1,7 +1,7 @@
 import Component from "../../shared/Component";
 import GameField from "../../features/game/fields/GameField";
 import WordsContainer from "../../features/game/fields/WordsContainer";
-import GameState from "../../features/game/model/GameState";
+import RoundState from "../../features/game/model/RoundState";
 
 import styles from "./GamePage.module.css";
 import GameControls from "../../features/game/controls/GameControls";
@@ -12,7 +12,7 @@ import { div } from "../../ui/tags";
 import HintSettings from "../../features/game/model/HintSettings";
 
 export default class GamePage extends Component {
-  gameState: GameState;
+  roundState: RoundState;
 
   hintSettings: HintSettings;
 
@@ -22,25 +22,23 @@ export default class GamePage extends Component {
       className: styles.page,
     });
 
-    this.gameState = new GameState();
+    this.roundState = new RoundState();
     this.hintSettings = new HintSettings();
 
     this.configure();
   }
 
   private configure() {
-    // TODO: now I have to drill hint settings all the way down to the WordCard, find a better way
-    const gameField = new GameField(this.gameState, this.hintSettings);
-    const words = new WordsContainer(this.gameState, this.hintSettings);
-
-    const stageControls = new GameControls(this.gameState);
+    const gameField = new GameField(this.roundState, this.hintSettings);
+    const wordsPicker = new WordsContainer(this.roundState, this.hintSettings);
+    const stageControls = new GameControls(this.roundState);
     const hintControls = new HintsControls(this.hintSettings);
     const translationHint = new TranslationHint(
-      this.gameState,
+      this.roundState,
       this.hintSettings,
     );
     const pronunciationHint = new PronunciationHint(
-      this.gameState,
+      this.roundState,
       this.hintSettings,
     );
 
@@ -50,10 +48,15 @@ export default class GamePage extends Component {
       translationHint,
     );
 
-    this.appendChildren([hintControls, hints, gameField, words, stageControls]);
+    this.appendChildren([
+      hintControls,
+      hints,
+      gameField,
+      wordsPicker,
+      stageControls,
+    ]);
 
-    // questionable
-    this.gameState.notifySubscribers();
+    this.roundState.startRound();
     this.hintSettings.notifySubscribers();
   }
 }
