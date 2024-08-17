@@ -3,19 +3,16 @@ import Row from "./Row";
 
 import { RowType } from "../types";
 import { Observer, Publisher } from "../../../shared/Observer";
-import GameState from "../model/GameState";
+import RoundState from "../model/RoundState";
 import HintSettings from "../model/HintSettings";
 
 import styles from "./GameField.module.css";
-import rowStyles from "./Row.module.css";
 
 export default class GameField extends Component implements Observer {
   private rows: Array<Row> = [];
 
-  private currentRow: Row | null = null;
-
   constructor(
-    gameState: GameState,
+    private roundState: RoundState,
     private hintSettings: HintSettings,
   ) {
     super({
@@ -23,29 +20,42 @@ export default class GameField extends Component implements Observer {
       className: styles.field,
     });
 
-    gameState.subscribe(this);
+    this.roundState.subscribe(this);
   }
 
   update(publisher: Publisher) {
-    if (publisher instanceof GameState) {
-      if (!this.rows.length) {
+    if (publisher instanceof RoundState) {
+      const { currentStage } = publisher.state;
+
+      // new round
+      if (!this.rows.length || currentStage === 0) {
         this.createRows(publisher);
       }
 
-      this.currentRow = this.rows[publisher.state.levels.stage];
-      this.setActiveStyles(publisher.state.levels.stage);
-      this.currentRow.fillCells(publisher.state.content.assembleArea);
-      this.currentRow.updateStatusStyles(publisher.state.levels.status);
+      const currentRow = this.rows[currentStage];
+
+      this.rows.forEach((row) => {
+        row.deactivateRow();
+      });
+      currentRow.activateRow();
+
+      currentRow.fillCells(publisher.state.content.assembleArea);
+      currentRow.updateStatusStyles(
+        publisher.state.stages[currentStage].status,
+      );
     }
   }
 
-  createRows(gameState: GameState) {
-    this.rows = gameState.state.content.roundSentences.map(
-      (sentence) =>
+  private createRows(roundState: RoundState) {
+    const { stages } = roundState.state;
+
+    this.clear();
+    this.rows = stages.map(
+      (stage) =>
         new Row(
           RowType.ASSEMBLE,
-          new Array<null>(sentence.split(" ").length).fill(null),
-          gameState.actionHandler.bind(gameState),
+          new Array<null>(stage.sentenceLength).fill(null),
+          roundState.moveCard.bind(roundState),
           this.hintSettings,
         ),
     );
@@ -53,11 +63,11 @@ export default class GameField extends Component implements Observer {
     this.appendChildren(this.rows);
   }
 
-  private setActiveStyles(rowIndex: number) {
+  // redefine to prevent subscribers pollution with dead objects
+  clear(): void {
     this.rows.forEach((row) => {
-      row.removeClass(rowStyles.active);
+      this.hintSettings.unsubscribe(row);
+      row.destroy();
     });
-
-    this.rows[rowIndex].addClass(rowStyles.active);
   }
 }
