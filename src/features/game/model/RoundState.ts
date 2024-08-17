@@ -1,70 +1,29 @@
 import State from "../../../app/state/StatePublisher";
 import data from "../../../../data/words.json";
 import { calculateCardWidthPixels } from "../../../shared/helpers";
-import { WordAction } from "../types";
-
-export enum StageStatus {
-  NOT_COMPLETED,
-  CORRECT,
-  INCORRECT,
-  AUTOCOMPLETED,
-}
-
-export interface Word {
-  readonly correctPosition: number;
-  text: string;
-  width: number;
-  isLast: boolean;
-  offset: number;
-  stage: number;
-  image: string;
-}
-
-export interface Stage {
-  status: StageStatus;
-  stageNumber: number;
-  sentence: string;
-  sentenceLength: number;
-  translation: string;
-  audio: string;
-}
-
-export interface GameContent {
-  pickArea: Array<Word | null>;
-  assembleArea: Array<Word | null>;
-}
-
-export interface Painting {
-  author: string;
-  name: string;
-  imageSrc: string;
-}
-
-export interface Round {
-  currentStage: number;
-  painting: Painting;
-  stages: Array<Stage>;
-  content: GameContent;
-}
+import { MoveCardAction, Round, Stage, StageStatus, Word } from "../types";
 
 function generateStageWords(stage: Stage, imageSrc: string): Array<Word> {
   const { sentence, stageNumber } = stage;
 
   let offset = 0;
-  return sentence.split(" ").map((text, index, arr) => {
-    const width = calculateCardWidthPixels(sentence, text);
-    const word = {
-      text,
-      width,
-      correctPosition: index,
-      isLast: index === arr.length - 1,
-      offset,
-      stage: stageNumber,
-      image: imageSrc,
-    };
-    offset += width;
-    return word;
-  });
+  return sentence
+    .split(" ")
+    .map((text, index, arr) => {
+      const width = calculateCardWidthPixels(sentence, text);
+      const word = {
+        text,
+        width,
+        correctPosition: index,
+        isLast: index === arr.length - 1,
+        offset,
+        stage: stageNumber,
+        image: imageSrc,
+      };
+      offset += width;
+      return word;
+    })
+    .sort(() => Math.random() - 0.5);
 }
 
 function prepareRound(): Round {
@@ -125,7 +84,7 @@ export default class RoundState extends State<Round> {
     this.startStage(0);
   }
 
-  moveCard(action: WordAction): void {
+  moveCard(action: MoveCardAction): void {
     const { rowTo, rowFrom, indexTo, indexFrom } = action.payload;
     const areaTo = this.state.content[rowTo];
     const areaFrom = this.state.content[rowFrom];
@@ -187,7 +146,7 @@ export default class RoundState extends State<Round> {
     this.state.stages[this.state.currentStage].status = updatedStatus;
   }
 
-  isStageComplete(): boolean {
+  isStageCompleted(): boolean {
     return [StageStatus.AUTOCOMPLETED, StageStatus.CORRECT].includes(
       this.state.stages[this.state.currentStage].status,
     );

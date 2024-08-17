@@ -1,6 +1,6 @@
 import Component from "../../../shared/Component";
 
-import { Word, WordAction, RowType } from "../types";
+import { Word, MoveCardAction, RowType } from "../types";
 
 import { div, span } from "../../../ui/tags";
 import { assertNonNull } from "../../../shared/helpers";
@@ -29,7 +29,7 @@ export default class WordCard extends Component {
 
   constructor(
     private data: Word,
-    private actionHandler: (action: WordAction) => void,
+    private actionHandler: (action: MoveCardAction) => void,
     private initRowType: RowType,
     private isBackgroundDisplayed: boolean | null,
   ) {
@@ -67,7 +67,7 @@ export default class WordCard extends Component {
     this.getChildren().forEach((child) => {
       const element = child.getElement();
       element.style.backgroundImage = isHintEnabled
-        ? `url(${IMAGES_BASE_URL}/${this.data.backgroundImage})`
+        ? `url(${IMAGES_BASE_URL}/${this.data.image})`
         : "none";
     });
   }
@@ -159,7 +159,7 @@ export default class WordCard extends Component {
     const oppositeRow =
       this.initRowType === RowType.PICK ? RowType.ASSEMBLE : RowType.PICK;
 
-    const action: WordAction = {
+    const action: MoveCardAction = {
       type: "click/move",
       payload: {
         indexFrom: +assertNonNull(this.getElement().dataset.index),
@@ -178,7 +178,7 @@ export default class WordCard extends Component {
 
     if (!dropTarget) {
       // basically, nothing happens, but we need to synchronize the UI with the state because we snapped the card from the row, leaving a gap
-      const action: WordAction = {
+      const action: MoveCardAction = {
         type: "drop/cancel",
         payload: {
           indexFrom: +assertNonNull(this.getElement().dataset.index),
@@ -192,7 +192,7 @@ export default class WordCard extends Component {
     }
 
     if (dropTarget) {
-      const action: WordAction = {
+      const action: MoveCardAction = {
         type: "drop/swap",
         payload: {
           indexFrom: +assertNonNull(this.getElement().dataset.index),
