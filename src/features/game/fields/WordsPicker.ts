@@ -6,9 +6,9 @@ import { Observer, Publisher } from "../../../shared/Observer";
 import RoundState from "../model/RoundState";
 import HintSettings from "../model/HintSettings";
 
-import styles from "./WordsContainer.module.css";
+import styles from "./WordsPicker.module.css";
 
-export default class WordsContainer extends Component implements Observer {
+export default class WordsPicker extends Component implements Observer {
   private row: Row | null = null;
 
   constructor(

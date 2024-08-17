@@ -1,6 +1,6 @@
 import Component from "../../shared/Component";
 import GameField from "../../features/game/fields/GameField";
-import WordsContainer from "../../features/game/fields/WordsContainer";
+import WordsPicker from "../../features/game/fields/WordsPicker";
 import RoundState from "../../features/game/model/RoundState";
 
 import styles from "./GamePage.module.css";
@@ -35,7 +35,7 @@ export default class GamePage extends Component {
 
   private configure() {
     const gameField = new GameField(this.roundState, this.hintSettings);
-    const wordsPicker = new WordsContainer(this.roundState, this.hintSettings);
+    const wordsPicker = new WordsPicker(this.roundState, this.hintSettings);
     const stageControls = new GameControls(this.roundState);
     const hintControls = new HintsControls(this.hintSettings);
     const translationHint = new TranslationHint(
