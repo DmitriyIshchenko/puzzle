@@ -36,11 +36,11 @@ function generateStageWords(stage: Stage, imageSrc: string): Array<Word> {
 }
 
 // TODO: fetch this data
-const levels = [level1, level2, level3, level4, level5, level6];
+const LEVELS = [level1, level2, level3, level4, level5, level6];
 
 function prepareRound(difficulty: number, round: number): Round {
-  const rawData = levels[difficulty].rounds[round].words;
-  const { author, name, imageSrc } = levels[difficulty].rounds[round].levelData;
+  const rawData = LEVELS[difficulty].rounds[round].words;
+  const { author, name, imageSrc } = LEVELS[difficulty].rounds[round].levelData;
 
   const stages = rawData.map((entry, index) => ({
     stageNumber: index,
@@ -96,7 +96,7 @@ export default class RoundState extends State<Round> {
   }
 
   startNextStage(): void {
-    // handle last stage
+    // TODO: handle last stage
     if (this.state.currentStage === this.state.stages.length - 1) return;
 
     this.startStage(this.state.currentStage + 1);

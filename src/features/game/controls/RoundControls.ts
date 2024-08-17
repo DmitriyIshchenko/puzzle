@@ -36,34 +36,48 @@ export default class RoundControls extends Component implements Observer {
     });
 
     this.configure();
-
-    this.addListener("change", this.handleDifficultySelection.bind(this));
   }
 
   private configure() {
-    // TEMP hardcoded
-    this.difficultySelect.appendChildren(RoundControls.generateOptions(6));
-    this.roundSelect.appendChildren(RoundControls.generateOptions(10));
+    this.fillSelectsWithOptions(this.roundSettings);
 
     this.appendChildren([
       label({
         text: "Difficulty",
-        htmlFor: "difficulty",
+        htmlFor: "difficultyLevel",
         className: styles.label,
       }),
       this.difficultySelect,
-      label({ text: "Round", htmlFor: "round", className: styles.label }),
+      label({ text: "Round", htmlFor: "roundNumber", className: styles.label }),
       this.roundSelect,
     ]);
+
+    this.addListener("change", this.handleDifficultySelection.bind(this));
   }
 
-  private static generateOptions(amount: number) {
-    return Array.from({ length: amount }, (_, index) =>
-      option({
-        value: `${index}`,
-        text: `${index + 1}`,
-      }),
+  update(publisher: Publisher) {
+    if (publisher instanceof RoundSettings) {
+      this.fillSelectsWithOptions(publisher);
+
+      RoundControls.selectOption(
+        this.difficultySelect,
+        publisher.state.difficultyLevel,
+      );
+      RoundControls.selectOption(this.roundSelect, publisher.state.roundNumber);
+    }
+  }
+
+  // TODO: refactor to optimize the amount of DOM operations
+  private fillSelectsWithOptions(roundSettings: RoundSettings) {
+    const { totalLevels, totalRounds } = roundSettings.state;
+
+    this.difficultySelect.clear();
+    this.roundSelect.clear();
+
+    this.difficultySelect.appendChildren(
+      RoundControls.generateOptions(totalLevels),
     );
+    this.roundSelect.appendChildren(RoundControls.generateOptions(totalRounds));
   }
 
   private handleDifficultySelection(e: Event) {
@@ -86,13 +100,12 @@ export default class RoundControls extends Component implements Observer {
     options[index].setAttribute("selected", "true");
   }
 
-  update(publisher: Publisher) {
-    if (publisher instanceof RoundSettings) {
-      RoundControls.selectOption(
-        this.difficultySelect,
-        publisher.state.difficultyLevel,
-      );
-      RoundControls.selectOption(this.roundSelect, publisher.state.roundNumber);
-    }
+  private static generateOptions(amount: number) {
+    return Array.from({ length: amount }, (_, index) =>
+      option({
+        value: `${index}`,
+        text: `${index + 1}`,
+      }),
+    );
   }
 }
