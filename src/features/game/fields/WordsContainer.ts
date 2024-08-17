@@ -11,8 +11,6 @@ import styles from "./WordsContainer.module.css";
 export default class WordsContainer extends Component implements Observer {
   private row: Row | null = null;
 
-  private currentStage: number = 0;
-
   constructor(
     roundState: RoundState,
     private hintSettings: HintSettings,
@@ -28,10 +26,10 @@ export default class WordsContainer extends Component implements Observer {
   update(publisher: Publisher) {
     if (publisher instanceof RoundState) {
       const { currentStage } = publisher.state;
+      const stage = publisher.state.stages[currentStage];
 
-      if (!this.row || this.currentStage !== currentStage) {
+      if (!this.row || stage.sentenceLength !== this.row.getChildren().length) {
         this.row = this.createRow(publisher);
-        this.currentStage = currentStage;
       }
 
       this.row.fillCells(publisher.state.content.pickArea);
