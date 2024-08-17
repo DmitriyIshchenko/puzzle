@@ -73,8 +73,10 @@ export default class RoundState extends State<Round> implements Observer {
   }
 
   startNextStage(): void {
-    // TODO: handle last stage
-    if (this.state.currentStage === this.state.stages.length - 1) return;
+    if (this.state.currentStage === this.state.stages.length - 1) {
+      this.roundSettings.incrementRound();
+      return;
+    }
 
     this.startStage(this.state.currentStage + 1);
   }

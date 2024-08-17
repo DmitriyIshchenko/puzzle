@@ -37,6 +37,27 @@ export default class RoundSettings extends State<RoundSettingsData> {
     this.notifySubscribers();
   }
 
+  incrementRound() {
+    const { roundNumber, totalRounds, difficultyLevel, totalLevels } =
+      this.state;
+
+    // the very last round -> do nothing?
+    if (roundNumber === totalRounds - 1 && difficultyLevel === totalLevels - 1)
+      return;
+
+    // last round -> start next difficulty
+    if (roundNumber === totalRounds - 1) {
+      this.state.difficultyLevel += 1;
+      this.state.roundNumber = 0;
+      this.updateRoundsAmount();
+      this.notifySubscribers();
+      return;
+    }
+
+    this.state.roundNumber += 1;
+    this.notifySubscribers();
+  }
+
   private updateRoundsAmount() {
     this.state.totalRounds = LEVELS[this.state.difficultyLevel].roundsCount;
   }
