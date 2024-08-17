@@ -1,14 +1,4 @@
-export interface Word {
-  text: string;
-  width: number;
-  readonly correctPosition: number;
-  isLast: boolean;
-  offset: number;
-  stage: number;
-  backgroundImage: string;
-}
-
-export interface WordAction {
+export interface MoveCardAction {
   type: string;
   payload: {
     indexFrom: number;
@@ -17,40 +7,58 @@ export interface WordAction {
     rowTo: RowType;
   };
 }
+
 export enum RowType {
   PICK = "pickArea",
   ASSEMBLE = "assembleArea",
-}
-export enum StageStatus {
-  NOT_COMPLETED,
-  CORRECT,
-  INCORRECT,
-  AUTOCOMPLETED,
-}
-export interface GameData {
-  levels: {
-    round: number;
-    stage: number;
-    status: StageStatus;
-  };
-  content: {
-    roundSentences: Array<string>;
-    sentence: string;
-    sentenceLength: number;
-    pickArea: Array<Word | null>;
-    assembleArea: Array<Word | null>;
-  };
-  hints: {
-    content: {
-      translation: string;
-      audioPath: string;
-      backgroundImage: string;
-    };
-  };
 }
 
 export interface HintSettingsData {
   translation: boolean;
   audio: boolean;
   background: boolean;
+}
+
+export enum StageStatus {
+  NOT_COMPLETED,
+  CORRECT,
+  INCORRECT,
+  AUTOCOMPLETED,
+}
+
+export interface Word {
+  readonly correctPosition: number;
+  text: string;
+  width: number;
+  isLast: boolean;
+  offset: number;
+  stage: number;
+  image: string;
+}
+
+export interface Stage {
+  status: StageStatus;
+  stageNumber: number;
+  sentence: string;
+  sentenceLength: number;
+  translation: string;
+  audio: string;
+}
+
+export interface GameContent {
+  pickArea: Array<Word | null>;
+  assembleArea: Array<Word | null>;
+}
+
+export interface Painting {
+  author: string;
+  name: string;
+  imageSrc: string;
+}
+
+export interface Round {
+  currentStage: number;
+  painting: Painting;
+  stages: Array<Stage>;
+  content: GameContent;
 }

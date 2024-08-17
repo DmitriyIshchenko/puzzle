@@ -3,18 +3,16 @@ import Row from "./Row";
 
 import { RowType } from "../types";
 import { Observer, Publisher } from "../../../shared/Observer";
-import GameState from "../model/GameState";
+import RoundState from "../model/RoundState";
 import HintSettings from "../model/HintSettings";
 
-import styles from "./WordsContainer.module.css";
+import styles from "./WordsPicker.module.css";
 
-export default class WordsContainer extends Component implements Observer {
+export default class WordsPicker extends Component implements Observer {
   private row: Row | null = null;
 
-  private currentStage: number = 0;
-
   constructor(
-    gameState: GameState,
+    roundState: RoundState,
     private hintSettings: HintSettings,
   ) {
     super({
@@ -22,31 +20,29 @@ export default class WordsContainer extends Component implements Observer {
       className: styles.words,
     });
 
-    gameState.subscribe(this);
+    roundState.subscribe(this);
   }
 
   update(publisher: Publisher) {
-    if (publisher instanceof GameState) {
-      if (!this.row) {
-        this.row = this.createRow(publisher);
-      }
+    if (publisher instanceof RoundState) {
+      const { currentStage } = publisher.state;
+      const stage = publisher.state.stages[currentStage];
 
-      if (this.currentStage !== publisher.state.levels.stage) {
+      if (!this.row || stage.sentenceLength !== this.row.getChildren().length) {
         this.row = this.createRow(publisher);
-        this.currentStage = publisher.state.levels.stage;
       }
 
       this.row.fillCells(publisher.state.content.pickArea);
     }
   }
 
-  private createRow(gameState: GameState): Row {
+  private createRow(roundState: RoundState): Row {
     if (this.row) this.row.deleteRow();
 
     const row = new Row(
       RowType.PICK,
-      gameState.state.content.pickArea,
-      gameState.actionHandler.bind(gameState),
+      roundState.state.content.pickArea,
+      roundState.moveCard.bind(roundState),
       this.hintSettings,
     );
 

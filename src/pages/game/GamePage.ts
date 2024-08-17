@@ -1,7 +1,7 @@
 import Component from "../../shared/Component";
 import GameField from "../../features/game/fields/GameField";
-import WordsContainer from "../../features/game/fields/WordsContainer";
-import GameState from "../../features/game/model/GameState";
+import WordsPicker from "../../features/game/fields/WordsPicker";
+import RoundState from "../../features/game/model/RoundState";
 
 import styles from "./GamePage.module.css";
 import GameControls from "../../features/game/controls/GameControls";
@@ -10,9 +10,13 @@ import PronunciationHint from "../../features/game/hints/PronunciationHint";
 import HintsControls from "../../features/game/hints/HintControls";
 import { div } from "../../ui/tags";
 import HintSettings from "../../features/game/model/HintSettings";
+import RoundControls from "../../features/game/controls/RoundControls";
+import RoundSettings from "../../features/game/model/RoundSettings";
 
 export default class GamePage extends Component {
-  gameState: GameState;
+  roundSettings: RoundSettings;
+
+  roundState: RoundState;
 
   hintSettings: HintSettings;
 
@@ -22,26 +26,34 @@ export default class GamePage extends Component {
       className: styles.page,
     });
 
-    this.gameState = new GameState();
+    this.roundSettings = new RoundSettings();
+    this.roundState = new RoundState(this.roundSettings);
     this.hintSettings = new HintSettings();
 
     this.configure();
   }
 
   private configure() {
-    // TODO: now I have to drill hint settings all the way down to the WordCard, find a better way
-    const gameField = new GameField(this.gameState, this.hintSettings);
-    const words = new WordsContainer(this.gameState, this.hintSettings);
-
-    const stageControls = new GameControls(this.gameState);
+    const gameField = new GameField(this.roundState, this.hintSettings);
+    const wordsPicker = new WordsPicker(this.roundState, this.hintSettings);
+    const stageControls = new GameControls(this.roundState);
     const hintControls = new HintsControls(this.hintSettings);
     const translationHint = new TranslationHint(
-      this.gameState,
+      this.roundState,
       this.hintSettings,
     );
     const pronunciationHint = new PronunciationHint(
-      this.gameState,
+      this.roundState,
       this.hintSettings,
+    );
+    const roundControls = new RoundControls(this.roundSettings);
+
+    const controls = div(
+      {
+        className: styles.controls,
+      },
+      roundControls,
+      hintControls,
     );
 
     const hints = div(
@@ -50,10 +62,15 @@ export default class GamePage extends Component {
       translationHint,
     );
 
-    this.appendChildren([hintControls, hints, gameField, words, stageControls]);
+    this.appendChildren([
+      controls,
+      hints,
+      gameField,
+      wordsPicker,
+      stageControls,
+    ]);
 
-    // questionable
-    this.gameState.notifySubscribers();
+    this.roundState.startRound();
     this.hintSettings.notifySubscribers();
   }
 }

@@ -1,7 +1,7 @@
 import Component from "../../../shared/Component";
 import WordCard from "../card/WordCard";
 
-import { Word, WordAction, RowType, StageStatus } from "../types";
+import { Word, MoveCardAction, RowType, StageStatus } from "../types";
 import { Observer, Publisher } from "../../../shared/Observer";
 import HintSettings from "../model/HintSettings";
 
@@ -18,7 +18,7 @@ export default class Row extends Component implements Observer {
   constructor(
     private type: RowType,
     private content: Array<Word | null>,
-    private actionHandler: (action: WordAction) => void,
+    private actionHandler: (action: MoveCardAction) => void,
     private hintSettings: HintSettings,
   ) {
     super({ className: styles.row });
@@ -104,5 +104,13 @@ export default class Row extends Component implements Observer {
     // there should be no "dead" objects subscribed to the publisher
     this.hintSettings.unsubscribe(this);
     this.destroy();
+  }
+
+  activateRow() {
+    this.addClass(styles.active);
+  }
+
+  deactivateRow() {
+    this.removeClass(styles.active);
   }
 }

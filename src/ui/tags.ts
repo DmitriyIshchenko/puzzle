@@ -57,4 +57,14 @@ export const h3 = (props: ElementFuncProps<HTMLHeadingElement>) =>
   new Component<HTMLHeadingElement>({ ...props, tag: "h3" });
 
 export const i = (props: ElementFuncProps) =>
-  new Component({ ...props, tag: "i" });
+  new Component<HTMLElement>({ ...props, tag: "i" });
+
+export const select = (
+  props: ElementFuncProps<HTMLSelectElement>,
+  ...children: Array<Component>
+) => new Component<HTMLSelectElement>({ ...props, tag: "select" }, ...children);
+
+export const option = (
+  props: ElementFuncProps<HTMLOptionElement>,
+  ...children: Array<Component>
+) => new Component<HTMLOptionElement>({ ...props, tag: "option" }, ...children);

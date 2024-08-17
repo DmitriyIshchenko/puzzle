@@ -4,6 +4,7 @@ import { HintSettingsData } from "../types";
 
 import { Observer, Publisher } from "../../../shared/Observer";
 import { i, input, label } from "../../../ui/tags";
+import { isValidSetting } from "../../../shared/helpers";
 
 import styles from "./HintControls.module.css";
 
@@ -54,14 +55,12 @@ export default class HintsControls extends Component implements Observer {
     this.addListener("change", this.handleChangeSetting.bind(this));
   }
 
-  // NOTE: this is a type guard defined as a class method (this way I can get access to the state object for checking). I don't really know whether it is a good idea or a bad one.
-  private isValidSetting(key: string): key is keyof HintSettingsData {
-    return key in this.hintSettings.state;
-  }
-
   private handleChangeSetting(e: Event) {
     const { target } = e;
-    if (target instanceof HTMLInputElement && this.isValidSetting(target.id)) {
+    if (
+      target instanceof HTMLInputElement &&
+      isValidSetting(target.id, this.hintSettings.state)
+    ) {
       this.hintSettings.toggleSetting(target.id);
     }
   }
@@ -74,7 +73,7 @@ export default class HintsControls extends Component implements Observer {
 
         if (
           checkboxEl instanceof HTMLInputElement &&
-          this.isValidSetting(checkboxEl.id)
+          isValidSetting(checkboxEl.id, this.hintSettings.state)
         ) {
           // update value
           checkboxEl.checked = publisher.state[checkboxEl.id];

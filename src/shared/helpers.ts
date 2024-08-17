@@ -1,4 +1,4 @@
-import type { Word } from "../features/game/types";
+import { Stage, Word } from "../features/game/types";
 
 const ROW_WIDTH = 728;
 const CONCAVE_WIDTH = 10;
@@ -13,36 +13,30 @@ export function calculateCardWidthPixels(sentence: string, word: string) {
   return (availableSpace * word.length) / totalCharacters + CONCAVE_WIDTH;
 }
 
-export function splitSentence(
-  sentence: string,
-  stage: number,
-  backgroundImage: string,
+export function generateStageWords(
+  stage: Stage,
+  imageSrc: string,
 ): Array<Word> {
-  let offset = 0;
-  return sentence.split(" ").map((word, index, arr) => {
-    const width = calculateCardWidthPixels(sentence, word);
-    const wordObj = {
-      text: word,
-      width: calculateCardWidthPixels(sentence, word),
-      correctPosition: index,
-      isLast: index === arr.length - 1,
-      offset,
-      stage,
-      backgroundImage,
-    };
-    offset += width;
-    return wordObj;
-  });
-}
+  const { sentence, stageNumber } = stage;
 
-export function getShuffledSentence(
-  sentence: string,
-  stage: number,
-  backgroundImage: string,
-): Array<Word> {
-  return splitSentence(sentence, stage, backgroundImage).sort(
-    () => Math.random() - 0.5,
-  );
+  let offset = 0;
+  return sentence
+    .split(" ")
+    .map((text, index, arr) => {
+      const width = calculateCardWidthPixels(sentence, text);
+      const word = {
+        text,
+        width,
+        correctPosition: index,
+        isLast: index === arr.length - 1,
+        offset,
+        stage: stageNumber,
+        image: imageSrc,
+      };
+      offset += width;
+      return word;
+    })
+    .sort(() => Math.random() - 0.5);
 }
 
 export function assertNonNull<T>(value: T | null | undefined): T {
@@ -50,4 +44,11 @@ export function assertNonNull<T>(value: T | null | undefined): T {
     throw new Error(`Not defined!`);
   }
   return value;
+}
+
+export function isValidSetting<T extends object>(
+  key: string | number | symbol,
+  state: T,
+): key is keyof T {
+  return key in state;
 }

@@ -1,7 +1,7 @@
 import Component from "../../../shared/Component";
 import WaveIcon from "./WaveIcon";
 import ButtonIcon from "../../../ui/button/ButtonIcon";
-import GameState from "../model/GameState";
+import RoundState from "../model/RoundState";
 
 import HintSettings from "../model/HintSettings";
 import { Observer, Publisher } from "../../../shared/Observer";
@@ -29,13 +29,13 @@ export default class PronunciationHint extends Component implements Observer {
 
   private isShown: boolean | null = null;
 
-  constructor(gameState: GameState, hintSettings: HintSettings) {
+  constructor(roundState: RoundState, hintSettings: HintSettings) {
     super({
       tag: "div",
       className: styles.pronunciation,
     });
 
-    gameState.subscribe(this);
+    roundState.subscribe(this);
     hintSettings.subscribe(this);
 
     this.icon = new WaveIcon();
@@ -49,11 +49,11 @@ export default class PronunciationHint extends Component implements Observer {
   update(publisher: Publisher): void {
     let isStageCompleted;
 
-    if (publisher instanceof GameState) {
+    if (publisher instanceof RoundState) {
       isStageCompleted = publisher.isStageCompleted();
 
-      const { audioPath } = publisher.state.hints.content;
-      const audioUrl = `${BASE_URL}/${audioPath}`;
+      const { audio } = publisher.state.stages[publisher.state.currentStage];
+      const audioUrl = `${BASE_URL}/${audio}`;
 
       this.createAudio(audioUrl);
     }
