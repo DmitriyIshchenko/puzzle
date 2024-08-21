@@ -13,6 +13,12 @@ export function calculateCardWidthPixels(sentence: string, word: string) {
   return (availableSpace * word.length) / totalCharacters + CONCAVE_WIDTH;
 }
 
+export function calculateCardWidthPercentage(sentence: string, word: string) {
+  const totalCharacters = sentence.split(" ").join("").length;
+
+  return (100 * word.length) / totalCharacters;
+}
+
 export function generateStageWords(
   stage: Stage,
   imageSrc: string,
