@@ -11,7 +11,7 @@
   padding: 2rem;
   background-color: var(--color-grey-100);
 
-  @media screen and (max-width: 900px) {
+  @container (width < 900px) {
     place-content: start;
     grid-template-columns: 1fr;
   }
@@ -34,11 +34,19 @@
 .title {
   font-size: 2.4rem;
   text-align: center;
+
+  @container (width < 700px) {
+    font-size: 1.5rem;
+  }
 }
 
 .description {
   align-self: center;
   font-size: 1.2rem;
+
+  @container (width < 700px) {
+    font-size: 1rem;
+  }
 }
 
 .button {
@@ -46,6 +54,9 @@
 }
 
 .rules {
+  display: grid;
+  gap: 0.5rem;
+
   padding-left: 1.4rem;
   list-style: initial;
 }
