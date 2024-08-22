@@ -35,11 +35,15 @@ export default class GamePage extends Component {
   }
 
   private configure() {
+    const smallScreenWarning = div({
+      className: styles.warning,
+      text: "Your screen might be a bit too small to fully enjoy this game. Try rotating your device to landscape mode or using a different device for a better experience! :)",
+    });
     const controls = this.configureControls();
     const hints = this.configurHints();
     const fields = this.configureFieds();
 
-    this.appendChildren([controls, hints, ...fields]);
+    this.appendChildren([smallScreenWarning, controls, hints, ...fields]);
 
     this.roundState.startRound();
     this.hintSettings.notifySubscribers();
