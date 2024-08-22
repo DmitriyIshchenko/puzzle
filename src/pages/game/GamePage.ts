@@ -12,6 +12,9 @@ import HintSettings from "../../features/game/model/HintSettings";
 import RoundControls from "../../features/game/controls/RoundControls";
 import RoundSettings from "../../features/game/model/RoundSettings";
 
+import SmallScreenWarningCard from "../../features/game/card/SmallScreenWarningCard";
+import SmallScreenSettings from "../../features/game/model/SmallScreenSettings";
+
 import { div } from "../../ui/tags";
 
 export default class GamePage extends Component {
@@ -20,6 +23,8 @@ export default class GamePage extends Component {
   roundState: RoundState;
 
   hintSettings: HintSettings;
+
+  smallScreenSettings: SmallScreenSettings;
 
   constructor() {
     super({
@@ -30,20 +35,18 @@ export default class GamePage extends Component {
     this.roundSettings = new RoundSettings();
     this.roundState = new RoundState(this.roundSettings);
     this.hintSettings = new HintSettings();
+    this.smallScreenSettings = new SmallScreenSettings();
 
     this.configure();
   }
 
   private configure() {
-    const smallScreenWarning = div({
-      className: styles.warning,
-      text: "Your screen might be a bit too small to fully enjoy this game. Try rotating your device to landscape mode or using a different device for a better experience! :)",
-    });
+    const warning = new SmallScreenWarningCard(this.smallScreenSettings);
     const controls = this.configureControls();
     const hints = this.configurHints();
     const fields = this.configureFieds();
 
-    this.appendChildren([smallScreenWarning, controls, hints, ...fields]);
+    this.appendChildren([warning, controls, hints, ...fields]);
 
     this.roundState.startRound();
     this.hintSettings.notifySubscribers();
