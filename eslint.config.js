@@ -32,7 +32,7 @@ export default tseslint.config(
   eslintConfigPrettier,
   {
     rules: {
-      "no-console": "error",
+      "no-console": ["error", { allow: ["error"] }],
       "max-lines-per-function": ["error", 40],
       "@typescript-eslint/restrict-template-expressions": [
         "error",
