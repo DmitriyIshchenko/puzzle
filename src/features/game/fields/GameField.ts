@@ -7,6 +7,7 @@ import RoundState from "../model/RoundState";
 import HintSettings from "../model/HintSettings";
 
 import styles from "./GameField.module.css";
+import { calculateImageAspectRatio } from "../../../shared/helpers";
 
 export default class GameField extends Component implements Observer {
   private rows: Array<Row> = [];
@@ -23,7 +24,7 @@ export default class GameField extends Component implements Observer {
     this.roundState.subscribe(this);
   }
 
-  update(publisher: Publisher) {
+  async update(publisher: Publisher) {
     if (publisher instanceof RoundState) {
       const { currentStage } = publisher.state;
 
@@ -43,7 +44,13 @@ export default class GameField extends Component implements Observer {
       currentRow.updateStatusStyles(
         publisher.state.stages[currentStage].status,
       );
+
+      await this.updateFieldSize();
     }
+  }
+
+  private async updateFieldSize() {
+    this.getElement().style.aspectRatio = `${await calculateImageAspectRatio(this.roundState.state.painting.imageSrc)}`;
   }
 
   private createRows(roundState: RoundState) {
