@@ -44,13 +44,15 @@ export default class GameField extends Component implements Observer {
       currentRow.updateStatusStyles(
         publisher.state.stages[currentStage].status,
       );
-
       await this.updateFieldSize();
     }
   }
 
   private async updateFieldSize() {
-    this.getElement().style.aspectRatio = `${await calculateImageAspectRatio(this.roundState.state.painting.imageSrc)}`;
+    const aspectRatio = await calculateImageAspectRatio(
+      this.roundState.state.painting.imageSrc,
+    );
+    this.getElement().style.aspectRatio = `${aspectRatio}`;
   }
 
   private createRows(roundState: RoundState) {

@@ -41,8 +41,6 @@ export default class WordCard extends Component {
       className: classNames.join(" "),
     });
 
-    this.getElement().style.width = `${data.width}px`;
-
     this.getElement().addEventListener(
       "mousedown",
       this.mouseDownHandler.bind(this),

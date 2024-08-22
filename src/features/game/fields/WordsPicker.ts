@@ -7,12 +7,15 @@ import RoundState from "../model/RoundState";
 import HintSettings from "../model/HintSettings";
 
 import styles from "./WordsPicker.module.css";
+import { calculateImageAspectRatio } from "../../../shared/helpers";
 
 export default class WordsPicker extends Component implements Observer {
   private row: Row | null = null;
 
+  private imageAspectRatio: number = 0;
+
   constructor(
-    roundState: RoundState,
+    private roundState: RoundState,
     private hintSettings: HintSettings,
   ) {
     super({
@@ -21,9 +24,11 @@ export default class WordsPicker extends Component implements Observer {
     });
 
     roundState.subscribe(this);
+
+    window.addEventListener("resize", this.handleResize.bind(this));
   }
 
-  update(publisher: Publisher) {
+  async update(publisher: Publisher) {
     if (publisher instanceof RoundState) {
       const { currentStage } = publisher.state;
       const stage = publisher.state.stages[currentStage];
@@ -33,7 +38,26 @@ export default class WordsPicker extends Component implements Observer {
       }
 
       this.row.fillCells(publisher.state.content.pickArea);
+      await this.updateHeight();
     }
+  }
+
+  private handleResize() {
+    this.updateHeight().catch((err: unknown) => {
+      console.error(err);
+    });
+  }
+
+  private async updateHeight() {
+    if (!this.imageAspectRatio) {
+      this.imageAspectRatio = await calculateImageAspectRatio(
+        this.roundState.state.painting.imageSrc,
+      );
+    }
+
+    const { width } = this.getElement().getBoundingClientRect();
+
+    this.getElement().style.height = `${width / this.imageAspectRatio / 10}px`;
   }
 
   private createRow(roundState: RoundState): Row {

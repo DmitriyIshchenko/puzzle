@@ -34,6 +34,8 @@ export default class Row extends Component implements Observer {
     this.appendChildren(this.cells);
     // TODO: I have doubts about this, there is probably a better way
     this.update(this.hintSettings);
+
+    if (this.type === RowType.PICK) this.getElement().style.height = "100%";
   }
 
   update(publisher: Publisher) {
@@ -58,8 +60,8 @@ export default class Row extends Component implements Observer {
       cellEl.style.minWidth = `0`;
 
       if (word) {
-        cellEl.style.maxWidth = `${word.width}px`;
-        cellEl.style.minWidth = `${word.width}px`;
+        cellEl.style.maxWidth = `${word.width}%`;
+        cellEl.style.minWidth = `${word.width}%`;
 
         const card = new WordCard(
           word,

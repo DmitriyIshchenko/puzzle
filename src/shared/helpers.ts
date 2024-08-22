@@ -31,7 +31,7 @@ export function generateStageWords(
   return sentence
     .split(" ")
     .map((text, index, arr) => {
-      const width = 0;
+      const width = calculateCardWidthPercentage(sentence, text);
       const word = {
         text,
         width,

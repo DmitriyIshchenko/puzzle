@@ -1,5 +1,6 @@
 .words {
   background-color: var(--color-grey-50);
   box-shadow: var(--shadow-sm);
-  height: 40px;
+
+  width: 100%;
 }
