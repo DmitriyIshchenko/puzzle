@@ -29,7 +29,6 @@
   pointer-events: none;
 
   div {
-    transition: all 0.3s;
     border: none;
   }
 
