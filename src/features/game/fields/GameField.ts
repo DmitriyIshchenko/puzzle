@@ -12,7 +12,7 @@ import { calculateImageAspectRatio } from "../../../shared/helpers";
 export default class GameField extends Component implements Observer {
   private rows: Array<Row> = [];
 
-  private currentStage: number = -1;
+  private roundId: string = "";
 
   constructor(
     private roundState: RoundState,
@@ -28,14 +28,14 @@ export default class GameField extends Component implements Observer {
 
   async update(publisher: Publisher) {
     if (publisher instanceof RoundState) {
-      const { currentStage } = publisher.state;
+      const { currentStage, id } = publisher.state;
 
       // new round
-      if (currentStage === 0 && this.currentStage !== 0) {
+      if (id !== this.roundId) {
         this.createRows(publisher);
       }
 
-      this.currentStage = currentStage;
+      this.roundId = id;
       const currentRow = this.rows[currentStage];
 
       this.rows.forEach((row) => {
