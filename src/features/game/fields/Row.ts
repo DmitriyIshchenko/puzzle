@@ -26,6 +26,7 @@ export default class Row extends Component implements Observer {
     this.hintSettings.subscribe(this);
 
     this.configure();
+    window.addEventListener("resize", this.handleResize.bind(this));
   }
 
   private configure() {
@@ -34,6 +35,8 @@ export default class Row extends Component implements Observer {
     this.appendChildren(this.cells);
     // TODO: I have doubts about this, there is probably a better way
     this.update(this.hintSettings);
+
+    if (this.type === RowType.PICK) this.getElement().style.height = "100%";
   }
 
   update(publisher: Publisher) {
@@ -42,6 +45,12 @@ export default class Row extends Component implements Observer {
 
       this.toggleRowBackgrounds(this.isBackgroundDisplayed);
     }
+  }
+
+  private handleResize() {
+    this.updateBackgroundPositions().catch((err: unknown) => {
+      console.error(err);
+    });
   }
 
   // TODO: this method needs a lot of refactoring
@@ -58,8 +67,8 @@ export default class Row extends Component implements Observer {
       cellEl.style.minWidth = `0`;
 
       if (word) {
-        cellEl.style.maxWidth = `${word.width}px`;
-        cellEl.style.minWidth = `${word.width}px`;
+        cellEl.style.maxWidth = `${word.width}%`;
+        cellEl.style.minWidth = `${word.width}%`;
 
         const card = new WordCard(
           word,
@@ -96,6 +105,18 @@ export default class Row extends Component implements Observer {
       const [card] = cell.getChildren();
       if (card instanceof WordCard) {
         card.setBackground(isShown);
+      }
+    });
+  }
+
+  async updateBackgroundPositions() {
+    const { width: rowWidth, height: rowHeight } =
+      this.getElement().getBoundingClientRect();
+
+    this.cells.forEach((cell) => {
+      const [card] = cell.getChildren();
+      if (card instanceof WordCard) {
+        card.calculateBackgroundPositions(rowWidth, rowHeight);
       }
     });
   }

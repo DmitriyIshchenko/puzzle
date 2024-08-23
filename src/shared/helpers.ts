@@ -1,5 +1,7 @@
 import { Stage, Word } from "../features/game/types";
 
+const IMAGES_BASE_URL =
+  "https://raw.githubusercontent.com/rolling-scopes-school/rss-puzzle-data/main/images";
 const ROW_WIDTH = 728;
 const CONCAVE_WIDTH = 10;
 
@@ -13,6 +15,12 @@ export function calculateCardWidthPixels(sentence: string, word: string) {
   return (availableSpace * word.length) / totalCharacters + CONCAVE_WIDTH;
 }
 
+export function calculateCardWidthPercentage(sentence: string, word: string) {
+  const totalCharacters = sentence.split(" ").join("").length;
+
+  return (100 * word.length) / totalCharacters;
+}
+
 export function generateStageWords(
   stage: Stage,
   imageSrc: string,
@@ -23,7 +31,7 @@ export function generateStageWords(
   return sentence
     .split(" ")
     .map((text, index, arr) => {
-      const width = calculateCardWidthPixels(sentence, text);
+      const width = calculateCardWidthPercentage(sentence, text);
       const word = {
         text,
         width,
@@ -51,4 +59,20 @@ export function isValidSetting<T extends object>(
   state: T,
 ): key is keyof T {
   return key in state;
+}
+
+export async function calculateImageAspectRatio(src: string) {
+  const image = await new Promise<HTMLImageElement>((resolve, reject) => {
+    const img = new Image();
+    img.src = `${IMAGES_BASE_URL}/${src}`;
+    img.addEventListener("load", () => {
+      resolve(img);
+    });
+
+    img.addEventListener("error", () => {
+      reject(new Error(`Failed to load image: ${src}`));
+    });
+  });
+
+  return image.naturalWidth / image.naturalHeight;
 }

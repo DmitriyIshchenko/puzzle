@@ -5,9 +5,17 @@
   grid-template-columns: 1fr;
   row-gap: 1.2rem;
 
-  width: 768px;
-  margin: 0 auto;
+  margin: 20px auto;
+
+  container: game-page / inline-size;
+  width: min(768px, 100%);
   padding: 20px;
+
+  @container (width < 500px) {
+    place-content: start;
+    row-gap: 2rem;
+    padding: 5px;
+  }
 }
 
 .hints {
@@ -21,6 +29,23 @@
 }
 
 .controls {
-  display: flex;
-  justify-content: space-between;
+  display: grid;
+  grid-template-columns: auto 1fr;
+
+  @container (width < 768px) {
+    padding-inline: 20px;
+  }
+}
+
+.warning {
+  text-align: center;
+  font-weight: 400;
+  font-size: 0.9rem;
+  padding: 1rem 0.5rem;
+  background-color: white;
+  border-radius: var(--border-radius-sm);
+
+  @container (width > 500px) {
+    display: none;
+  }
 }

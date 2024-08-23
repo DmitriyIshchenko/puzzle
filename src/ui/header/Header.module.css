@@ -1,10 +1,12 @@
 .header {
   background-color: var(--color-grey-0);
+
+  container: header / inline-size;
 }
 
 .inner {
   display: flex;
-  justify-content: end;
+  justify-content: space-between;
   align-items: center;
   gap: 2rem;
 
@@ -28,4 +30,11 @@
 .user {
   font-weight: 500;
   font-size: 1.3rem;
+  text-align: end;
+
+  font-size: 1rem;
+
+  @container (width < 500px) {
+    display: none;
+  }
 }

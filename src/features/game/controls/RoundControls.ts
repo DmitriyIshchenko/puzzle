@@ -36,14 +36,18 @@ export default class RoundControls extends Component implements Observer {
     this.fillSelectsWithOptions(this.roundSettings);
 
     this.appendChildren([
-      label({
-        text: "Difficulty",
-        htmlFor: "difficultyLevel",
-        className: styles.label,
-      }),
-      this.difficultySelect,
-      label({ text: "Round", htmlFor: "roundNumber", className: styles.label }),
-      this.roundSelect,
+      label(
+        {
+          text: "Difficulty",
+          htmlFor: "difficultyLevel",
+          className: styles.label,
+        },
+        this.difficultySelect,
+      ),
+      label(
+        { text: "Round", htmlFor: "roundNumber", className: styles.label },
+        this.roundSelect,
+      ),
     ]);
 
     this.addListener("change", this.handleDifficultySelection.bind(this));

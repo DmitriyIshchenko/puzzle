@@ -112,4 +112,8 @@ export default class Component<T extends HTMLElement = HTMLElement> {
       this.addClass(newClassName);
     }
   }
+
+  setInlineStyles(styles: Record<string, string>): void {
+    Object.assign(this.element.style, styles);
+  }
 }

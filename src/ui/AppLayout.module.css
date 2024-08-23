@@ -5,4 +5,6 @@
   overflow: auto;
   background-color: var(--color-grey-100);
   /* scrollbar-gutter: stable; */
+
+  container: app / inline-size;
 }

@@ -1,6 +1,9 @@
 .field {
-  height: 400px;
   background-color: var(--color-grey-200);
   pointer-events: none;
   outline: 1px solid var(--color-grey-500);
+
+  width: 100%;
+  aspect-ratio: 1.5;
+  transition: all 0.3s;
 }

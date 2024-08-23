@@ -12,8 +12,6 @@ const DRAG_THRESHOLD = 2;
 
 const IMAGES_BASE_URL =
   "https://raw.githubusercontent.com/rolling-scopes-school/rss-puzzle-data/main/images";
-const CARD_HEIGHT = 40;
-const CONVEX_HEIGHT = 20;
 
 // TODO: this class is too bloated. extract the Drag & Drop functionality into the Draggable class
 export default class WordCard extends Component {
@@ -41,8 +39,6 @@ export default class WordCard extends Component {
       className: classNames.join(" "),
     });
 
-    this.getElement().style.width = `${data.width}px`;
-
     this.getElement().addEventListener(
       "mousedown",
       this.mouseDownHandler.bind(this),
@@ -59,7 +55,6 @@ export default class WordCard extends Component {
     const convex = div({ className: styles.convex });
 
     this.appendChildren([content, convex]);
-    this.calculateBackgroundPositions();
     this.setBackground(this.isBackgroundDisplayed);
   }
 
@@ -72,18 +67,40 @@ export default class WordCard extends Component {
     });
   }
 
-  private calculateBackgroundPositions() {
+  /*
+   * The math can be tricky: the width of the card is specified in percentages,
+   * but the background-position in percentages behaves differently than when
+   * it's set in pixels. It's easier to calculate the actual width of the card
+   * in pixels rather than dealing with the current setup.
+   */
+  /* TODO: Change the formula to avoid excessive calculations and to work with percentages. */
+  // FIXME: frequent updating causes blinking
+  public calculateBackgroundPositions(rowWidth: number, rowHeight: number) {
     const [content, convex] = this.getChildren();
 
-    const rowOffsetY = this.data.stage * CARD_HEIGHT;
-    const contentOffsetX = this.data.offset;
-    content.getElement().style.backgroundPosition = `-${contentOffsetX}px -${rowOffsetY}px`;
+    const rowOffsetY = this.data.stage * rowHeight;
+    const contentOffsetX = (rowWidth * this.data.offset) / 100;
 
-    // the convex starts at the same place as the next piece
-    const convexOffsetX = this.data.offset + this.data.width;
+    const convexHeight = convex.getElement().getBoundingClientRect().height;
+
+    // the convex starts at the same place as the next piece (in pixels)
+    const convexOffsetX =
+      (rowWidth * (this.data.offset + this.data.width)) / 100;
     // align the convex in the middle, the same as  `top: 50%; transformY: -50%`
-    const convexOffsetY = rowOffsetY + CARD_HEIGHT / 2 - CONVEX_HEIGHT / 2;
-    convex.getElement().style.backgroundPosition = `-${convexOffsetX}px -${convexOffsetY}px`;
+    const convexOffsetY = rowOffsetY + rowHeight / 2 - convexHeight / 2;
+
+    const contentStyles = {
+      backgroundSize: `${rowWidth}px`,
+      backgroundPosition: `-${contentOffsetX}px -${rowOffsetY}px`,
+    };
+
+    const convexStyles = {
+      backgroundSize: `${rowWidth}px`,
+      backgroundPosition: `-${convexOffsetX}px -${convexOffsetY}px`,
+    };
+
+    content.setInlineStyles(contentStyles);
+    convex.setInlineStyles(convexStyles);
   }
 
   private mouseDownHandler(e: MouseEvent): void {
@@ -92,15 +109,22 @@ export default class WordCard extends Component {
     this.clientY = e.clientY;
 
     const card = this.getElement();
+    const { left, top, height, width } = card.getBoundingClientRect();
 
     // keep track of these coordinates to adjust the dragging point to any location on the card. otherwise, the center of the card will move to the cursor when clicked.
-    this.shiftX = e.clientX - card.getBoundingClientRect().left;
-    this.shiftY = e.clientY - card.getBoundingClientRect().top;
+    this.shiftX = e.clientX - left;
+    this.shiftY = e.clientY - top;
 
     // snap the card from the row
-    card.style.position = "absolute";
-    card.style.zIndex = "1000";
-    card.style.cursor = "grabbing";
+    const cardStyles = {
+      position: "absolute",
+      zIndex: "1000",
+      cursor: "grabbing",
+      height: `${height}px`,
+      width: `${width}px`,
+    };
+
+    this.setInlineStyles(cardStyles);
     document.body.append(card);
 
     // follow the cursor

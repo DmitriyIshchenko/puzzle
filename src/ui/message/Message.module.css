@@ -1,0 +1,46 @@
+.message {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  column-gap: 0.5rem;
+  row-gap: 1rem;
+  padding: 1.5rem 1rem;
+
+  align-items: start;
+  text-align: center;
+
+  background-color: white;
+  border-radius: var(--border-radius-sm);
+
+  font-weight: 400;
+  font-size: 0.9rem;
+
+  @container (width > 500px) {
+    display: none;
+  }
+
+  i {
+    font-size: 1.5rem;
+  }
+}
+
+.button {
+  grid-column: 1/-1;
+  width: max-content;
+  justify-self: center;
+}
+
+.info {
+  color: var(--color-yellow-500);
+}
+
+.warning {
+  color: var(--color-yellow-500);
+}
+
+.error {
+  color: var(--color-red-700);
+}
+
+.hidden {
+  display: none;
+}

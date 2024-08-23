@@ -1,5 +1,5 @@
 .row {
-  height: 40px;
+  height: 10%;
   display: flex;
   position: relative;
 
@@ -12,11 +12,11 @@
 
     width: 20px;
     height: 20px;
-  }
 
-  /* TEMP HOTFIX */
-  /* 768px - padding (2*20px) */
-  max-width: 728px;
+    @container app (width < 800px) {
+      background-image: none;
+    }
+  }
 }
 
 .active {
@@ -33,17 +33,41 @@
   pointer-events: none;
 
   div {
-    transition: all 0.3s;
     border: none;
   }
 
   &::before {
     background-image: url(https://upload.wikimedia.org/wikipedia/commons/3/3b/Eo_circle_green_checkmark.svg);
   }
+
+  @container app (width < 800px) {
+    &::before {
+      background-image: none;
+    }
+    span {
+      text-shadow:
+        3px 0px 7px color-mix(in srgb, var(--color-green-700) 100%, transparent),
+        -3px 0px 7px color-mix(in srgb, var(--color-green-700) 100%, transparent),
+        0px 4px 7px color-mix(in srgb, var(--color-green-700) 100%, transparent);
+    }
+  }
 }
 
 .incorrect {
   &::before {
     background-image: url(https://upload.wikimedia.org/wikipedia/commons/c/cc/Cross_red_circle.svg);
+  }
+
+  @container app (width < 800px) {
+    &::before {
+      background-image: none;
+    }
+
+    span {
+      text-shadow:
+        3px 0px 7px color-mix(in srgb, var(--color-red-700) 100%, transparent),
+        -3px 0px 7px color-mix(in srgb, var(--color-red-700) 100%, transparent),
+        0px 4px 7px color-mix(in srgb, var(--color-red-700) 100%, transparent);
+    }
   }
 }
