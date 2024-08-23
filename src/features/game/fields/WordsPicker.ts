@@ -39,6 +39,7 @@ export default class WordsPicker extends Component implements Observer {
 
       this.row.fillCells(publisher.state.content.pickArea);
       await this.updateHeight();
+      await this.row.updateBackgroundPositions();
     }
   }
 

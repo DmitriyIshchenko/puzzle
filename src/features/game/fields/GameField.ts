@@ -45,6 +45,7 @@ export default class GameField extends Component implements Observer {
         publisher.state.stages[currentStage].status,
       );
       await this.updateFieldSize();
+      await currentRow.updateBackgroundPositions();
     }
   }
 

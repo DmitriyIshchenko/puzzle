@@ -26,6 +26,7 @@ export default class Row extends Component implements Observer {
     this.hintSettings.subscribe(this);
 
     this.configure();
+    window.addEventListener("resize", this.handleResize.bind(this));
   }
 
   private configure() {
@@ -44,6 +45,12 @@ export default class Row extends Component implements Observer {
 
       this.toggleRowBackgrounds(this.isBackgroundDisplayed);
     }
+  }
+
+  private handleResize() {
+    this.updateBackgroundPositions().catch((err: unknown) => {
+      console.error(err);
+    });
   }
 
   // TODO: this method needs a lot of refactoring
@@ -98,6 +105,18 @@ export default class Row extends Component implements Observer {
       const [card] = cell.getChildren();
       if (card instanceof WordCard) {
         card.setBackground(isShown);
+      }
+    });
+  }
+
+  async updateBackgroundPositions() {
+    const { width: rowWidth, height: rowHeight } =
+      this.getElement().getBoundingClientRect();
+
+    this.cells.forEach((cell) => {
+      const [card] = cell.getChildren();
+      if (card instanceof WordCard) {
+        card.calculateBackgroundPositions(rowWidth, rowHeight);
       }
     });
   }
