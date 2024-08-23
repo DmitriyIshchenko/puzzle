@@ -4,20 +4,12 @@ import { Observer, Publisher } from "../../../shared/Observer";
 
 import { MoveCardAction, Round, StageStatus } from "../types";
 import { generateStageWords } from "../../../shared/helpers";
-
-import level1 from "../../../../data/wordCollectionLevel1.json";
-import level2 from "../../../../data/wordCollectionLevel2.json";
-import level3 from "../../../../data/wordCollectionLevel3.json";
-import level4 from "../../../../data/wordCollectionLevel4.json";
-import level5 from "../../../../data/wordCollectionLevel5.json";
-import level6 from "../../../../data/wordCollectionLevel6.json";
-
-// TODO: fetch this data
-const LEVELS = [level1, level2, level3, level4, level5, level6];
+import LEVELS from "../../../../data/levels";
 
 function prepareRound(difficulty: number, round: number): Round {
   const rawData = LEVELS[difficulty].rounds[round].words;
-  const { author, name, imageSrc } = LEVELS[difficulty].rounds[round].levelData;
+  const { author, name, imageSrc, id } =
+    LEVELS[difficulty].rounds[round].levelData;
 
   const stages = rawData.map((entry, index) => ({
     stageNumber: index,
@@ -29,6 +21,7 @@ function prepareRound(difficulty: number, round: number): Round {
   }));
 
   return {
+    id,
     currentStage: 0,
     painting: { author, name, imageSrc },
     stages,

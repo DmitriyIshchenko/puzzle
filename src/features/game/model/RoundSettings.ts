@@ -1,15 +1,5 @@
 import State from "../../../app/state/StatePublisher";
-
-// TODO: fetch this data
-// TODO: fix repeating code issue
-import level1 from "../../../../data/wordCollectionLevel1.json";
-import level2 from "../../../../data/wordCollectionLevel2.json";
-import level3 from "../../../../data/wordCollectionLevel3.json";
-import level4 from "../../../../data/wordCollectionLevel4.json";
-import level5 from "../../../../data/wordCollectionLevel5.json";
-import level6 from "../../../../data/wordCollectionLevel6.json";
-
-const LEVELS = [level1, level2, level3, level4, level5, level6];
+import LEVELS from "../../../../data/levels";
 
 interface RoundSettingsData {
   difficultyLevel: number;

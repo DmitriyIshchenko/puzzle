@@ -57,6 +57,7 @@ export interface Painting {
 }
 
 export interface Round {
+  id: string;
   currentStage: number;
   painting: Painting;
   stages: Array<Stage>;
