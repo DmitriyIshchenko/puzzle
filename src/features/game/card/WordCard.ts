@@ -74,7 +74,7 @@ export default class WordCard extends Component {
    * in pixels rather than dealing with the current setup.
    */
   /* TODO: Change the formula to avoid excessive calculations and to work with percentages. */
-
+  // FIXME: frequent updating causes blinking
   public calculateBackgroundPositions(rowWidth: number, rowHeight: number) {
     const [content, convex] = this.getChildren();
 
@@ -109,15 +109,22 @@ export default class WordCard extends Component {
     this.clientY = e.clientY;
 
     const card = this.getElement();
+    const { left, top, height, width } = card.getBoundingClientRect();
 
     // keep track of these coordinates to adjust the dragging point to any location on the card. otherwise, the center of the card will move to the cursor when clicked.
-    this.shiftX = e.clientX - card.getBoundingClientRect().left;
-    this.shiftY = e.clientY - card.getBoundingClientRect().top;
+    this.shiftX = e.clientX - left;
+    this.shiftY = e.clientY - top;
 
     // snap the card from the row
-    card.style.position = "absolute";
-    card.style.zIndex = "1000";
-    card.style.cursor = "grabbing";
+    const cardStyles = {
+      position: "absolute",
+      zIndex: "1000",
+      cursor: "grabbing",
+      height: `${height}px`,
+      width: `${width}px`,
+    };
+
+    this.setInlineStyles(cardStyles);
     document.body.append(card);
 
     // follow the cursor
