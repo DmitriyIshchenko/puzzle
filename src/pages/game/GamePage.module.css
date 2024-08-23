@@ -9,11 +9,12 @@
 
   container: game-page / inline-size;
   width: min(768px, 100%);
-  padding: 5px;
+  padding: 20px;
 
   @container (width < 500px) {
     place-content: start;
     row-gap: 2rem;
+    padding: 5px;
   }
 }
 
