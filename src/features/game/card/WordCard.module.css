@@ -88,3 +88,9 @@
 .word.last .convex {
   display: none;
 }
+
+.faded {
+  opacity: 0;
+  transition-property: opacity;
+  transition-duration: 0.2s;
+}

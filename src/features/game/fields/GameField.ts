@@ -1,13 +1,18 @@
 import Component from "../../../shared/Component";
 import Row from "./Row";
+import WordCard from "../card/WordCard";
 
-import { RowType } from "../types";
-import { Observer, Publisher } from "../../../shared/Observer";
 import RoundState from "../model/RoundState";
 import HintSettings from "../model/HintSettings";
 
+import { RowType } from "../types";
+import { Observer, Publisher } from "../../../shared/Observer";
+import {
+  calculateImageAspectRatio,
+  findAllInstancesOf,
+} from "../../../shared/helpers";
+
 import styles from "./GameField.module.css";
-import { calculateImageAspectRatio } from "../../../shared/helpers";
 
 export default class GameField extends Component implements Observer {
   private rows: Array<Row> = [];
@@ -52,7 +57,7 @@ export default class GameField extends Component implements Observer {
 
   private async updateVisuals() {
     await this.updateFieldSize();
-    this.toogleFinishedRound(this.roundState.isRoundCompleted());
+    this.fadeAwayAllCards(this.roundState.isRoundCompleted());
 
     // TODO: subscribe rows to state updates
     // TODO: create a current stage getter
@@ -62,10 +67,15 @@ export default class GameField extends Component implements Observer {
     await this.currentRow.updateBackgroundPositions();
   }
 
-  private toogleFinishedRound(isRoundCompleted: boolean) {
+  private fadeAwayAllCards(isRoundCompleted: boolean) {
+    const ANIMATION_DELAY_COEFFICIENT = 20;
+
     if (isRoundCompleted) {
-      this.addClass(styles.completed);
-    } else this.removeClass(styles.completed);
+      const cards = findAllInstancesOf(WordCard, this);
+      cards.forEach((card, index) => {
+        card.fadeAwayCardText(index / ANIMATION_DELAY_COEFFICIENT);
+      });
+    }
   }
 
   private async updateFieldSize() {
