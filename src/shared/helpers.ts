@@ -1,4 +1,5 @@
 import { Stage, Word } from "../features/game/types";
+import Component from "./Component";
 
 const IMAGES_BASE_URL =
   "https://raw.githubusercontent.com/rolling-scopes-school/rss-puzzle-data/main/images";
@@ -75,4 +76,22 @@ export async function calculateImageAspectRatio(src: string) {
   });
 
   return image.naturalWidth / image.naturalHeight;
+}
+
+// use never since any is not allowed
+export function findAllInstancesOf<T>(
+  classConstructor: new (...args: never[]) => T, // return an instance of type T
+  component: Component,
+): T[] {
+  let instances: T[] = [];
+
+  if (component instanceof classConstructor) {
+    instances.push(component);
+  }
+
+  component.getChildren().forEach((child) => {
+    instances = instances.concat(findAllInstancesOf(classConstructor, child));
+  });
+
+  return instances;
 }
