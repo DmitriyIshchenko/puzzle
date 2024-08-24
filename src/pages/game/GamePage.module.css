@@ -11,9 +11,10 @@
   width: min(768px, 100%);
   padding: 20px;
 
+  transition: all 0.3s;
+
   @container (width < 500px) {
     place-content: start;
-    row-gap: 2rem;
     padding: 5px;
   }
 }
