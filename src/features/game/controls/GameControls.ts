@@ -16,18 +16,22 @@ export default class GameControls extends Component implements Observer {
       tag: "div",
       className: styles.controls,
     });
+
     roundState.subscribe(this);
 
-    this.autocompleteButton = new Button("Autocomplete", () => {});
+    this.autocompleteButton = new Button(
+      "Autocomplete",
+      roundState.autocompleteStage.bind(roundState),
+    );
     this.gameFlowButton = new Button("Check", () => {});
 
     this.appendChildren([this.autocompleteButton, this.gameFlowButton]);
   }
 
   update(roundState: RoundState) {
-    this.autocompleteButton.updateCallback(() => {
-      roundState.autocompleteStage();
-    });
+    if (roundState.isStageCompleted()) {
+      this.autocompleteButton.setAttribute("disabled", "");
+    } else this.autocompleteButton.removeAttribute("disabled");
 
     this.updateFlowButton(roundState);
 
