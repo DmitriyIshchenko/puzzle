@@ -14,6 +14,8 @@ export default class GameField extends Component implements Observer {
 
   private roundId: string = "";
 
+  private currentRow: Row = this.rows[0];
+
   constructor(
     private roundState: RoundState,
     private hintSettings: HintSettings,
@@ -36,20 +38,34 @@ export default class GameField extends Component implements Observer {
       }
 
       this.roundId = id;
-      const currentRow = this.rows[currentStage];
+      this.currentRow = this.rows[currentStage];
 
       this.rows.forEach((row) => {
         row.deactivateRow();
       });
-      currentRow.activateRow();
+      this.currentRow.activateRow();
 
-      currentRow.fillCells(publisher.state.content.assembleArea);
-      currentRow.updateStatusStyles(
-        publisher.state.stages[currentStage].status,
-      );
-      await this.updateFieldSize();
-      await currentRow.updateBackgroundPositions();
+      this.currentRow.fillCells(publisher.state.content.assembleArea);
+      await this.updateVisuals();
     }
+  }
+
+  private async updateVisuals() {
+    await this.updateFieldSize();
+    this.toogleFinishedRound(this.roundState.isRoundCompleted());
+
+    // TODO: subscribe rows to state updates
+    // TODO: create a current stage getter
+    this.currentRow.updateStatusStyles(
+      this.roundState.state.stages[this.roundState.state.currentStage].status,
+    );
+    await this.currentRow.updateBackgroundPositions();
+  }
+
+  private toogleFinishedRound(isRoundCompleted: boolean) {
+    if (isRoundCompleted) {
+      this.addClass(styles.completed);
+    } else this.removeClass(styles.completed);
   }
 
   private async updateFieldSize() {
