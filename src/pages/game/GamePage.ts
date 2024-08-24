@@ -1,21 +1,25 @@
 import Component from "../../shared/Component";
+import SmallScreenWarningCard from "../../features/game/card/SmallScreenWarningCard";
+
 import GameField from "../../features/game/fields/GameField";
 import WordsPicker from "../../features/game/fields/WordsPicker";
+import PaintingInfo from "../../features/game/card/PaintingInfo";
 import RoundState from "../../features/game/model/RoundState";
 
-import styles from "./GamePage.module.css";
-import GameControls from "../../features/game/controls/GameControls";
 import TranslationHint from "../../features/game/hints/TranslationHint";
 import PronunciationHint from "../../features/game/hints/PronunciationHint";
-import HintsControls from "../../features/game/hints/HintControls";
-import HintSettings from "../../features/game/model/HintSettings";
-import RoundControls from "../../features/game/controls/RoundControls";
-import RoundSettings from "../../features/game/model/RoundSettings";
 
-import SmallScreenWarningCard from "../../features/game/card/SmallScreenWarningCard";
+import GameControls from "../../features/game/controls/GameControls";
+import HintsControls from "../../features/game/hints/HintControls";
+import RoundControls from "../../features/game/controls/RoundControls";
+
+import RoundSettings from "../../features/game/model/RoundSettings";
+import HintSettings from "../../features/game/model/HintSettings";
 import SmallScreenSettings from "../../features/game/model/SmallScreenSettings";
 
 import { div } from "../../ui/tags";
+
+import styles from "./GamePage.module.css";
 
 export default class GamePage extends Component {
   roundSettings: RoundSettings;
@@ -54,10 +58,11 @@ export default class GamePage extends Component {
 
   private configureFieds() {
     const gameField = new GameField(this.roundState, this.hintSettings);
+    const paintingInfo = new PaintingInfo(this.roundState);
     const wordsPicker = new WordsPicker(this.roundState, this.hintSettings);
     const roundControls = new GameControls(this.roundState);
 
-    return [gameField, wordsPicker, roundControls];
+    return [gameField, paintingInfo, wordsPicker, roundControls];
   }
 
   private configurHints() {

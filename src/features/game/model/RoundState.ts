@@ -2,13 +2,13 @@ import State from "../../../app/state/StatePublisher";
 import RoundSettings from "./RoundSettings";
 import { Observer, Publisher } from "../../../shared/Observer";
 
-import { MoveCardAction, Round, StageStatus } from "../types";
+import { MoveCardAction, Round, Stage, StageStatus } from "../types";
 import { generateStageWords } from "../../../shared/helpers";
 import LEVELS from "../../../../data/levels";
 
 function prepareRound(difficulty: number, round: number): Round {
   const rawData = LEVELS[difficulty].rounds[round].words;
-  const { author, name, imageSrc, id } =
+  const { author, name, imageSrc, id, year } =
     LEVELS[difficulty].rounds[round].levelData;
 
   const stages = rawData.map((entry, index) => ({
@@ -23,7 +23,7 @@ function prepareRound(difficulty: number, round: number): Round {
   return {
     id,
     currentStage: 0,
-    painting: { author, name, imageSrc },
+    painting: { author, name, year, imageSrc },
     stages,
     content: {
       pickArea: [],
@@ -140,13 +140,19 @@ export default class RoundState extends State<Round> implements Observer {
     this.state.stages[this.state.currentStage].status = updatedStatus;
   }
 
-  isStageCompleted(): boolean {
+  isStageCompleted(
+    stage: Stage = this.state.stages[this.state.currentStage],
+  ): boolean {
     return [StageStatus.AUTOCOMPLETED, StageStatus.CORRECT].includes(
-      this.state.stages[this.state.currentStage].status,
+      stage.status,
     );
   }
 
   isAssembled() {
     return this.state.content.assembleArea.every((word) => word);
+  }
+
+  isRoundCompleted(): boolean {
+    return this.state.stages.every((stage) => this.isStageCompleted(stage));
   }
 }

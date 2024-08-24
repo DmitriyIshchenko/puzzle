@@ -1,13 +1,15 @@
 import Component from "../../../shared/Component";
 import Row from "./Row";
 
-import { RowType } from "../types";
-import { Observer, Publisher } from "../../../shared/Observer";
 import RoundState from "../model/RoundState";
 import HintSettings from "../model/HintSettings";
 
-import styles from "./WordsPicker.module.css";
+import { RowType } from "../types";
+import { Observer, Publisher } from "../../../shared/Observer";
+
 import { calculateImageAspectRatio } from "../../../shared/helpers";
+
+import styles from "./WordsPicker.module.css";
 
 export default class WordsPicker extends Component implements Observer {
   private row: Row | null = null;
@@ -37,10 +39,18 @@ export default class WordsPicker extends Component implements Observer {
         this.row = this.createRow(publisher);
       }
 
+      this.toggleVisibility(publisher.isRoundCompleted());
+
       this.row.fillCells(publisher.state.content.pickArea);
       await this.updateHeight();
       await this.row.updateBackgroundPositions();
     }
+  }
+
+  private toggleVisibility(isDisplayed: boolean) {
+    if (isDisplayed) {
+      this.setAttribute("hidden", "");
+    } else this.removeAttribute("hidden");
   }
 
   private handleResize() {
@@ -57,7 +67,6 @@ export default class WordsPicker extends Component implements Observer {
     }
 
     const { width } = this.getElement().getBoundingClientRect();
-
     this.getElement().style.height = `${width / this.imageAspectRatio / 10}px`;
   }
 

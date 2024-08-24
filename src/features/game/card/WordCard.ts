@@ -25,6 +25,8 @@ export default class WordCard extends Component {
 
   private lastDropTarget: HTMLElement | null = null;
 
+  private textSpan: Component;
+
   constructor(
     private data: Word,
     private actionHandler: (action: MoveCardAction) => void,
@@ -44,14 +46,12 @@ export default class WordCard extends Component {
       this.mouseDownHandler.bind(this),
     );
 
+    this.textSpan = span({ className: styles.text, text: this.data.text });
     this.configure();
   }
 
   private configure() {
-    const content = div(
-      { className: styles.content },
-      span({ className: styles.text, text: this.data.text }),
-    );
+    const content = div({ className: styles.content }, this.textSpan);
     const convex = div({ className: styles.convex });
 
     this.appendChildren([content, convex]);
@@ -101,6 +101,11 @@ export default class WordCard extends Component {
 
     content.setInlineStyles(contentStyles);
     convex.setInlineStyles(convexStyles);
+  }
+
+  fadeAwayCardText(transitionDelay: number) {
+    this.textSpan.addClass(styles.faded);
+    this.textSpan.setInlineStyles({ transitionDelay: `${transitionDelay}s` });
   }
 
   private mouseDownHandler(e: MouseEvent): void {

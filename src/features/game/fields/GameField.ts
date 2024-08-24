@@ -1,18 +1,26 @@
 import Component from "../../../shared/Component";
 import Row from "./Row";
+import WordCard from "../card/WordCard";
 
-import { RowType } from "../types";
-import { Observer, Publisher } from "../../../shared/Observer";
 import RoundState from "../model/RoundState";
 import HintSettings from "../model/HintSettings";
 
+import { RowType } from "../types";
+import { Observer, Publisher } from "../../../shared/Observer";
+import {
+  ANIMATION_DELAY_COEFFICIENT,
+  calculateImageAspectRatio,
+  findAllInstancesOf,
+} from "../../../shared/helpers";
+
 import styles from "./GameField.module.css";
-import { calculateImageAspectRatio } from "../../../shared/helpers";
 
 export default class GameField extends Component implements Observer {
   private rows: Array<Row> = [];
 
   private roundId: string = "";
+
+  private currentRow: Row = this.rows[0];
 
   constructor(
     private roundState: RoundState,
@@ -36,19 +44,36 @@ export default class GameField extends Component implements Observer {
       }
 
       this.roundId = id;
-      const currentRow = this.rows[currentStage];
+      this.currentRow = this.rows[currentStage];
 
       this.rows.forEach((row) => {
         row.deactivateRow();
       });
-      currentRow.activateRow();
+      this.currentRow.activateRow();
 
-      currentRow.fillCells(publisher.state.content.assembleArea);
-      currentRow.updateStatusStyles(
-        publisher.state.stages[currentStage].status,
-      );
-      await this.updateFieldSize();
-      await currentRow.updateBackgroundPositions();
+      this.currentRow.fillCells(publisher.state.content.assembleArea);
+      await this.updateVisuals();
+    }
+  }
+
+  private async updateVisuals() {
+    await this.updateFieldSize();
+    this.fadeAwayAllCards(this.roundState.isRoundCompleted());
+
+    // TODO: subscribe rows to state updates
+    // TODO: create a current stage getter
+    this.currentRow.updateStatusStyles(
+      this.roundState.state.stages[this.roundState.state.currentStage].status,
+    );
+    await this.currentRow.updateBackgroundPositions();
+  }
+
+  private fadeAwayAllCards(isRoundCompleted: boolean) {
+    if (isRoundCompleted) {
+      const cards = findAllInstancesOf(WordCard, this);
+      cards.forEach((card, index) => {
+        card.fadeAwayCardText(index / ANIMATION_DELAY_COEFFICIENT);
+      });
     }
   }
 
