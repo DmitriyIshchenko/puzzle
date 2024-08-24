@@ -5,6 +5,7 @@ const IMAGES_BASE_URL =
   "https://raw.githubusercontent.com/rolling-scopes-school/rss-puzzle-data/main/images";
 const ROW_WIDTH = 728;
 const CONCAVE_WIDTH = 10;
+export const ANIMATION_DELAY_COEFFICIENT = 50;
 
 // take concave width into account in order to visually align narrow pieces like "a", "I", "at" etc
 export function calculateCardWidthPixels(sentence: string, word: string) {

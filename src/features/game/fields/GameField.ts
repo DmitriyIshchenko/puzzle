@@ -8,6 +8,7 @@ import HintSettings from "../model/HintSettings";
 import { RowType } from "../types";
 import { Observer, Publisher } from "../../../shared/Observer";
 import {
+  ANIMATION_DELAY_COEFFICIENT,
   calculateImageAspectRatio,
   findAllInstancesOf,
 } from "../../../shared/helpers";
@@ -68,8 +69,6 @@ export default class GameField extends Component implements Observer {
   }
 
   private fadeAwayAllCards(isRoundCompleted: boolean) {
-    const ANIMATION_DELAY_COEFFICIENT = 20;
-
     if (isRoundCompleted) {
       const cards = findAllInstancesOf(WordCard, this);
       cards.forEach((card, index) => {
