@@ -8,7 +8,7 @@ import LEVELS from "../../../../data/levels";
 
 function prepareRound(difficulty: number, round: number): Round {
   const rawData = LEVELS[difficulty].rounds[round].words;
-  const { author, name, imageSrc, id } =
+  const { author, name, imageSrc, id, year } =
     LEVELS[difficulty].rounds[round].levelData;
 
   const stages = rawData.map((entry, index) => ({
@@ -23,7 +23,7 @@ function prepareRound(difficulty: number, round: number): Round {
   return {
     id,
     currentStage: 0,
-    painting: { author, name, imageSrc },
+    painting: { author, name, year, imageSrc },
     stages,
     content: {
       pickArea: [],

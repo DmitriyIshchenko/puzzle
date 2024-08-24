@@ -1,18 +1,26 @@
 import Component from "../../../shared/Component";
 import Row from "./Row";
+import { p } from "../../../ui/tags";
 
-import { RowType } from "../types";
-import { Observer, Publisher } from "../../../shared/Observer";
 import RoundState from "../model/RoundState";
 import HintSettings from "../model/HintSettings";
 
+import { RowType } from "../types";
+import { Observer, Publisher } from "../../../shared/Observer";
+
+import {
+  ANIMATION_DELAY_COEFFICIENT,
+  calculateImageAspectRatio,
+} from "../../../shared/helpers";
+
 import styles from "./WordsPicker.module.css";
-import { calculateImageAspectRatio } from "../../../shared/helpers";
 
 export default class WordsPicker extends Component implements Observer {
   private row: Row | null = null;
 
   private imageAspectRatio: number = 0;
+
+  private paintingInfo: Component;
 
   constructor(
     private roundState: RoundState,
@@ -24,6 +32,12 @@ export default class WordsPicker extends Component implements Observer {
     });
 
     roundState.subscribe(this);
+
+    this.paintingInfo = p({
+      className: styles.info,
+      text: "sdfsgjsgh- sdgjhjsgj",
+    });
+    this.append(this.paintingInfo);
 
     window.addEventListener("resize", this.handleResize.bind(this));
   }
@@ -40,7 +54,27 @@ export default class WordsPicker extends Component implements Observer {
       this.row.fillCells(publisher.state.content.pickArea);
       await this.updateHeight();
       await this.row.updateBackgroundPositions();
+      this.revealPaintingInfo(publisher);
     }
+  }
+
+  private revealPaintingInfo(publisher: RoundState) {
+    const isRoundCompleted = publisher.isRoundCompleted();
+    const { author, name, year } = publisher.state.painting;
+    const infoString = `${author} — ${name} (${year})`;
+
+    const totalWords = publisher.state.stages.reduce(
+      (acc, cur) => acc + cur.sentenceLength,
+      0,
+    );
+
+    if (isRoundCompleted) {
+      this.paintingInfo.setTextContent(infoString);
+      this.paintingInfo.addClass(styles.appeared);
+      this.paintingInfo.setInlineStyles({
+        transitionDelay: `${(totalWords - 1) / ANIMATION_DELAY_COEFFICIENT}s`,
+      });
+    } else this.paintingInfo.removeClass(styles.appeared);
   }
 
   private handleResize() {
