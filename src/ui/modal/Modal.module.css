@@ -1,3 +1,7 @@
+body:has(.modal[open]) {
+  overflow: hidden;
+}
+
 .modal {
   position: fixed;
 
