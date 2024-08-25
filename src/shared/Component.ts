@@ -54,7 +54,7 @@ export default class Component<T extends HTMLElement = HTMLElement> {
     this.element.textContent = text;
   }
 
-  setAttribute(name: string, value: string) {
+  setAttribute(name: string, value: string = "") {
     this.element.setAttribute(name, value);
   }
 
