@@ -17,7 +17,7 @@ export default class RoundStats extends Component implements Observer {
 
   update(publisher: Publisher): void {
     if (publisher instanceof RoundState && publisher.isRoundCompleted()) {
-      this.setTextContent(`stats placeholder round ${publisher.state.id}`);
+      this.setTextContent("Round stats");
       this.modal.updateContent(this);
     }
   }
