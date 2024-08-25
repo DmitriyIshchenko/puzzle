@@ -8,8 +8,8 @@ body:has(.modal[open]) {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+  padding: 0;
 
-  padding: 1rem 1.5rem;
   border: none;
   border-radius: var(--border-radius-sm);
 
@@ -24,6 +24,7 @@ body:has(.modal[open]) {
 }
 
 .form {
+  padding: 1rem 1.5rem;
   height: 100%;
   width: 100%;
 }

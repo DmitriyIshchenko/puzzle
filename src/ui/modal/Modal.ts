@@ -28,6 +28,17 @@ export default class Modal extends Component<HTMLDialogElement> {
     controlForm.append(this.content);
 
     this.append(controlForm);
+
+    this.addListener("click", this.closeOnBackdropClick.bind(this));
+  }
+
+  // A click on ::backdrop is treated as a click on the <dialog> element itself, making the dialog the currentTarget. So, when the target and currentTarget don't match, it means that the click occurred on the content element, which won't close the modal
+  closeOnBackdropClick(e: Event) {
+    const isBackdropClicked = e.target === this.getElement();
+
+    if (isBackdropClicked) {
+      this.getElement().close();
+    }
   }
 
   show() {
