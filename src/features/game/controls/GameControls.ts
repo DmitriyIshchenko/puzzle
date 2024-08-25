@@ -1,7 +1,9 @@
 import Component from "../../../shared/Component";
 import Button from "../../../ui/button/Button";
+import type Modal from "../../../ui/modal/Modal";
 
-import RoundState from "../model/RoundState";
+import type RoundState from "../model/RoundState";
+
 import { Observer } from "../../../shared/Observer";
 
 import styles from "./GameControls.module.css";
@@ -9,9 +11,13 @@ import styles from "./GameControls.module.css";
 export default class GameControls extends Component implements Observer {
   autocompleteButton: Button;
 
-  gameFlowButton: Button;
+  statsButton: Button;
 
-  constructor(roundState: RoundState) {
+  checkButton: Button;
+
+  continueButton: Button;
+
+  constructor(roundState: RoundState, modal: Modal) {
     super({
       tag: "div",
       className: styles.controls,
@@ -23,32 +29,68 @@ export default class GameControls extends Component implements Observer {
       "Autocomplete",
       roundState.autocompleteStage.bind(roundState),
     );
-    this.gameFlowButton = new Button("Check", null);
 
-    this.appendChildren([this.autocompleteButton, this.gameFlowButton]);
+    this.statsButton = new Button("Results", () => {
+      modal.show();
+    });
+
+    this.checkButton = new Button(
+      "Check",
+      roundState.verifyAnswer.bind(roundState),
+    );
+
+    this.continueButton = new Button(
+      "Continue",
+      roundState.startNextStage.bind(roundState),
+    );
+
+    this.appendChildren([
+      this.statsButton,
+      this.autocompleteButton,
+      this.checkButton,
+      this.continueButton,
+    ]);
   }
 
   update(roundState: RoundState) {
-    if (roundState.isStageCompleted()) {
-      this.autocompleteButton.setAttribute("disabled", "");
-    } else this.autocompleteButton.removeAttribute("disabled");
-
-    this.updateFlowButton(roundState);
-
-    if (roundState.isAssembled()) {
-      this.gameFlowButton.removeAttribute("disabled");
-    } else this.gameFlowButton.setAttribute("disabled", "");
-
-    this.append(this.gameFlowButton);
+    this.updateAutocompleteButton(roundState);
+    this.updateCheckButton(roundState);
+    this.updateContinueButton(roundState);
+    this.updateStatsButton(roundState);
   }
 
-  updateFlowButton(roundState: RoundState) {
-    const text = roundState.isStageCompleted() ? "Continue" : "Check";
-    const callback = roundState.isStageCompleted()
-      ? roundState.startNextStage.bind(roundState)
-      : roundState.verifyAnswer.bind(roundState);
+  // hide after the round is completed
+  // enable when the stage is pending
+  updateAutocompleteButton(roundState: RoundState) {
+    this.autocompleteButton.toggleAttribute(
+      "disabled",
+      roundState.isStageCompleted(),
+    );
 
-    this.gameFlowButton.setTextContent(text);
-    this.gameFlowButton.updateCallback(callback);
+    this.autocompleteButton.toggleAttribute(
+      "hidden",
+      roundState.isRoundCompleted(),
+    );
+  }
+
+  // display when the stage is pending
+  // enable when all cards are moved to the asseble area
+  updateCheckButton(roundState: RoundState) {
+    this.checkButton.toggleAttribute("disabled", !roundState.isAssembled());
+
+    this.checkButton.toggleAttribute("hidden", roundState.isStageCompleted());
+  }
+
+  // display when you want to start next stage or nex round
+  updateContinueButton(roundState: RoundState) {
+    this.continueButton.toggleAttribute(
+      "hidden",
+      !roundState.isStageCompleted(),
+    );
+  }
+
+  // display only when round is completed
+  updateStatsButton(roundState: RoundState) {
+    this.statsButton.toggleAttribute("hidden", !roundState.isRoundCompleted());
   }
 }
