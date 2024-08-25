@@ -23,7 +23,7 @@ export default class GameControls extends Component implements Observer {
       "Autocomplete",
       roundState.autocompleteStage.bind(roundState),
     );
-    this.gameFlowButton = new Button("Check", () => {});
+    this.gameFlowButton = new Button("Check", null);
 
     this.appendChildren([this.autocompleteButton, this.gameFlowButton]);
   }
