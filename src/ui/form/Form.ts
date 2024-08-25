@@ -44,7 +44,7 @@ export default class Form extends Component<HTMLFormElement> {
       this.append(this.createFormField(params));
     });
 
-    const button = new Button(this.buttonText, () => {});
+    const button = new Button(this.buttonText, null);
 
     this.append(div({ className: styles.row }, button));
   }

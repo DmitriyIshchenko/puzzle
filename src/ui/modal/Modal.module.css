@@ -1,0 +1,49 @@
+body:has(.modal[open]) {
+  overflow: hidden;
+}
+
+.modal {
+  position: fixed;
+
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  padding: 0;
+
+  border: none;
+  border-radius: var(--border-radius-sm);
+
+  /* TEMP */
+  min-width: min(750px, 95vw);
+  height: auto;
+}
+
+.modal::backdrop {
+  background-color: var(--color-grey-900);
+  opacity: 0.6;
+}
+
+.form {
+  padding: 1rem 1.5rem;
+  height: 100%;
+  width: 100%;
+}
+
+.close {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+
+  color: var(--color-brand-900);
+  background: transparent;
+
+  &:hover {
+    color: var(--color-brand-50);
+  }
+}
+
+.content {
+  height: 100%;
+  width: 100%;
+  overflow-y: scroll;
+}

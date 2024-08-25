@@ -54,12 +54,18 @@ export default class Component<T extends HTMLElement = HTMLElement> {
     this.element.textContent = text;
   }
 
-  setAttribute(name: string, value: string) {
+  setAttribute(name: string, value: string = "") {
     this.element.setAttribute(name, value);
   }
 
   removeAttribute(name: string) {
     this.element.removeAttribute(name);
+  }
+
+  toggleAttribute(name: string, condition: boolean) {
+    if (condition) {
+      this.setAttribute(name);
+    } else this.removeAttribute(name);
   }
 
   addListener(

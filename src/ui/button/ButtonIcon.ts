@@ -4,8 +4,12 @@ import { i } from "../tags";
 import styles from "./ButtonIcon.module.css";
 
 export default class ButtonIcon extends Button {
-  constructor(icon: string | SVGSVGElement, onClick: EventListener) {
-    super("", onClick, styles.button);
+  constructor(
+    icon: string | SVGSVGElement,
+    onClick: EventListener | null,
+    className?: string,
+  ) {
+    super("", onClick, `${styles.button} ${className}`);
 
     this.updateIcon(icon);
   }
