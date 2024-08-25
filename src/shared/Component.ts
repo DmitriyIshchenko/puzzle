@@ -62,6 +62,12 @@ export default class Component<T extends HTMLElement = HTMLElement> {
     this.element.removeAttribute(name);
   }
 
+  toggleAttribute(name: string, condition: boolean) {
+    if (condition) {
+      this.setAttribute(name);
+    } else this.removeAttribute(name);
+  }
+
   addListener(
     eventType: string,
     listener: EventListener,
