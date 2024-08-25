@@ -18,6 +18,11 @@ body:has(.modal[open]) {
   height: auto;
 }
 
+.modal::backdrop {
+  background-color: var(--color-grey-900);
+  opacity: 0.6;
+}
+
 .form {
   height: 100%;
   width: 100%;
