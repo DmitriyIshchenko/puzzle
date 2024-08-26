@@ -1,0 +1,32 @@
+.title {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 1.2rem;
+  font-weight: 500;
+}
+
+.list {
+}
+
+.count {
+  display: grid;
+  place-content: center;
+
+  width: 30px;
+  height: 20px;
+
+  border-radius: 100px;
+  color: var(--color-grey-50);
+  text-align: center;
+
+  font-size: 1rem;
+}
+
+.solvedCount {
+  background-color: var(--color-green-700);
+}
+
+.unsolvedCount {
+  background-color: var(--color-red-700);
+}
