@@ -1,12 +1,18 @@
 .stats {
-  height: 100%;
   display: grid;
-  justify-items: center;
+  min-height: min(450px, 80vh);
 
-  font-weight: 700;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+
+  @container (width < 500px) {
+    grid-template-columns: 1fr;
+  }
 }
 
 .continue {
+  grid-column: 1/-1;
   align-self: end;
+  justify-self: center;
   width: max-content;
 }
