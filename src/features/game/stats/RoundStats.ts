@@ -8,6 +8,7 @@ import RoundState from "../model/RoundState";
 import { Stage, StageStatus } from "../types";
 
 import styles from "./RoundStats.module.css";
+import { div } from "../../../ui/tags";
 
 export default class RoundStats extends Component implements Observer {
   private knownSentencesList: SentencesList;
@@ -32,14 +33,18 @@ export default class RoundStats extends Component implements Observer {
     this.unknownSentencesList = new SentencesList(SentencesListType.UNSOLVED);
 
     this.appendChildren([
-      this.knownSentencesList,
-      this.unknownSentencesList,
+      div(
+        { className: styles.sentences },
+        this.knownSentencesList,
+        this.unknownSentencesList,
+      ),
       continueButton,
     ]);
   }
 
   update(publisher: Publisher): void {
-    if (publisher instanceof RoundState && publisher.isRoundCompleted()) {
+    if (publisher instanceof RoundState) {
+      // if (publisher instanceof RoundState && publisher.isRoundCompleted()) {
       const solvedStages: Array<Stage> = [];
       const unsolvedStages: Array<Stage> = [];
 
