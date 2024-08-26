@@ -43,8 +43,7 @@ export default class RoundStats extends Component implements Observer {
   }
 
   update(publisher: Publisher): void {
-    if (publisher instanceof RoundState) {
-      // if (publisher instanceof RoundState && publisher.isRoundCompleted()) {
+    if (publisher instanceof RoundState && publisher.isRoundCompleted()) {
       const solvedStages: Array<Stage> = [];
       const unsolvedStages: Array<Stage> = [];
 
