@@ -4,6 +4,7 @@ import RoundState from "../model/RoundState";
 import { Observer, Publisher } from "../../../shared/Observer";
 
 import styles from "./RoundStats.module.css";
+import Button from "../../../ui/button/Button";
 
 export default class RoundStats extends Component implements Observer {
   constructor(
@@ -13,11 +14,18 @@ export default class RoundStats extends Component implements Observer {
     super({ tag: "div", className: styles.stats });
 
     this.roundState.subscribe(this);
+
+    const continueButton = new Button(
+      "Continue",
+      this.roundState.startNextStage.bind(this.roundState),
+      styles.continue,
+    );
+
+    this.append(continueButton);
   }
 
   update(publisher: Publisher): void {
     if (publisher instanceof RoundState && publisher.isRoundCompleted()) {
-      this.setTextContent("Round stats");
       this.modal.updateContent(this);
     }
   }

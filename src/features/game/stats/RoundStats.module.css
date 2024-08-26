@@ -1,8 +1,12 @@
 .stats {
-  display: grid;
-  place-content: center;
   height: 100%;
+  display: grid;
+  justify-items: center;
 
   font-weight: 700;
-  font-size: 1.5rem;
+}
+
+.continue {
+  align-self: end;
+  width: max-content;
 }
