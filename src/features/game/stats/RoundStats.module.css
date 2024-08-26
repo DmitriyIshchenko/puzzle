@@ -1,8 +1,5 @@
 .stats {
   display: grid;
-  min-height: min(450px, 80vh);
-
-  grid-template-columns: 1fr 1fr;
   gap: 1rem;
 
   @container (width < 500px) {
@@ -15,4 +12,17 @@
   align-self: end;
   justify-self: center;
   width: max-content;
+}
+
+.sentences {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+
+  height: min(400px, 80vh);
+  overflow-y: scroll;
+
+  /* to make place for scrollbar */
+  scrollbar-width: thin;
+  margin-right: 10px;
 }

@@ -4,9 +4,13 @@
   gap: 0.5rem;
   font-size: 1.2rem;
   font-weight: 500;
+
+  margin-bottom: 1rem;
 }
 
 .list {
+  display: grid;
+  gap: 1rem;
 }
 
 .count {
@@ -29,4 +33,10 @@
 
 .unsolvedCount {
   background-color: var(--color-red-700);
+}
+
+.item {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
 }

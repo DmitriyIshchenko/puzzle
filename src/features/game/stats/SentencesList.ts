@@ -1,4 +1,5 @@
 import Component from "../../../shared/Component";
+import AudioButton from "../../../ui/button/AudioButton";
 import { h3, li, p, span, ul } from "../../../ui/tags";
 import { Stage } from "../types";
 
@@ -39,7 +40,11 @@ export default class SentencesList extends Component {
     this.list.clear();
 
     const listItems = stages.map((stage) =>
-      li({}, p({ text: stage.sentence })),
+      li(
+        { className: styles.item },
+        new AudioButton(stage.audio),
+        p({ text: stage.sentence }),
+      ),
     );
 
     this.count.setTextContent(listItems.length.toString());
