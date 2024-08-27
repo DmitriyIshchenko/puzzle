@@ -3,15 +3,12 @@ import Component from "../../../shared/Component";
 import { Word, MoveCardAction, RowType } from "../types";
 
 import { div, span } from "../../../ui/tags";
-import { assertNonNull } from "../../../shared/helpers";
+import { assertNonNull, IMAGES_BASE_URL } from "../../../shared/helpers";
 
 import styles from "./WordCard.module.css";
 import rowStyles from "../fields/Row.module.css";
 
 const DRAG_THRESHOLD = 2;
-
-const IMAGES_BASE_URL =
-  "https://raw.githubusercontent.com/rolling-scopes-school/rss-puzzle-data/main/images";
 
 // TODO: this class is too bloated. extract the Drag & Drop functionality into the Draggable class
 export default class WordCard extends Component {
