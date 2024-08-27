@@ -15,6 +15,7 @@ body:has(.modal[open]) {
   border-radius: var(--border-radius-sm);
 
   min-width: min(750px, 95vw);
+  height: 80vh;
 }
 
 .modal::backdrop {
