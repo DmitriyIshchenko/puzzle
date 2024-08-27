@@ -20,9 +20,9 @@ export default class State<T> implements Publisher {
     return this.defaultState;
   }
 
-  saveState() {
+  saveState(state = this.state) {
     if (this.key) {
-      localStorage.setItem(this.key, JSON.stringify(this.state));
+      localStorage.setItem(this.key, JSON.stringify(state));
     }
   }
 
