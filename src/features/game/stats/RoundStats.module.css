@@ -2,8 +2,12 @@
   display: grid;
   gap: 1rem;
 
-  @container (width < 500px) {
-    grid-template-columns: 1fr;
+  grid-template-rows: min-content 1fr max-content;
+
+  height: 100%;
+
+  @media (orientation: landscape) and (height < 400px) {
+    grid-template-rows: 1fr max-content;
   }
 }
 
@@ -19,7 +23,6 @@
   flex-direction: column;
   gap: 1.2rem;
 
-  height: min(400px, 80vh);
   overflow-y: scroll;
 
   /* to make place for scrollbar */

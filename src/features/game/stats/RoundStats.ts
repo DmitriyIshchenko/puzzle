@@ -1,16 +1,19 @@
 import Component from "../../../shared/Component";
 import Modal from "../../../ui/modal/Modal";
-import Button from "../../../ui/button/Button";
+import ArtworkMiniature from "./ArtworkMiniature";
 import SentencesList, { SentencesListType } from "./SentencesList";
+import Button from "../../../ui/button/Button";
+import { div } from "../../../ui/tags";
 
-import { Observer, Publisher } from "../../../shared/Observer";
 import RoundState from "../model/RoundState";
+import { Observer, Publisher } from "../../../shared/Observer";
 import { Stage, StageStatus } from "../types";
 
 import styles from "./RoundStats.module.css";
-import { div } from "../../../ui/tags";
 
 export default class RoundStats extends Component implements Observer {
+  private artwork: ArtworkMiniature;
+
   private knownSentencesList: SentencesList;
 
   private unknownSentencesList: SentencesList;
@@ -29,10 +32,12 @@ export default class RoundStats extends Component implements Observer {
       styles.continue,
     );
 
+    this.artwork = new ArtworkMiniature(this.roundState.state.painting);
     this.knownSentencesList = new SentencesList(SentencesListType.SOLVED);
     this.unknownSentencesList = new SentencesList(SentencesListType.UNSOLVED);
 
     this.appendChildren([
+      this.artwork,
       div(
         { className: styles.sentences },
         this.knownSentencesList,
@@ -52,6 +57,7 @@ export default class RoundStats extends Component implements Observer {
         else unsolvedStages.push(stage);
       });
 
+      this.artwork.updateContent(publisher.state.painting);
       this.knownSentencesList.fillList(solvedStages);
       this.unknownSentencesList.fillList(unsolvedStages);
 

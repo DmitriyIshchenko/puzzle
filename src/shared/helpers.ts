@@ -1,7 +1,7 @@
 import { Stage, Word } from "../features/game/types";
 import Component from "./Component";
 
-const IMAGES_BASE_URL =
+export const IMAGES_BASE_URL =
   "https://raw.githubusercontent.com/rolling-scopes-school/rss-puzzle-data/main/images";
 const ROW_WIDTH = 728;
 const CONCAVE_WIDTH = 10;
