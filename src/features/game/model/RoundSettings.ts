@@ -23,6 +23,12 @@ export default class RoundSettings extends State<RoundSettingsData> {
 
   updateSetting(setting: keyof RoundSettingsData, value: number) {
     this.state[setting] = value;
+
+    // when the difficulty level is updated, reset to the first round, as the number of rounds differs between difficulties
+    if (setting === "difficultyLevel") {
+      this.state.roundNumber = 0;
+    }
+
     this.updateRoundsAmount();
     this.notifySubscribers();
   }
