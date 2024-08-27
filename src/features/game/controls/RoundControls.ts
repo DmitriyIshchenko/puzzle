@@ -51,6 +51,15 @@ export default class RoundControls extends Component implements Observer {
     ]);
 
     this.addListener("change", this.handleDifficultySelection.bind(this));
+
+    RoundControls.selectOption(
+      this.difficultySelect,
+      this.roundSettings.state.difficultyLevel,
+    );
+    RoundControls.selectOption(
+      this.roundSelect,
+      this.roundSettings.state.roundNumber,
+    );
   }
 
   update(publisher: Publisher) {

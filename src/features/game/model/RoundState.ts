@@ -34,7 +34,8 @@ function prepareRound(difficulty: number, round: number): Round {
 
 export default class RoundState extends State<Round> implements Observer {
   constructor(private roundSettings: RoundSettings) {
-    super(prepareRound(0, 0));
+    const { difficultyLevel, roundNumber } = roundSettings.state;
+    super(prepareRound(difficultyLevel, roundNumber));
 
     this.roundSettings.subscribe(this);
   }
@@ -76,6 +77,9 @@ export default class RoundState extends State<Round> implements Observer {
 
   startRound(): void {
     this.startStage(0);
+
+    // This allows users to resume the game from the last visited round instead of the last completed one. Remove this line if it is not needed
+    this.roundSettings.saveState();
   }
 
   moveCard(action: MoveCardAction): void {
@@ -120,6 +124,11 @@ export default class RoundState extends State<Round> implements Observer {
     );
 
     this.notifySubscribers();
+
+    // This will allow users to start the next round when they return, if they close the app before progressing.
+    if (this.isRoundCompleted()) {
+      this.roundSettings.saveNextRound();
+    }
   }
 
   autocompleteStage(): void {
@@ -134,6 +143,11 @@ export default class RoundState extends State<Round> implements Observer {
     this.setStageStatus(StageStatus.AUTOCOMPLETED);
 
     this.notifySubscribers();
+
+    // This will allow users to start the next round when they return, if they close the app before progressing.
+    if (this.isRoundCompleted()) {
+      this.roundSettings.saveNextRound();
+    }
   }
 
   setStageStatus(updatedStatus: StageStatus): void {
