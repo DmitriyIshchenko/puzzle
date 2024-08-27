@@ -31,9 +31,7 @@ export default class State<T> implements Publisher {
   }
 
   unsubscribe(subscriber: Observer): void {
-    const targetIndex = this.subscribers.indexOf(subscriber);
-
-    this.subscribers.splice(targetIndex, 1);
+    this.subscribers = this.subscribers.filter((item) => item !== subscriber);
   }
 
   notifySubscribers(): void {
