@@ -18,7 +18,7 @@ const defaultState: RoundSettingsData = {
 // TODO: create generic settings class?
 export default class RoundSettings extends State<RoundSettingsData> {
   constructor() {
-    super(defaultState);
+    super(defaultState, "levels");
   }
 
   updateSetting(setting: keyof RoundSettingsData, value: number) {
@@ -27,28 +27,48 @@ export default class RoundSettings extends State<RoundSettingsData> {
     this.notifySubscribers();
   }
 
-  incrementRound() {
+  private updateRoundsAmount() {
+    this.state.totalRounds = LEVELS[this.state.difficultyLevel].roundsCount;
+  }
+
+  private getIncrementedRound(): RoundSettingsData {
     const { roundNumber, totalRounds, difficultyLevel, totalLevels } =
       this.state;
 
-    // the very last round -> do nothing?
+    // the very last round → loop back to the very first round
     if (roundNumber === totalRounds - 1 && difficultyLevel === totalLevels - 1)
-      return;
+      return defaultState;
 
-    // last round -> start next difficulty
+    // last round → start next difficulty
     if (roundNumber === totalRounds - 1) {
-      this.state.difficultyLevel += 1;
-      this.state.roundNumber = 0;
-      this.updateRoundsAmount();
-      this.notifySubscribers();
-      return;
+      return {
+        ...this.state,
+        difficultyLevel: difficultyLevel + 1,
+        roundNumber: 0,
+        totalRounds: LEVELS[this.state.difficultyLevel + 1].roundsCount,
+      };
     }
 
-    this.state.roundNumber += 1;
+    // regular case
+    return {
+      ...this.state,
+      roundNumber: roundNumber + 1,
+    };
+  }
+
+  incrementRound() {
+    this.state = this.getIncrementedRound();
     this.notifySubscribers();
   }
 
-  private updateRoundsAmount() {
-    this.state.totalRounds = LEVELS[this.state.difficultyLevel].roundsCount;
+  /* This is somewhat of an edge case: when a user has completed a round 
+  but closes the app instead of moving on to the next one,
+  we still want to show them the next round when they return, 
+  rather than the one they have already completed.
+  This means we just need to save the incremented round to the state, 
+  but we don't want to update the UI unless the user clicks on 'Continue'
+  */
+  saveNextRound() {
+    this.saveState(this.getIncrementedRound());
   }
 }
