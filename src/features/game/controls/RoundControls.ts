@@ -70,9 +70,9 @@ export default class RoundControls extends Component implements Observer {
   }
 
   private generateOptions() {
-    const { difficultyLevel, roundNumber } =
+    const { difficultyLevel, roundNumber, totalRounds } =
       this.roundSettings.state.currentLevel;
-    const { totalLevels, totalRounds, completed } = this.roundSettings.state;
+    const { totalLevels } = this.roundSettings.state;
 
     const difficultyOptions = Array.from({ length: totalLevels }, (_, index) =>
       option({
@@ -83,10 +83,14 @@ export default class RoundControls extends Component implements Observer {
     );
 
     const roundOptions = Array.from({ length: totalRounds }, (_, index) => {
-      const isCompleted = completed.get(difficultyLevel)?.includes(index);
+      const rating = this.roundSettings.getSavedRoundRating(
+        difficultyLevel,
+        index,
+      );
+
       return option({
         value: `${index}`,
-        text: `${index + 1}  ${isCompleted ? "⭐" : ""}`,
+        text: `${index + 1}  ${"⭐".repeat(rating)}`,
         selected: index === roundNumber,
       });
     });

@@ -4,23 +4,27 @@ import LEVELS from "../../../../data/levels";
 interface Level {
   difficultyLevel: number;
   roundNumber: number;
+  totalRounds: number;
+}
+
+export interface RoundResult extends Pick<Level, "roundNumber"> {
+  rating: number;
 }
 
 interface RoundSettingsData {
   currentLevel: Level;
   totalLevels: number;
-  totalRounds: number;
-  completed: Map<number, number[]>;
+  completed: Map<number, RoundResult[]>;
 }
 
 const defaultState: RoundSettingsData = {
   currentLevel: {
     difficultyLevel: 0,
     roundNumber: 0,
+    totalRounds: LEVELS[0].roundsCount,
   },
   totalLevels: LEVELS.length,
-  totalRounds: LEVELS[0].roundsCount,
-  completed: new Map<number, number[]>(),
+  completed: new Map<number, RoundResult[]>(),
 };
 
 // TODO: create generic settings class?
@@ -42,21 +46,21 @@ export default class RoundSettings extends State<RoundSettingsData> {
   }
 
   private updateRoundsAmount() {
-    this.state.totalRounds =
+    this.state.currentLevel.totalRounds =
       LEVELS[this.state.currentLevel.difficultyLevel].roundsCount;
   }
 
   private getIncrementedRound(): RoundSettingsData {
-    const { totalRounds, totalLevels } = this.state;
-    const { roundNumber, difficultyLevel } = this.state.currentLevel;
+    const { totalLevels } = this.state;
+    const { roundNumber, difficultyLevel, totalRounds } =
+      this.state.currentLevel;
 
     // the very last round → loop back to the very first round
     if (roundNumber === totalRounds - 1 && difficultyLevel === totalLevels - 1)
       return {
         ...this.state,
         currentLevel: {
-          difficultyLevel: 0,
-          roundNumber: 0,
+          ...defaultState.currentLevel,
         },
       };
 
@@ -67,9 +71,8 @@ export default class RoundSettings extends State<RoundSettingsData> {
         currentLevel: {
           difficultyLevel: difficultyLevel + 1,
           roundNumber: 0,
+          totalRounds: LEVELS[difficultyLevel + 1].roundsCount,
         },
-        totalRounds:
-          LEVELS[this.state.currentLevel.difficultyLevel + 1].roundsCount,
       };
     }
 
@@ -88,29 +91,32 @@ export default class RoundSettings extends State<RoundSettingsData> {
     this.notifySubscribers();
   }
 
-  /* This is somewhat of an edge case: when a user has completed a round 
-  but closes the app instead of moving on to the next one,
-  we still want to show them the next round when they return, 
-  rather than the one they have already completed.
-  This means we just need to save the incremented round to the state, 
-  but we don't want to update the UI unless the user clicks on 'Continue'
-  */
-  handleCompletedRound() {
-    const { difficultyLevel, roundNumber } = this.state.currentLevel;
+  /* When a user has completed a round but closes the app instead of moving on to the next one, we still want to show them the next round when they return, rather than the one they have already completed.
+   */
+  handleCompletedRound(roundResult: RoundResult) {
+    const { difficultyLevel } = this.state.currentLevel;
+    const { roundNumber, rating } = roundResult;
 
     const roundsArray = this.state.completed.get(difficultyLevel);
 
     if (roundsArray) {
-      roundsArray.push(roundNumber);
+      roundsArray.push({ roundNumber, rating });
     } else {
-      this.state.completed.set(difficultyLevel, [roundNumber]);
+      this.state.completed.set(difficultyLevel, [{ roundNumber, rating }]);
     }
 
     this.saveState(this.getIncrementedRound());
   }
 
-  // redefine because maps get stringified to empty objects
+  getSavedRoundRating(difficultyLevel: number, roundNumber: number): number {
+    const rating = this.state.completed
+      .get(difficultyLevel)
+      ?.find((item) => item.roundNumber === roundNumber)?.rating;
 
+    return rating || 0;
+  }
+
+  // redefine because maps get stringified to empty objects
   saveState(state: RoundSettingsData = this.state): void {
     const completedToArray = Array.from(this.state.completed);
 
@@ -128,7 +134,9 @@ export default class RoundSettings extends State<RoundSettingsData> {
     if (stateString) {
       const parsedState = JSON.parse(stateString) as RoundSettingsData;
 
-      const completedToMap = new Map<number, number[]>(parsedState.completed);
+      const completedToMap = new Map<number, RoundResult[]>(
+        parsedState.completed,
+      );
 
       return {
         ...parsedState,

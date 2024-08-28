@@ -3,34 +3,11 @@ import RoundSettings from "./RoundSettings";
 import { Observer, Publisher } from "../../../shared/Observer";
 
 import { MoveCardAction, Round, Stage, StageStatus } from "../types";
-import { generateStageWords } from "../../../shared/helpers";
-import LEVELS from "../../../../data/levels";
-
-function prepareRound(difficulty: number, round: number): Round {
-  const rawData = LEVELS[difficulty].rounds[round].words;
-  const { author, name, imageSrc, id, year } =
-    LEVELS[difficulty].rounds[round].levelData;
-
-  const stages = rawData.map((entry, index) => ({
-    stageNumber: index,
-    status: StageStatus.NOT_COMPLETED,
-    sentence: entry.textExample,
-    sentenceLength: entry.textExample.split(" ").length,
-    translation: entry.textExampleTranslate,
-    audio: entry.audioExample,
-  }));
-
-  return {
-    id,
-    currentStage: 0,
-    painting: { author, name, year, imageSrc },
-    stages,
-    content: {
-      pickArea: [],
-      assembleArea: [],
-    },
-  };
-}
+import {
+  generateStageWords,
+  prepareRound,
+  RATING_THRESHOLDS,
+} from "../../../shared/helpers";
 
 export default class RoundState extends State<Round> implements Observer {
   constructor(private roundSettings: RoundSettings) {
@@ -123,12 +100,13 @@ export default class RoundState extends State<Round> implements Observer {
       isCorrect ? StageStatus.CORRECT : StageStatus.INCORRECT,
     );
 
-    this.notifySubscribers();
-
     // This will allow users to start the next round when they return, if they close the app before progressing.
     if (this.isRoundCompleted()) {
-      this.roundSettings.handleCompletedRound();
+      this.updateRoundResults();
+      this.roundSettings.handleCompletedRound(this.state.results);
     }
+
+    this.notifySubscribers();
   }
 
   autocompleteStage(): void {
@@ -142,12 +120,13 @@ export default class RoundState extends State<Round> implements Observer {
 
     this.setStageStatus(StageStatus.AUTOCOMPLETED);
 
-    this.notifySubscribers();
-
     // This will allow users to start the next round when they return, if they close the app before progressing.
     if (this.isRoundCompleted()) {
-      this.roundSettings.handleCompletedRound();
+      this.updateRoundResults();
+      this.roundSettings.handleCompletedRound(this.state.results);
     }
+
+    this.notifySubscribers();
   }
 
   setStageStatus(updatedStatus: StageStatus): void {
@@ -168,5 +147,21 @@ export default class RoundState extends State<Round> implements Observer {
 
   isRoundCompleted(): boolean {
     return this.state.stages.every((stage) => this.isStageCompleted(stage));
+  }
+
+  private updateRoundResults() {
+    const { stages } = this.state;
+
+    let rating = 0;
+
+    const correctRatio =
+      stages.filter((stage) => stage.status === StageStatus.CORRECT).length /
+      stages.length;
+
+    if (correctRatio >= RATING_THRESHOLDS.passed) rating = 1;
+    if (correctRatio >= RATING_THRESHOLDS.good) rating = 2;
+    if (correctRatio === RATING_THRESHOLDS.perfect) rating = 3;
+
+    this.state.results = { ...this.state.results, rating };
   }
 }

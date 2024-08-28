@@ -1,3 +1,5 @@
+import { RoundResult } from "./model/RoundSettings";
+
 export interface MoveCardAction {
   type: string;
   payload: {
@@ -63,4 +65,5 @@ export interface Round {
   painting: Painting;
   stages: Array<Stage>;
   content: GameContent;
+  results: RoundResult;
 }
