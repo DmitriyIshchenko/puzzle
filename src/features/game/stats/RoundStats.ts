@@ -3,7 +3,7 @@ import Modal from "../../../ui/modal/Modal";
 import ArtworkMiniature from "./ArtworkMiniature";
 import SentencesList, { SentencesListType } from "./SentencesList";
 import Button from "../../../ui/button/Button";
-import { div } from "../../../ui/tags";
+import { div, i } from "../../../ui/tags";
 
 import RoundState from "../model/RoundState";
 import { Observer, Publisher } from "../../../shared/Observer";
@@ -13,6 +13,8 @@ import styles from "./RoundStats.module.css";
 
 export default class RoundStats extends Component implements Observer {
   private artwork: ArtworkMiniature;
+
+  private rating: Component;
 
   private knownSentencesList: SentencesList;
 
@@ -33,11 +35,13 @@ export default class RoundStats extends Component implements Observer {
     );
 
     this.artwork = new ArtworkMiniature(this.roundState.state.painting);
+    this.rating = div({ className: styles.rating });
     this.knownSentencesList = new SentencesList(SentencesListType.SOLVED);
     this.unknownSentencesList = new SentencesList(SentencesListType.UNSOLVED);
 
     this.appendChildren([
       this.artwork,
+      this.rating,
       div(
         { className: styles.sentences },
         this.knownSentencesList,
@@ -48,6 +52,7 @@ export default class RoundStats extends Component implements Observer {
   }
 
   update(publisher: Publisher): void {
+    // if (publisher instanceof RoundState) {
     if (publisher instanceof RoundState && publisher.isRoundCompleted()) {
       const solvedStages: Array<Stage> = [];
       const unsolvedStages: Array<Stage> = [];
@@ -60,8 +65,25 @@ export default class RoundStats extends Component implements Observer {
       this.artwork.updateContent(publisher.state.painting);
       this.knownSentencesList.fillList(solvedStages);
       this.unknownSentencesList.fillList(unsolvedStages);
+      this.updateRating();
 
       this.modal.updateContent(this);
     }
+  }
+
+  updateRating() {
+    const MAX_RATING = 3;
+    const { rating } = this.roundState.state.results;
+
+    const emptyStars = Array.from({ length: MAX_RATING - rating }, () =>
+      i({ className: "bi bi-star" }),
+    );
+
+    const filledStars = Array.from(
+      { length: MAX_RATING - emptyStars.length },
+      () => i({ className: "bi bi-star-fill" }),
+    );
+
+    this.rating.appendChildren(filledStars.concat(emptyStars));
   }
 }

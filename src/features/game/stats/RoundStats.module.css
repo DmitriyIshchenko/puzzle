@@ -2,12 +2,12 @@
   display: grid;
   gap: 1rem;
 
-  grid-template-rows: min-content 1fr max-content;
+  grid-template-rows: auto auto 1fr max-content;
 
   height: 100%;
 
   @media (orientation: landscape) and (height < 400px) {
-    grid-template-rows: 1fr max-content;
+    grid-template-rows: auto 1fr max-content;
   }
 }
 
@@ -28,4 +28,12 @@
   /* to make place for scrollbar */
   scrollbar-width: thin;
   margin-right: 10px;
+}
+
+.rating {
+  display: inline-flex;
+  gap: 0.5rem;
+  justify-content: center;
+  font-size: 1.5rem;
+  color: var(--color-yellow-500);
 }

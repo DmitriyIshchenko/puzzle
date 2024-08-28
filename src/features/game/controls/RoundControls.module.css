@@ -1,7 +1,7 @@
 .controls {
   display: flex;
   gap: 0.5rem;
-  align-items: center;
+  align-content: center;
 
   @container (width < 500px) {
     flex-direction: column;
@@ -10,19 +10,18 @@
 }
 
 .select {
-  width: 3rem;
-  aspect-ratio: 1.7;
+  width: auto;
+  height: 2rem;
+  padding-left: 0.5rem;
 
-  background-color: var(--color-brand-50);
+  background-color: var(--color-gray-0);
   border: 1px solid var(--color-brand-600);
   border-radius: var(--border-radius-tiny);
   transition: background-color 0.3s;
 
-  text-align: center;
   color: var(--color-brand-900);
 
   &:hover {
-    background-color: var(--color-brand-100);
     cursor: pointer;
   }
 }
@@ -30,6 +29,7 @@
 .label {
   width: 100%;
   display: flex;
+  align-items: center;
   justify-content: space-between;
   gap: 1rem;
   font-weight: 500;

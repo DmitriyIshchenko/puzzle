@@ -1,12 +1,18 @@
-import { Stage, Word } from "../features/game/types";
 import Component from "./Component";
+import LEVELS from "../../data/levels";
+import { Round, Stage, StageStatus, Word } from "../features/game/types";
 
 export const IMAGES_BASE_URL =
   "https://raw.githubusercontent.com/rolling-scopes-school/rss-puzzle-data/main/images";
+export const ANIMATION_DELAY_COEFFICIENT = 50;
+export const RATING_THRESHOLDS = {
+  perfect: 1,
+  good: 0.7,
+  passed: 0.5,
+};
+
 const ROW_WIDTH = 728;
 const CONCAVE_WIDTH = 10;
-export const ANIMATION_DELAY_COEFFICIENT = 50;
-
 // take concave width into account in order to visually align narrow pieces like "a", "I", "at" etc
 export function calculateCardWidthPixels(sentence: string, word: string) {
   const totalWords = sentence.split(" ").length;
@@ -95,4 +101,34 @@ export function findAllInstancesOf<T>(
   });
 
   return instances;
+}
+
+export function prepareRound(difficulty: number, round: number): Round {
+  const rawData = LEVELS[difficulty].rounds[round].words;
+  const { author, name, imageSrc, id, year } =
+    LEVELS[difficulty].rounds[round].levelData;
+
+  const stages = rawData.map((entry, index) => ({
+    stageNumber: index,
+    status: StageStatus.NOT_COMPLETED,
+    sentence: entry.textExample,
+    sentenceLength: entry.textExample.split(" ").length,
+    translation: entry.textExampleTranslate,
+    audio: entry.audioExample,
+  }));
+
+  return {
+    id,
+    currentStage: 0,
+    painting: { author, name, year, imageSrc },
+    stages,
+    content: {
+      pickArea: [],
+      assembleArea: [],
+    },
+    results: {
+      roundNumber: round,
+      rating: 0,
+    },
+  };
 }

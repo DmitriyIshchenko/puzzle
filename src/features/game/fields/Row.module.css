@@ -30,12 +30,6 @@
 }
 
 .correct {
-  pointer-events: none;
-
-  div {
-    border: none;
-  }
-
   &::before {
     background-image: url(https://upload.wikimedia.org/wikipedia/commons/3/3b/Eo_circle_green_checkmark.svg);
   }
@@ -53,7 +47,25 @@
   }
 }
 
-.incorrect {
+.correct,
+.autocompleted {
+  pointer-events: none;
+
+  div {
+    border: none;
+  }
+}
+
+.autocompleted {
+  pointer-events: none;
+
+  div {
+    border: none;
+  }
+}
+
+.incorrect,
+.autocompleted {
   &::before {
     background-image: url(https://upload.wikimedia.org/wikipedia/commons/c/cc/Cross_red_circle.svg);
   }

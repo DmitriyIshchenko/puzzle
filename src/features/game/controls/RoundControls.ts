@@ -33,8 +33,6 @@ export default class RoundControls extends Component implements Observer {
   }
 
   private configure() {
-    this.fillSelectsWithOptions(this.roundSettings);
-
     this.appendChildren([
       label(
         {
@@ -52,67 +50,55 @@ export default class RoundControls extends Component implements Observer {
 
     this.addListener("change", this.handleDifficultySelection.bind(this));
 
-    RoundControls.selectOption(
-      this.difficultySelect,
-      this.roundSettings.state.difficultyLevel,
-    );
-    RoundControls.selectOption(
-      this.roundSelect,
-      this.roundSettings.state.roundNumber,
-    );
+    this.generateOptions();
   }
 
   update(publisher: Publisher) {
     if (publisher instanceof RoundSettings) {
-      this.fillSelectsWithOptions(publisher);
-
-      RoundControls.selectOption(
-        this.difficultySelect,
-        publisher.state.difficultyLevel,
-      );
-      RoundControls.selectOption(this.roundSelect, publisher.state.roundNumber);
+      this.generateOptions();
     }
-  }
-
-  // TODO: refactor to optimize the amount of DOM operations
-  private fillSelectsWithOptions(roundSettings: RoundSettings) {
-    const { totalLevels, totalRounds } = roundSettings.state;
-
-    this.difficultySelect.clear();
-    this.roundSelect.clear();
-
-    this.difficultySelect.appendChildren(
-      RoundControls.generateOptions(totalLevels),
-    );
-    this.roundSelect.appendChildren(RoundControls.generateOptions(totalRounds));
   }
 
   private handleDifficultySelection(e: Event) {
     const { target } = e;
     if (
       target instanceof HTMLSelectElement &&
-      isValidSetting(target.id, this.roundSettings.state)
+      isValidSetting(target.id, this.roundSettings.state.currentLevel)
     ) {
       this.roundSettings.updateSetting(target.id, +target.value);
     }
   }
 
-  private static selectOption(selectComponent: Component, index: number) {
-    const options = selectComponent.getChildren();
+  private generateOptions() {
+    const { difficultyLevel, roundNumber, totalRounds } =
+      this.roundSettings.state.currentLevel;
+    const { totalLevels } = this.roundSettings.state;
 
-    options.forEach((item) => {
-      item.removeAttribute("selected");
-    });
-
-    options[index].setAttribute("selected", "true");
-  }
-
-  private static generateOptions(amount: number) {
-    return Array.from({ length: amount }, (_, index) =>
+    const difficultyOptions = Array.from({ length: totalLevels }, (_, index) =>
       option({
         value: `${index}`,
         text: `${index + 1}`,
+        selected: index === difficultyLevel,
       }),
     );
+
+    const roundOptions = Array.from({ length: totalRounds }, (_, index) => {
+      const rating = this.roundSettings.getSavedRoundRating(
+        difficultyLevel,
+        index,
+      );
+
+      return option({
+        value: `${index}`,
+        text: `${index + 1}  ${"⭐".repeat(rating)}`,
+        selected: index === roundNumber,
+      });
+    });
+
+    this.difficultySelect.clear();
+    this.roundSelect.clear();
+
+    this.difficultySelect.appendChildren(difficultyOptions);
+    this.roundSelect.appendChildren(roundOptions);
   }
 }

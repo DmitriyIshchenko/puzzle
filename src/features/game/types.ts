@@ -1,3 +1,5 @@
+import { RoundResult } from "./model/RoundSettings";
+
 export interface MoveCardAction {
   type: string;
   payload: {
@@ -20,10 +22,10 @@ export interface HintSettingsData {
 }
 
 export enum StageStatus {
-  NOT_COMPLETED,
-  CORRECT,
-  INCORRECT,
-  AUTOCOMPLETED,
+  NOT_COMPLETED = "notCompleted",
+  CORRECT = "correct",
+  INCORRECT = "incorrect",
+  AUTOCOMPLETED = "autocompleted",
 }
 
 export interface Word {
@@ -63,4 +65,5 @@ export interface Round {
   painting: Painting;
   stages: Array<Stage>;
   content: GameContent;
+  results: RoundResult;
 }
