@@ -1,18 +1,26 @@
 import State from "../../../app/state/StatePublisher";
 import LEVELS from "../../../../data/levels";
 
-interface RoundSettingsData {
+interface Level {
   difficultyLevel: number;
   roundNumber: number;
+}
+
+interface RoundSettingsData {
+  currentLevel: Level;
   totalLevels: number;
   totalRounds: number;
+  completed: Map<number, number[]>;
 }
 
 const defaultState: RoundSettingsData = {
-  difficultyLevel: 0,
-  roundNumber: 0,
+  currentLevel: {
+    difficultyLevel: 0,
+    roundNumber: 0,
+  },
   totalLevels: LEVELS.length,
   totalRounds: LEVELS[0].roundsCount,
+  completed: new Map<number, number[]>(),
 };
 
 // TODO: create generic settings class?
@@ -21,12 +29,12 @@ export default class RoundSettings extends State<RoundSettingsData> {
     super(defaultState, "levels");
   }
 
-  updateSetting(setting: keyof RoundSettingsData, value: number) {
-    this.state[setting] = value;
+  updateSetting(setting: keyof Level, value: number) {
+    this.state.currentLevel[setting] = value;
 
     // when the difficulty level is updated, reset to the first round, as the number of rounds differs between difficulties
     if (setting === "difficultyLevel") {
-      this.state.roundNumber = 0;
+      this.state.currentLevel.roundNumber = 0;
     }
 
     this.updateRoundsAmount();
@@ -34,31 +42,44 @@ export default class RoundSettings extends State<RoundSettingsData> {
   }
 
   private updateRoundsAmount() {
-    this.state.totalRounds = LEVELS[this.state.difficultyLevel].roundsCount;
+    this.state.totalRounds =
+      LEVELS[this.state.currentLevel.difficultyLevel].roundsCount;
   }
 
   private getIncrementedRound(): RoundSettingsData {
-    const { roundNumber, totalRounds, difficultyLevel, totalLevels } =
-      this.state;
+    const { totalRounds, totalLevels } = this.state;
+    const { roundNumber, difficultyLevel } = this.state.currentLevel;
 
     // the very last round → loop back to the very first round
     if (roundNumber === totalRounds - 1 && difficultyLevel === totalLevels - 1)
-      return defaultState;
+      return {
+        ...this.state,
+        currentLevel: {
+          difficultyLevel: 0,
+          roundNumber: 0,
+        },
+      };
 
     // last round → start next difficulty
     if (roundNumber === totalRounds - 1) {
       return {
         ...this.state,
-        difficultyLevel: difficultyLevel + 1,
-        roundNumber: 0,
-        totalRounds: LEVELS[this.state.difficultyLevel + 1].roundsCount,
+        currentLevel: {
+          difficultyLevel: difficultyLevel + 1,
+          roundNumber: 0,
+        },
+        totalRounds:
+          LEVELS[this.state.currentLevel.difficultyLevel + 1].roundsCount,
       };
     }
 
     // regular case
     return {
       ...this.state,
-      roundNumber: roundNumber + 1,
+      currentLevel: {
+        ...this.state.currentLevel,
+        roundNumber: roundNumber + 1,
+      },
     };
   }
 
@@ -74,7 +95,17 @@ export default class RoundSettings extends State<RoundSettingsData> {
   This means we just need to save the incremented round to the state, 
   but we don't want to update the UI unless the user clicks on 'Continue'
   */
-  saveNextRound() {
+  handleCompletedRound() {
+    const { difficultyLevel, roundNumber } = this.state.currentLevel;
+
+    const roundsArray = this.state.completed.get(difficultyLevel);
+
+    if (roundsArray) {
+      roundsArray.push(roundNumber);
+    } else {
+      this.state.completed.set(difficultyLevel, [roundNumber]);
+    }
+
     this.saveState(this.getIncrementedRound());
   }
 }

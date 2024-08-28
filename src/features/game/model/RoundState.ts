@@ -34,7 +34,7 @@ function prepareRound(difficulty: number, round: number): Round {
 
 export default class RoundState extends State<Round> implements Observer {
   constructor(private roundSettings: RoundSettings) {
-    const { difficultyLevel, roundNumber } = roundSettings.state;
+    const { difficultyLevel, roundNumber } = roundSettings.state.currentLevel;
     super(prepareRound(difficultyLevel, roundNumber));
 
     this.roundSettings.subscribe(this);
@@ -42,7 +42,7 @@ export default class RoundState extends State<Round> implements Observer {
 
   update(publisher: Publisher) {
     if (publisher instanceof RoundSettings) {
-      const { difficultyLevel, roundNumber } = publisher.state;
+      const { difficultyLevel, roundNumber } = publisher.state.currentLevel;
       this.state = prepareRound(difficultyLevel, roundNumber);
       this.startRound();
     }
@@ -127,7 +127,7 @@ export default class RoundState extends State<Round> implements Observer {
 
     // This will allow users to start the next round when they return, if they close the app before progressing.
     if (this.isRoundCompleted()) {
-      this.roundSettings.saveNextRound();
+      this.roundSettings.handleCompletedRound();
     }
   }
 
@@ -146,7 +146,7 @@ export default class RoundState extends State<Round> implements Observer {
 
     // This will allow users to start the next round when they return, if they close the app before progressing.
     if (this.isRoundCompleted()) {
-      this.roundSettings.saveNextRound();
+      this.roundSettings.handleCompletedRound();
     }
   }
 

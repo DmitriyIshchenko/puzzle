@@ -54,11 +54,11 @@ export default class RoundControls extends Component implements Observer {
 
     RoundControls.selectOption(
       this.difficultySelect,
-      this.roundSettings.state.difficultyLevel,
+      this.roundSettings.state.currentLevel.difficultyLevel,
     );
     RoundControls.selectOption(
       this.roundSelect,
-      this.roundSettings.state.roundNumber,
+      this.roundSettings.state.currentLevel.roundNumber,
     );
   }
 
@@ -68,9 +68,12 @@ export default class RoundControls extends Component implements Observer {
 
       RoundControls.selectOption(
         this.difficultySelect,
-        publisher.state.difficultyLevel,
+        publisher.state.currentLevel.difficultyLevel,
       );
-      RoundControls.selectOption(this.roundSelect, publisher.state.roundNumber);
+      RoundControls.selectOption(
+        this.roundSelect,
+        publisher.state.currentLevel.roundNumber,
+      );
     }
   }
 
@@ -91,7 +94,7 @@ export default class RoundControls extends Component implements Observer {
     const { target } = e;
     if (
       target instanceof HTMLSelectElement &&
-      isValidSetting(target.id, this.roundSettings.state)
+      isValidSetting(target.id, this.roundSettings.state.currentLevel)
     ) {
       this.roundSettings.updateSetting(target.id, +target.value);
     }
