@@ -33,8 +33,6 @@ export default class RoundControls extends Component implements Observer {
   }
 
   private configure() {
-    this.fillSelectsWithOptions(this.roundSettings);
-
     this.appendChildren([
       label(
         {
@@ -52,42 +50,13 @@ export default class RoundControls extends Component implements Observer {
 
     this.addListener("change", this.handleDifficultySelection.bind(this));
 
-    RoundControls.selectOption(
-      this.difficultySelect,
-      this.roundSettings.state.currentLevel.difficultyLevel,
-    );
-    RoundControls.selectOption(
-      this.roundSelect,
-      this.roundSettings.state.currentLevel.roundNumber,
-    );
+    this.generateOptions();
   }
 
   update(publisher: Publisher) {
     if (publisher instanceof RoundSettings) {
-      this.fillSelectsWithOptions(publisher);
-
-      RoundControls.selectOption(
-        this.difficultySelect,
-        publisher.state.currentLevel.difficultyLevel,
-      );
-      RoundControls.selectOption(
-        this.roundSelect,
-        publisher.state.currentLevel.roundNumber,
-      );
+      this.generateOptions();
     }
-  }
-
-  // TODO: refactor to optimize the amount of DOM operations
-  private fillSelectsWithOptions(roundSettings: RoundSettings) {
-    const { totalLevels, totalRounds } = roundSettings.state;
-
-    this.difficultySelect.clear();
-    this.roundSelect.clear();
-
-    this.difficultySelect.appendChildren(
-      RoundControls.generateOptions(totalLevels),
-    );
-    this.roundSelect.appendChildren(RoundControls.generateOptions(totalRounds));
   }
 
   private handleDifficultySelection(e: Event) {
@@ -100,22 +69,32 @@ export default class RoundControls extends Component implements Observer {
     }
   }
 
-  private static selectOption(selectComponent: Component, index: number) {
-    const options = selectComponent.getChildren();
+  private generateOptions() {
+    const { difficultyLevel, roundNumber } =
+      this.roundSettings.state.currentLevel;
+    const { totalLevels, totalRounds, completed } = this.roundSettings.state;
 
-    options.forEach((item) => {
-      item.removeAttribute("selected");
-    });
-
-    options[index].setAttribute("selected", "true");
-  }
-
-  private static generateOptions(amount: number) {
-    return Array.from({ length: amount }, (_, index) =>
+    const difficultyOptions = Array.from({ length: totalLevels }, (_, index) =>
       option({
         value: `${index}`,
         text: `${index + 1}`,
+        selected: index === difficultyLevel,
       }),
     );
+
+    const roundOptions = Array.from({ length: totalRounds }, (_, index) => {
+      const isCompleted = completed.get(difficultyLevel)?.includes(index);
+      return option({
+        value: `${index}`,
+        text: `${index + 1}  ${isCompleted ? "⭐" : ""}`,
+        selected: index === roundNumber,
+      });
+    });
+
+    this.difficultySelect.clear();
+    this.roundSelect.clear();
+
+    this.difficultySelect.appendChildren(difficultyOptions);
+    this.roundSelect.appendChildren(roundOptions);
   }
 }
