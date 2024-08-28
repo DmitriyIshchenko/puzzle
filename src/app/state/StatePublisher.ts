@@ -5,14 +5,14 @@ export default class State<T> implements Publisher {
 
   constructor(
     private defaultState: T,
-    private key: string = "",
+    protected key: string = "",
   ) {
     this.state = this.loadState();
   }
 
   private subscribers: Array<Observer> = [];
 
-  private loadState() {
+  protected loadState() {
     const stateString = localStorage.getItem(this.key);
 
     if (stateString) return JSON.parse(stateString) as T;

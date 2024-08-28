@@ -108,4 +108,34 @@ export default class RoundSettings extends State<RoundSettingsData> {
 
     this.saveState(this.getIncrementedRound());
   }
+
+  // redefine because maps get stringified to empty objects
+
+  saveState(state: RoundSettingsData = this.state): void {
+    const completedToArray = Array.from(this.state.completed);
+
+    const stateToSave = {
+      ...state,
+      completed: completedToArray,
+    };
+
+    localStorage.setItem(this.key, JSON.stringify(stateToSave));
+  }
+
+  protected loadState() {
+    const stateString = localStorage.getItem(this.key);
+
+    if (stateString) {
+      const parsedState = JSON.parse(stateString) as RoundSettingsData;
+
+      const completedToMap = new Map<number, number[]>(parsedState.completed);
+
+      return {
+        ...parsedState,
+        completed: completedToMap,
+      };
+    }
+
+    return defaultState;
+  }
 }
