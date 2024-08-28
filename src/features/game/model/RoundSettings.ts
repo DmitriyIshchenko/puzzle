@@ -28,9 +28,10 @@ const defaultState: RoundSettingsData = {
 };
 
 // TODO: create generic settings class?
+// TODO: rename this class, it's not really settings anymore
 export default class RoundSettings extends State<RoundSettingsData> {
   constructor() {
-    super(defaultState, "levels");
+    super(defaultState, "levelsData");
   }
 
   updateSetting(setting: keyof Level, value: number) {
