@@ -84,6 +84,7 @@ export default class RoundStats extends Component implements Observer {
       () => i({ className: "bi bi-star-fill" }),
     );
 
+    this.rating.clear();
     this.rating.appendChildren(filledStars.concat(emptyStars));
   }
 }
