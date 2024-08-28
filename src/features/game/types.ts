@@ -22,10 +22,10 @@ export interface HintSettingsData {
 }
 
 export enum StageStatus {
-  NOT_COMPLETED,
-  CORRECT,
-  INCORRECT,
-  AUTOCOMPLETED,
+  NOT_COMPLETED = "notCompleted",
+  CORRECT = "correct",
+  INCORRECT = "incorrect",
+  AUTOCOMPLETED = "autocompleted",
 }
 
 export interface Word {

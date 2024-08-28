@@ -88,16 +88,17 @@ export default class Row extends Component implements Observer {
     this.removeClass(styles.correct);
     this.removeClass(styles.incorrect);
 
-    if ([StageStatus.CORRECT, StageStatus.AUTOCOMPLETED].includes(status)) {
+    if (status === StageStatus.CORRECT) {
       this.addClass(styles.correct);
 
       this.toggleRowBackgrounds(true);
 
       // solved rows always display background, so the row doesn't have to be affected by hint settings anymore
       this.hintSettings.unsubscribe(this);
+      return;
     }
 
-    if (status === StageStatus.INCORRECT) this.addClass(styles.incorrect);
+    if (status !== StageStatus.NOT_COMPLETED) this.addClass(styles[status]);
   }
 
   private toggleRowBackgrounds(isShown: boolean) {
