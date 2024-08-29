@@ -95,18 +95,29 @@ export default class RoundSettings extends State<RoundSettingsData> {
   /* When a user has completed a round but closes the app instead of moving on to the next one, we still want to show them the next round when they return, rather than the one they have already completed.
    */
   handleCompletedRound(roundResult: RoundResult) {
-    const { difficultyLevel } = this.state.currentLevel;
-    const { roundNumber, rating } = roundResult;
-
-    const roundsArray = this.state.completed.get(difficultyLevel);
-
-    if (roundsArray) {
-      roundsArray.push({ roundNumber, rating });
-    } else {
-      this.state.completed.set(difficultyLevel, [{ roundNumber, rating }]);
-    }
+    this.updateCompletedRoundRating(roundResult);
 
     this.saveState(this.getIncrementedRound());
+  }
+
+  updateCompletedRoundRating(roundResult: RoundResult) {
+    const { difficultyLevel } = this.state.currentLevel;
+    const { roundNumber, rating: updatedRating } = roundResult;
+
+    const rounds = this.state.completed.get(difficultyLevel) ?? [];
+
+    const targetRound = rounds.find((item) => item.roundNumber === roundNumber);
+
+    // there is no point to save lower rating
+    if (targetRound && updatedRating > targetRound.rating) {
+      targetRound.rating = updatedRating;
+    }
+
+    if (!targetRound) {
+      this.state.completed.set(difficultyLevel, [
+        { roundNumber, rating: updatedRating },
+      ]);
+    }
   }
 
   getSavedRoundRating(difficultyLevel: number, roundNumber: number): number {
