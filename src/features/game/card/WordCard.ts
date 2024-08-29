@@ -1,5 +1,5 @@
 import Component from "../../../shared/Component";
-import Draggable from "./Draggable";
+import Draggable from "../../../shared/Draggable";
 import { div, span } from "../../../ui/tags";
 
 import { Word, MoveCardAction, RowType } from "../types";

@@ -1,4 +1,4 @@
-import Component from "../../../shared/Component";
+import Component from "./Component";
 
 const DRAG_THRESHOLD = 2;
 
