@@ -95,26 +95,40 @@ export default class RoundSettings extends State<RoundSettingsData> {
   /* When a user has completed a round but closes the app instead of moving on to the next one, we still want to show them the next round when they return, rather than the one they have already completed.
    */
   handleCompletedRound(roundResult: RoundResult) {
-    const { difficultyLevel } = this.state.currentLevel;
-    const { roundNumber, rating } = roundResult;
-
-    const roundsArray = this.state.completed.get(difficultyLevel);
-
-    if (roundsArray) {
-      roundsArray.push({ roundNumber, rating });
-    } else {
-      this.state.completed.set(difficultyLevel, [{ roundNumber, rating }]);
-    }
+    this.updateCompletedRoundRating(roundResult);
 
     this.saveState(this.getIncrementedRound());
   }
 
-  getSavedRoundRating(difficultyLevel: number, roundNumber: number): number {
-    const rating = this.state.completed
-      .get(difficultyLevel)
-      ?.find((item) => item.roundNumber === roundNumber)?.rating;
+  private updateCompletedRoundRating(roundResult: RoundResult) {
+    const { difficultyLevel } = this.state.currentLevel;
+    const { roundNumber, rating: updatedRating } = roundResult;
 
-    return rating || 0;
+    const targetRound = this.getSavedRound(difficultyLevel, roundNumber);
+
+    // there is no point to save lower rating
+    if (targetRound && updatedRating > targetRound.rating) {
+      targetRound.rating = updatedRating;
+    }
+
+    if (!targetRound) {
+      this.state.completed.set(difficultyLevel, [
+        { roundNumber, rating: updatedRating },
+      ]);
+    }
+  }
+
+  private getSavedRound(difficultyLevel: number, roundNumber: number) {
+    const rounds = this.state.completed.get(difficultyLevel) ?? [];
+    return rounds.find((item) => item.roundNumber === roundNumber);
+  }
+
+  getSavedRoundRating(difficultyLevel: number, roundNumber: number): number {
+    const targetRound = this.getSavedRound(difficultyLevel, roundNumber);
+
+    if (targetRound) return targetRound.rating;
+
+    return 0;
   }
 
   // redefine because maps get stringified to empty objects
