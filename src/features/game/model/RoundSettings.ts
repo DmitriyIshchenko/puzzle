@@ -100,13 +100,11 @@ export default class RoundSettings extends State<RoundSettingsData> {
     this.saveState(this.getIncrementedRound());
   }
 
-  updateCompletedRoundRating(roundResult: RoundResult) {
+  private updateCompletedRoundRating(roundResult: RoundResult) {
     const { difficultyLevel } = this.state.currentLevel;
     const { roundNumber, rating: updatedRating } = roundResult;
 
-    const rounds = this.state.completed.get(difficultyLevel) ?? [];
-
-    const targetRound = rounds.find((item) => item.roundNumber === roundNumber);
+    const targetRound = this.getSavedRound(difficultyLevel, roundNumber);
 
     // there is no point to save lower rating
     if (targetRound && updatedRating > targetRound.rating) {
@@ -120,12 +118,17 @@ export default class RoundSettings extends State<RoundSettingsData> {
     }
   }
 
-  getSavedRoundRating(difficultyLevel: number, roundNumber: number): number {
-    const rating = this.state.completed
-      .get(difficultyLevel)
-      ?.find((item) => item.roundNumber === roundNumber)?.rating;
+  private getSavedRound(difficultyLevel: number, roundNumber: number) {
+    const rounds = this.state.completed.get(difficultyLevel) ?? [];
+    return rounds.find((item) => item.roundNumber === roundNumber);
+  }
 
-    return rating || 0;
+  getSavedRoundRating(difficultyLevel: number, roundNumber: number): number {
+    const targetRound = this.getSavedRound(difficultyLevel, roundNumber);
+
+    if (targetRound) return targetRound.rating;
+
+    return 0;
   }
 
   // redefine because maps get stringified to empty objects
