@@ -15,7 +15,6 @@ export default abstract class Draggable extends Component {
 
   constructor(
     className: string,
-
     private droppableClassName: string,
   ) {
     super({
@@ -30,7 +29,7 @@ export default abstract class Draggable extends Component {
 
   abstract dropCancelHandler(): void;
 
-  abstract dropSwapHanlder(): void;
+  abstract dropSwapHanlder(dropTarget: HTMLElement): void;
 
   abstract clickHandler(): void;
 
@@ -114,12 +113,11 @@ export default abstract class Draggable extends Component {
     const dropTarget = this.findDroppable(e.clientX, e.clientY);
 
     if (!dropTarget) {
-      // basically, nothing happens, but we need to synchronize the UI with the state because we snapped the card from the row, leaving a gap
       this.dropCancelHandler();
     }
 
     if (dropTarget) {
-      this.dropSwapHanlder();
+      this.dropSwapHanlder(dropTarget);
     }
   }
 
