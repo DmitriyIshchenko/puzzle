@@ -1,10 +1,9 @@
 import Component from "../../../shared/Component";
-import Row from "./Row";
+import PickRow from "./PickRow";
 
 import RoundState from "../model/RoundState";
 import HintSettings from "../model/HintSettings";
 
-import { RowType } from "../types";
 import { Observer, Publisher } from "../../../shared/Observer";
 
 import { calculateImageAspectRatio } from "../../../shared/helpers";
@@ -12,7 +11,9 @@ import { calculateImageAspectRatio } from "../../../shared/helpers";
 import styles from "./WordsPicker.module.css";
 
 export default class WordsPicker extends Component implements Observer {
-  private row: Row | null = null;
+  private row: PickRow | null = null;
+
+  private roundId: string = "";
 
   private imageAspectRatio: number = 0;
 
@@ -31,26 +32,23 @@ export default class WordsPicker extends Component implements Observer {
   }
 
   async update(publisher: Publisher) {
-    if (publisher instanceof RoundState) {
-      const { currentStage } = publisher.state;
-      const stage = publisher.state.stages[currentStage];
+    if (!(publisher instanceof RoundState)) return;
 
-      if (!this.row || stage.sentenceLength !== this.row.getChildren().length) {
-        this.row = this.createRow(publisher);
-      }
+    const { id, currentStage } = publisher.state;
 
-      this.toggleVisibility(publisher.isRoundCompleted());
-
-      this.row.fillCells(publisher.state.content.pickArea);
+    // new round
+    if (id !== this.roundId) {
       await this.updateHeight();
-      await this.row.updateBackgroundPositions();
+      this.row = this.createRow();
     }
-  }
 
-  private toggleVisibility(isDisplayed: boolean) {
-    if (isDisplayed) {
-      this.setAttribute("hidden", "");
-    } else this.removeAttribute("hidden");
+    // new stage
+    if (!this.row || this.row.stageNumber !== currentStage) {
+      this.row = this.createRow();
+    }
+
+    this.roundId = id;
+    this.toggleAttribute("hidden", publisher.isRoundCompleted());
   }
 
   private handleResize() {
@@ -60,27 +58,28 @@ export default class WordsPicker extends Component implements Observer {
   }
 
   private async updateHeight() {
-    if (!this.imageAspectRatio) {
-      this.imageAspectRatio = await calculateImageAspectRatio(
-        this.roundState.state.painting.imageSrc,
-      );
-    }
+    // make visible to get row width
+    this.removeAttribute("hidden");
+
+    this.imageAspectRatio = await calculateImageAspectRatio(
+      this.roundState.state.painting.imageSrc,
+    );
 
     const { width } = this.getElement().getBoundingClientRect();
     this.getElement().style.height = `${width / this.imageAspectRatio / 10}px`;
   }
 
-  private createRow(roundState: RoundState): Row {
+  private createRow(): PickRow {
     if (this.row) this.row.deleteRow();
 
-    const row = new Row(
-      RowType.PICK,
-      roundState.state.content.pickArea,
-      roundState.moveCard.bind(roundState),
+    const row = new PickRow(
+      this.roundState.state.currentStage,
+      this.roundState,
       this.hintSettings,
     );
 
     this.append(row);
+    row.updateCells(this.roundState.state.content.pickArea);
 
     return row;
   }

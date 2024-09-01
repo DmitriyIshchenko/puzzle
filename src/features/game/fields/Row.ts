@@ -1,107 +1,152 @@
 import Component from "../../../shared/Component";
-import WordCard from "../card/WordCard";
-
-import { Word, MoveCardAction, RowType, StageStatus } from "../types";
 import { Observer, Publisher } from "../../../shared/Observer";
-import HintSettings from "../model/HintSettings";
-
 import { div } from "../../../ui/tags";
+import WordCard from "../card/WordCard";
+import HintSettings from "../model/HintSettings";
+import RoundState from "../model/RoundState";
+import { RowType, Word } from "../types";
 
 import styles from "./Row.module.css";
 
-export default class Row extends Component implements Observer {
-  private cells: Component[] = [];
+export interface RowData {
+  type: RowType;
+  width: number;
+  height: number;
+}
 
-  // need this to prevent reset on cell updating
-  private isBackgroundDisplayed: boolean | null = null;
+export default abstract class Row extends Component implements Observer {
+  private cells: Array<Component> = [];
+
+  private content: Array<Word | null> = [];
+
+  protected roundId: string = "";
 
   constructor(
-    private type: RowType,
-    private content: Array<Word | null>,
-    private actionHandler: (action: MoveCardAction) => void,
-    private hintSettings: HintSettings,
+    protected type: RowType,
+    public stageNumber: number,
+    protected roundState: RoundState,
+    protected hintSettings: HintSettings,
   ) {
     super({ className: styles.row });
 
+    this.roundState.subscribe(this);
     this.hintSettings.subscribe(this);
 
+    this.roundId = this.roundState.state.id;
+
     this.configure();
-    window.addEventListener("resize", this.handleResize.bind(this));
+
+    window.addEventListener(
+      "resize",
+      this.updateBackgroundPositions.bind(this),
+    );
   }
 
-  private configure() {
-    this.cells = this.content.map(() => div({ className: styles.cell }));
-
-    this.appendChildren(this.cells);
-    // TODO: I have doubts about this, there is probably a better way
-    this.update(this.hintSettings);
-
-    if (this.type === RowType.PICK) this.getElement().style.height = "100%";
+  configure() {
+    this.createCells();
   }
 
-  update(publisher: Publisher) {
-    if (publisher instanceof HintSettings) {
-      this.isBackgroundDisplayed = publisher.state.background;
+  abstract update(state: Publisher): void;
 
-      this.toggleRowBackgrounds(this.isBackgroundDisplayed);
-    }
-  }
+  createCells() {
+    const rowLength =
+      this.roundState.state.stages[this.stageNumber].sentenceLength;
 
-  private handleResize() {
-    this.updateBackgroundPositions().catch((err: unknown) => {
-      console.error(err);
-    });
-  }
-
-  // TODO: this method needs a lot of refactoring
-  fillCells(content: Array<Word | null>) {
-    this.cells.forEach((cell, index) => {
-      const word = content[index];
-      const cellEl = this.cells[index].getElement();
+    this.cells = Array.from({ length: rowLength }, (_, index) => {
+      const cell = div({ className: styles.cell });
       cell.setAttribute("data-index", index.toString());
       cell.setAttribute("data-type", this.type);
 
-      // reset cell
-      cell.clear();
-      cellEl.style.maxWidth = `none`;
-      cellEl.style.minWidth = `0`;
+      return cell;
+    });
+
+    this.content = Array.from({ length: rowLength }, () => null);
+
+    this.appendChildren(this.cells);
+  }
+
+  private getRowData(): RowData {
+    const { width, height } = this.getElement().getBoundingClientRect();
+    return { type: this.type, width, height };
+  }
+
+  /* 
+  4 possibilities:
+    1. Word deleted (any -> null)
+    2. Word added (null -> word)
+    3. Word replaced with another word (word -> word)
+    4. Cell is broken after a drop has been canceled
+*/
+  updateCells(updatedContent: Array<Word | null>) {
+    updatedContent.forEach((word, index) => {
+      if (!word) {
+        this.cells[index].clear();
+      }
 
       if (word) {
-        cellEl.style.maxWidth = `${word.width}%`;
-        cellEl.style.minWidth = `${word.width}%`;
-
-        const card = new WordCard(
-          word,
-          this.actionHandler,
-          this.type,
-          this.isBackgroundDisplayed,
-        );
-        card.setAttribute("data-index", index.toString());
-
-        cell.append(card);
+        const oldWord = this.content[index];
+        const needsInsert =
+          !oldWord ||
+          word.correctPosition !== oldWord.correctPosition ||
+          this.isCellBroken(index);
+        if (needsInsert) this.insertCard(word, index);
       }
     });
+
+    this.adjustEmptyCellsSizes(updatedContent);
+    this.content = [...updatedContent];
   }
 
-  updateStatusStyles(status: StageStatus) {
-    // reset styles
-    this.removeClass(styles.correct);
-    this.removeClass(styles.incorrect);
+  // happens when a drop was canceled, meaning that the cell has children but no child nodes
+  private isCellBroken(index: number) {
+    const cell = this.cells[index];
+    return (
+      cell.getChildren().length !== 0 &&
+      cell.getElement().childNodes.length === 0
+    );
+  }
 
-    if (status === StageStatus.CORRECT) {
-      this.addClass(styles.correct);
+  private insertCard(word: Word, index: number) {
+    const cell = this.cells[index];
+    cell.clear();
+    const card = new WordCard(
+      word,
+      this.getRowData(),
+      this.roundState,
+      this.hintSettings,
+    );
 
-      this.toggleRowBackgrounds(true);
+    card.setAttribute("data-index", index.toString());
+    cell.setInlineStyles({
+      minWidth: `${word.width}%`,
+      maxWidth: `${word.width}%`,
+    });
 
-      // solved rows always display background, so the row doesn't have to be affected by hint settings anymore
-      this.hintSettings.unsubscribe(this);
-      return;
+    cell.append(card);
+  }
+
+  private adjustEmptyCellsSizes(updatedContent: Array<Word | null>) {
+    const isAdded =
+      updatedContent.filter(Boolean).length >
+      this.content.filter(Boolean).length;
+
+    if (isAdded) {
+      this.cells
+        .filter((cell) => !cell.getChildren().length)
+        .forEach((cell) => {
+          cell.setInlineStyles({ minWidth: `0` });
+        });
     }
-
-    if (status !== StageStatus.NOT_COMPLETED) this.addClass(styles[status]);
   }
 
-  private toggleRowBackgrounds(isShown: boolean) {
+  deleteRow() {
+    this.roundState.unsubscribe(this);
+    this.hintSettings.unsubscribe(this);
+
+    this.destroy();
+  }
+
+  protected toggleRowBackgrounds(isShown: boolean) {
     this.cells.forEach((cell) => {
       const [card] = cell.getChildren();
       if (card instanceof WordCard) {
@@ -110,29 +155,14 @@ export default class Row extends Component implements Observer {
     });
   }
 
-  async updateBackgroundPositions() {
-    const { width: rowWidth, height: rowHeight } =
-      this.getElement().getBoundingClientRect();
+  private updateBackgroundPositions() {
+    const { width, height } = this.getRowData();
 
     this.cells.forEach((cell) => {
       const [card] = cell.getChildren();
       if (card instanceof WordCard) {
-        card.calculateBackgroundPositions(rowWidth, rowHeight);
+        card.calculateBackgroundPositions(width, height);
       }
     });
-  }
-
-  deleteRow() {
-    // there should be no "dead" objects subscribed to the publisher
-    this.hintSettings.unsubscribe(this);
-    this.destroy();
-  }
-
-  activateRow() {
-    this.addClass(styles.active);
-  }
-
-  deactivateRow() {
-    this.removeClass(styles.active);
   }
 }
