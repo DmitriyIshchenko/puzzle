@@ -1,11 +1,9 @@
 import Component from "../../../shared/Component";
-import Row from "./Row";
-import WordCard from "../card/WordCard";
+import AssembleRow from "./AssembleRow";
 
 import RoundState from "../model/RoundState";
 import HintSettings from "../model/HintSettings";
 
-import { RowType } from "../types";
 import { Observer, Publisher } from "../../../shared/Observer";
 import {
   ANIMATION_DELAY_COEFFICIENT,
@@ -14,13 +12,12 @@ import {
 } from "../../../shared/helpers";
 
 import styles from "./GameField.module.css";
+import WordCard from "../card/WordCard";
 
 export default class GameField extends Component implements Observer {
-  private rows: Array<Row> = [];
+  private rows: Array<AssembleRow> = [];
 
   private roundId: string = "";
-
-  private currentRow: Row = this.rows[0];
 
   constructor(
     private roundState: RoundState,
@@ -36,41 +33,24 @@ export default class GameField extends Component implements Observer {
 
   async update(publisher: Publisher) {
     if (publisher instanceof RoundState) {
-      const { currentStage, id } = publisher.state;
+      const { id } = publisher.state;
 
       // new round
       if (id !== this.roundId) {
+        await this.updateFieldSize();
         this.createRows(publisher);
       }
 
       this.roundId = id;
-      this.currentRow = this.rows[currentStage];
-
-      this.rows.forEach((row) => {
-        row.deactivateRow();
-      });
-      this.currentRow.activateRow();
-
-      this.currentRow.fillCells(publisher.state.content.assembleArea);
-      await this.updateVisuals();
+      this.fadeAwayAllCards(publisher.isRoundCompleted());
     }
   }
 
-  private async updateVisuals() {
-    await this.updateFieldSize();
-    this.fadeAwayAllCards(this.roundState.isRoundCompleted());
-
-    // TODO: subscribe rows to state updates
-    // TODO: create a current stage getter
-    this.currentRow.updateStatusStyles(
-      this.roundState.state.stages[this.roundState.state.currentStage].status,
-    );
-    await this.currentRow.updateBackgroundPositions();
-  }
-
+  // FIXME: last row doesn't fade away
   private fadeAwayAllCards(isRoundCompleted: boolean) {
     if (isRoundCompleted) {
       const cards = findAllInstancesOf(WordCard, this);
+
       cards.forEach((card, index) => {
         card.fadeAwayCardText(index / ANIMATION_DELAY_COEFFICIENT);
       });
@@ -89,13 +69,8 @@ export default class GameField extends Component implements Observer {
 
     this.clear();
     this.rows = stages.map(
-      (stage) =>
-        new Row(
-          RowType.ASSEMBLE,
-          new Array<null>(stage.sentenceLength).fill(null),
-          roundState.moveCard.bind(roundState),
-          this.hintSettings,
-        ),
+      (_, stageNumber) =>
+        new AssembleRow(stageNumber, this.roundState, this.hintSettings),
     );
 
     this.appendChildren(this.rows);
@@ -104,8 +79,7 @@ export default class GameField extends Component implements Observer {
   // redefine to prevent subscribers pollution with dead objects
   clear(): void {
     this.rows.forEach((row) => {
-      this.hintSettings.unsubscribe(row);
-      row.destroy();
+      row.deleteRow();
     });
   }
 }
