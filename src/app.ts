@@ -53,7 +53,9 @@ export default class App {
       {
         path: Pages.GAME,
         callback: () => {
-          this.appLayout.setContent(new GamePage());
+          const gamePage = new GamePage();
+          this.appLayout.setContent(gamePage);
+          gamePage.init();
         },
       },
     ];

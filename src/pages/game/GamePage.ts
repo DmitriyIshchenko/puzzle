@@ -56,8 +56,8 @@ export default class GamePage extends Component {
   private configure() {
     const warning = new SmallScreenWarningCard(this.smallScreenSettings);
     const controls = this.configureControls();
-    const hints = this.configurHints();
-    const fields = this.configureFieds();
+    const hints = this.configureHints();
+    const fields = this.configureFields();
 
     this.appendChildren([warning, controls, hints, ...fields, this.modal]);
 
@@ -65,7 +65,7 @@ export default class GamePage extends Component {
     this.hintSettings.notifySubscribers();
   }
 
-  private configureFieds() {
+  private configureFields() {
     const gameField = new GameField(this.roundState, this.hintSettings);
     const paintingInfo = new PaintingInfo(this.roundState);
     const wordsPicker = new WordsPicker(this.roundState, this.hintSettings);
@@ -74,7 +74,7 @@ export default class GamePage extends Component {
     return [gameField, paintingInfo, wordsPicker, roundControls];
   }
 
-  private configurHints() {
+  private configureHints() {
     const translationHint = new TranslationHint(
       this.roundState,
       this.hintSettings,
@@ -107,5 +107,10 @@ export default class GamePage extends Component {
     );
 
     return controls;
+  }
+
+  init() {
+    this.roundState.startRound();
+    this.hintSettings.notifySubscribers();
   }
 }
