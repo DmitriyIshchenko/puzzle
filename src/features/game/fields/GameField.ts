@@ -42,18 +42,22 @@ export default class GameField extends Component implements Observer {
       }
 
       this.roundId = id;
+
       this.fadeAwayAllCards(publisher.isRoundCompleted());
     }
   }
 
-  // FIXME: last row doesn't fade away
+  // I tried to fade the cards from the row class, but when a player auto-completes the last round, the animation starts before the DOM updates the last row (I think). So, the very last card doesn't fade and is already hidden. Maybe there's a better solution than using a timeout
+
   private fadeAwayAllCards(isRoundCompleted: boolean) {
     if (isRoundCompleted) {
-      const cards = findAllInstancesOf(WordCard, this);
+      setTimeout(() => {
+        const cards = findAllInstancesOf(WordCard, this);
 
-      cards.forEach((card, index) => {
-        card.fadeAwayCardText(index / ANIMATION_DELAY_COEFFICIENT);
-      });
+        cards.forEach((card, index) => {
+          card.fadeAwayCardText(index / ANIMATION_DELAY_COEFFICIENT);
+        });
+      }, 100);
     }
   }
 
