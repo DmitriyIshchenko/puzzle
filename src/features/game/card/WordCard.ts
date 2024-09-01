@@ -117,7 +117,7 @@ export default class WordCard extends Draggable {
     this.roundState.moveCard(action);
   }
 
-  dropSwapHanlder(dropTarget: HTMLElement): void {
+  dropSwapHandler(dropTarget: HTMLElement): void {
     const action: MoveCardAction = {
       type: "drop/swap",
       payload: {

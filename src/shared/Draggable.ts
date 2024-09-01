@@ -29,7 +29,7 @@ export default abstract class Draggable extends Component {
 
   abstract dropCancelHandler(): void;
 
-  abstract dropSwapHanlder(dropTarget: HTMLElement): void;
+  abstract dropSwapHandler(dropTarget: HTMLElement): void;
 
   abstract clickHandler(): void;
 
@@ -117,7 +117,7 @@ export default abstract class Draggable extends Component {
     }
 
     if (dropTarget) {
-      this.dropSwapHanlder(dropTarget);
+      this.dropSwapHandler(dropTarget);
     }
   }
 
