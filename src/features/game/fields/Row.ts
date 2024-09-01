@@ -67,34 +67,52 @@ export default abstract class Row extends Component implements Observer {
     };
   }
 
-  // TODO: create a function to find differences between arrays/objects
-  // FIX: handle drop cancel (insert the card back)
   updateCells(updatedContent: Array<Word | null>) {
-    updatedContent.forEach((newWord, index) => {
-      if (newWord?.correctPosition !== this.content[index]?.correctPosition) {
+    updatedContent.forEach((word, index) => {
+      if (!word) {
         this.cells[index].clear();
+      }
 
-        if (newWord) {
-          const card = new WordCard(
-            newWord,
-            this.getRowData(),
-            this.roundState,
-            this.hintSettings,
-          );
-
-          card.setAttribute("data-index", index.toString());
-          this.cells[index].setInlineStyles({
-            minWidth: `${newWord.width}%`,
-            maxWidth: `${newWord.width}%`,
-          });
-
-          this.cells[index].append(card);
-        }
+      if (word) {
+        const oldWord = this.content[index];
+        const needsInsert =
+          !oldWord ||
+          word.correctPosition !== oldWord.correctPosition ||
+          this.isCellBroken(index);
+        if (needsInsert) this.insertCard(word, index);
       }
     });
 
     this.adjustEmptyCellsSizes(updatedContent);
     this.content = [...updatedContent];
+  }
+
+  // happens when a drop was canceled, meaning that the cell has children but no child nodes
+  private isCellBroken(index: number) {
+    const cell = this.cells[index];
+    return (
+      cell.getChildren().length !== 0 &&
+      cell.getElement().childNodes.length === 0
+    );
+  }
+
+  private insertCard(word: Word, index: number) {
+    const cell = this.cells[index];
+    cell.clear();
+    const card = new WordCard(
+      word,
+      this.getRowData(),
+      this.roundState,
+      this.hintSettings,
+    );
+
+    card.setAttribute("data-index", index.toString());
+    cell.setInlineStyles({
+      minWidth: `${word.width}%`,
+      maxWidth: `${word.width}%`,
+    });
+
+    cell.append(card);
   }
 
   private adjustEmptyCellsSizes(updatedContent: Array<Word | null>) {
