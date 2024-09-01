@@ -1,6 +1,6 @@
 import Component from "./Component";
 
-const DRAG_THRESHOLD = 2;
+const DRAG_THRESHOLD = 10;
 
 export default abstract class Draggable extends Component {
   private clientX: number = 0;
