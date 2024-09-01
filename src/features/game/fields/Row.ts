@@ -8,6 +8,12 @@ import { RowType, Word } from "../types";
 
 import styles from "./Row.module.css";
 
+export interface RowData {
+  type: RowType;
+  width: number;
+  height: number;
+}
+
 export default abstract class Row extends Component implements Observer {
   private cells: Array<Component> = [];
 
@@ -59,14 +65,18 @@ export default abstract class Row extends Component implements Observer {
     this.appendChildren(this.cells);
   }
 
-  getRowData() {
-    return {
-      type: this.type,
-      width: this.getElement().getBoundingClientRect().width,
-      height: this.getElement().getBoundingClientRect().height,
-    };
+  private getRowData(): RowData {
+    const { width, height } = this.getElement().getBoundingClientRect();
+    return { type: this.type, width, height };
   }
 
+  /* 
+  4 possibilities:
+    1. Word deleted (any -> null)
+    2. Word added (null -> word)
+    3. Word replaced with another word (word -> word)
+    4. Cell is broken after a drop has been canceled
+*/
   updateCells(updatedContent: Array<Word | null>) {
     updatedContent.forEach((word, index) => {
       if (!word) {
@@ -117,18 +127,15 @@ export default abstract class Row extends Component implements Observer {
 
   private adjustEmptyCellsSizes(updatedContent: Array<Word | null>) {
     const isAdded =
-      updatedContent.filter((item) => item).length >
-      this.content.filter((item) => item).length;
+      updatedContent.filter(Boolean).length >
+      this.content.filter(Boolean).length;
 
     if (isAdded) {
-      const emptyCells = this.cells.filter(
-        (cell) => !cell.getChildren().length,
-      );
-      emptyCells.forEach((cell) => {
-        cell.setInlineStyles({
-          minWidth: `0`,
+      this.cells
+        .filter((cell) => !cell.getChildren().length)
+        .forEach((cell) => {
+          cell.setInlineStyles({ minWidth: `0` });
         });
-      });
     }
   }
 
@@ -149,13 +156,12 @@ export default abstract class Row extends Component implements Observer {
   }
 
   private updateBackgroundPositions() {
-    const { width: rowWidth, height: rowHeight } =
-      this.getElement().getBoundingClientRect();
+    const { width, height } = this.getRowData();
 
     this.cells.forEach((cell) => {
       const [card] = cell.getChildren();
       if (card instanceof WordCard) {
-        card.calculateBackgroundPositions(rowWidth, rowHeight);
+        card.calculateBackgroundPositions(width, height);
       }
     });
   }

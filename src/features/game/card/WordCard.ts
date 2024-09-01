@@ -4,6 +4,7 @@ import { div, span } from "../../../ui/tags";
 
 import HintSettings from "../model/HintSettings";
 import RoundState from "../model/RoundState";
+import type { RowData } from "../fields/Row";
 import { Word, MoveCardAction, RowType } from "../types";
 import { assertNonNull, IMAGES_BASE_URL } from "../../../shared/helpers";
 
@@ -15,7 +16,7 @@ export default class WordCard extends Draggable {
 
   constructor(
     private data: Word,
-    private rowData: { type: RowType; width: number; height: number },
+    private rowData: RowData,
     private roundState: RoundState,
     private hintSettings: HintSettings,
   ) {
