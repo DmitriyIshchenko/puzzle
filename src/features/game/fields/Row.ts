@@ -1,4 +1,5 @@
 import Component from "../../../shared/Component";
+import { debounceListener } from "../../../shared/helpers";
 import { Observer, Publisher } from "../../../shared/Observer";
 import { div } from "../../../ui/tags";
 import WordCard from "../card/WordCard";
@@ -21,6 +22,8 @@ export default abstract class Row extends Component implements Observer {
 
   protected roundId: string = "";
 
+  boundResizeHandler: EventListener;
+
   constructor(
     protected type: RowType,
     public stageNumber: number,
@@ -36,10 +39,12 @@ export default abstract class Row extends Component implements Observer {
 
     this.configure();
 
-    window.addEventListener(
-      "resize",
+    this.boundResizeHandler = debounceListener(
       this.updateBackgroundPositions.bind(this),
+      200,
     );
+
+    window.addEventListener("resize", this.boundResizeHandler);
   }
 
   configure() {
@@ -142,6 +147,7 @@ export default abstract class Row extends Component implements Observer {
   deleteRow() {
     this.roundState.unsubscribe(this);
     this.hintSettings.unsubscribe(this);
+    window.removeEventListener("resize", this.boundResizeHandler);
 
     this.destroy();
   }
