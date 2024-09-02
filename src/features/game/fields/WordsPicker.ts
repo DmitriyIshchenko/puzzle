@@ -20,6 +20,8 @@ export default class WordsPicker extends Component implements Observer {
 
   private imageAspectRatio: number = 0;
 
+  private boundResizeHandler: EventListener;
+
   constructor(
     private roundState: RoundState,
     private hintSettings: HintSettings,
@@ -31,10 +33,12 @@ export default class WordsPicker extends Component implements Observer {
 
     roundState.subscribe(this);
 
-    window.addEventListener(
-      "resize",
-      debounceListener(this.handleResize.bind(this), 200),
+    this.boundResizeHandler = debounceListener(
+      this.handleResize.bind(this),
+      200,
     );
+
+    window.addEventListener("resize", this.boundResizeHandler);
   }
 
   async update(publisher: Publisher) {
@@ -88,5 +92,12 @@ export default class WordsPicker extends Component implements Observer {
     row.updateCells(this.roundState.state.content.pickArea);
 
     return row;
+  }
+
+  destroy() {
+    this.clear();
+
+    window.removeEventListener("resize", this.boundResizeHandler);
+    this.element.remove();
   }
 }
