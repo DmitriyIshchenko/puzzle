@@ -6,7 +6,10 @@ import HintSettings from "../model/HintSettings";
 
 import { Observer, Publisher } from "../../../shared/Observer";
 
-import { calculateImageAspectRatio } from "../../../shared/helpers";
+import {
+  calculateImageAspectRatio,
+  debounceListener,
+} from "../../../shared/helpers";
 
 import styles from "./WordsPicker.module.css";
 
@@ -28,7 +31,10 @@ export default class WordsPicker extends Component implements Observer {
 
     roundState.subscribe(this);
 
-    window.addEventListener("resize", this.handleResize.bind(this));
+    window.addEventListener(
+      "resize",
+      debounceListener(this.handleResize.bind(this), 200),
+    );
   }
 
   async update(publisher: Publisher) {

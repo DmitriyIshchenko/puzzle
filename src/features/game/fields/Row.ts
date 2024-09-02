@@ -1,4 +1,5 @@
 import Component from "../../../shared/Component";
+import { debounceListener } from "../../../shared/helpers";
 import { Observer, Publisher } from "../../../shared/Observer";
 import { div } from "../../../ui/tags";
 import WordCard from "../card/WordCard";
@@ -38,7 +39,7 @@ export default abstract class Row extends Component implements Observer {
 
     window.addEventListener(
       "resize",
-      this.updateBackgroundPositions.bind(this),
+      debounceListener(this.updateBackgroundPositions.bind(this), 200),
     );
   }
 
