@@ -49,7 +49,10 @@ export default class AssembleRow extends Row {
 
     if (status !== StageStatus.NOT_COMPLETED) this.addClass(styles[status]);
 
-    if ([StageStatus.CORRECT, StageStatus.AUTOCOMPLETED].includes(status)) {
+    if (
+      StageStatus.CORRECT === status ||
+      StageStatus.AUTOCOMPLETED === status
+    ) {
       this.toggleRowBackgrounds(true);
 
       // solved rows always display background, so the row doesn't have to be affected by hint settings anymore

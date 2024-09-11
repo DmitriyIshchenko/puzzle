@@ -177,8 +177,9 @@ export default class RoundState extends State<Round> implements Observer {
   isStageCompleted(
     stage: Stage = this.state.stages[this.state.currentStage],
   ): boolean {
-    return [StageStatus.AUTOCOMPLETED, StageStatus.CORRECT].includes(
-      stage.status,
+    return (
+      StageStatus.CORRECT === stage.status ||
+      StageStatus.AUTOCOMPLETED === stage.status
     );
   }
 

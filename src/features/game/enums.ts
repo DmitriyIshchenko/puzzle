@@ -1,13 +1,15 @@
-// enums are places in separate file to avoid dependency cycles
+export const StageStatus = {
+  NOT_COMPLETED: "notCompleted",
+  CORRECT: "correct",
+  INCORRECT: "incorrect",
+  AUTOCOMPLETED: "autocompleted",
+} as const;
 
-export enum RowType {
-  PICK = "pickArea",
-  ASSEMBLE = "assembleArea",
-}
+export type StageStatus = (typeof StageStatus)[keyof typeof StageStatus];
 
-export enum StageStatus {
-  NOT_COMPLETED = "notCompleted",
-  CORRECT = "correct",
-  INCORRECT = "incorrect",
-  AUTOCOMPLETED = "autocompleted",
-}
+export const RowType = {
+  PICK: "pickArea",
+  ASSEMBLE: "assembleArea",
+} as const;
+
+export type RowType = (typeof RowType)[keyof typeof RowType];
