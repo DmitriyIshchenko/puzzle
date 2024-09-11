@@ -2,10 +2,11 @@ import Component from "../../../shared/Component";
 import Draggable from "../../../shared/Draggable";
 import { div, span } from "../../../ui/tags";
 
+import RoundState, { type MoveCardAction } from "../model/RoundState";
 import HintSettings from "../model/HintSettings";
-import RoundState from "../model/RoundState";
+
 import type { RowData } from "../fields/Row";
-import { Word, MoveCardAction, RowType } from "../types";
+import { Word, RowType } from "../types";
 import { assertNonNull, IMAGES_BASE_URL } from "../../../shared/helpers";
 
 import styles from "./WordCard.module.css";

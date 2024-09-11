@@ -2,12 +2,22 @@ import State from "../../../app/state/StatePublisher";
 import RoundSettings from "./RoundSettings";
 import { Observer, Publisher } from "../../../shared/Observer";
 
-import { MoveCardAction, Round, Stage, StageStatus } from "../types";
+import { Round, RowType, Stage, StageStatus } from "../types";
 import {
   generateStageWords,
   prepareRound,
   RATING_THRESHOLDS,
 } from "../../../shared/helpers";
+
+export interface MoveCardAction {
+  type: string;
+  payload: {
+    indexFrom: number;
+    rowFrom: RowType;
+    indexTo: number;
+    rowTo: RowType;
+  };
+}
 
 export default class RoundState extends State<Round> implements Observer {
   constructor(private roundSettings: RoundSettings) {

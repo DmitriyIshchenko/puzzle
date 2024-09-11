@@ -1,15 +1,5 @@
 import { RoundResult } from "./model/RoundSettings";
 
-export interface MoveCardAction {
-  type: string;
-  payload: {
-    indexFrom: number;
-    rowFrom: RowType;
-    indexTo: number;
-    rowTo: RowType;
-  };
-}
-
 export enum RowType {
   PICK = "pickArea",
   ASSEMBLE = "assembleArea",
