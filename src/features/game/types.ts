@@ -28,8 +28,3 @@ export interface Stage {
   translation: string;
   audio: string;
 }
-
-export interface GameContent {
-  pickArea: Array<Word | null>;
-  assembleArea: Array<Word | null>;
-}

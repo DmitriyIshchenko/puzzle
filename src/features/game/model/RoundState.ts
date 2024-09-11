@@ -2,12 +2,17 @@ import State from "../../../app/state/StatePublisher";
 import RoundSettings, { RoundResult } from "./RoundSettings";
 import { Observer, Publisher } from "../../../shared/Observer";
 
-import { GameContent, RowType, Stage, StageStatus } from "../types";
+import { RowType, Stage, StageStatus, Word } from "../types";
 import {
   generateStageWords,
   prepareRound,
   RATING_THRESHOLDS,
 } from "../../../shared/helpers";
+
+export interface GameContent {
+  pickArea: Array<Word | null>;
+  assembleArea: Array<Word | null>;
+}
 
 export interface Painting {
   author: string;
