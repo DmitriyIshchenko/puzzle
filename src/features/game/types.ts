@@ -19,12 +19,3 @@ export interface Word {
   stage: number;
   image: string;
 }
-
-export interface Stage {
-  status: StageStatus;
-  stageNumber: number;
-  sentence: string;
-  sentenceLength: number;
-  translation: string;
-  audio: string;
-}

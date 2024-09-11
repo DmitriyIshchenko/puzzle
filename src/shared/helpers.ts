@@ -1,7 +1,7 @@
 import Component from "./Component";
 import LEVELS from "../../data/levels";
-import { Stage, StageStatus, Word } from "../features/game/types";
-import { type Round } from "../features/game/model/RoundState";
+import { StageStatus, Word } from "../features/game/types";
+import { type Round, type Stage } from "../features/game/model/RoundState";
 
 export const IMAGES_BASE_URL =
   "https://raw.githubusercontent.com/rolling-scopes-school/rss-puzzle-data/main/images";

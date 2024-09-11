@@ -2,7 +2,7 @@ import State from "../../../app/state/StatePublisher";
 import RoundSettings, { RoundResult } from "./RoundSettings";
 import { Observer, Publisher } from "../../../shared/Observer";
 
-import { RowType, Stage, StageStatus, Word } from "../types";
+import { RowType, StageStatus, Word } from "../types";
 import {
   generateStageWords,
   prepareRound,
@@ -19,6 +19,15 @@ export interface Painting {
   name: string;
   imageSrc: string;
   year: string;
+}
+
+export interface Stage {
+  status: StageStatus;
+  stageNumber: number;
+  sentence: string;
+  sentenceLength: number;
+  translation: string;
+  audio: string;
 }
 
 export interface Round {

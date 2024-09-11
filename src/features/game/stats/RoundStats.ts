@@ -5,9 +5,9 @@ import SentencesList, { SentencesListType } from "./SentencesList";
 import Button from "../../../ui/button/Button";
 import { div, i } from "../../../ui/tags";
 
-import RoundState from "../model/RoundState";
+import RoundState, { type Stage } from "../model/RoundState";
 import { Observer, Publisher } from "../../../shared/Observer";
-import { Stage, StageStatus } from "../types";
+import { StageStatus } from "../types";
 
 import styles from "./RoundStats.module.css";
 
