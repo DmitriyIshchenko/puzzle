@@ -1,6 +1,6 @@
 import Component from "./Component";
 import LEVELS from "../../data/levels";
-import { StageStatus } from "../features/game/enums";
+import { StageStatus } from "../features/game/model/StageStatus";
 import { type Word } from "../features/game/card/WordCard";
 import { type Round, type Stage } from "../features/game/model/RoundState";
 

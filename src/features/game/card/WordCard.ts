@@ -5,8 +5,8 @@ import { div, span } from "../../../ui/tags";
 import RoundState, { type MoveCardAction } from "../model/RoundState";
 import HintSettings from "../model/HintSettings";
 
-import type { RowData } from "../fields/Row";
-import { RowType } from "../enums";
+import { type RowData } from "../fields/Row";
+import { RowType } from "../fields/RowType";
 import { assertNonNull, IMAGES_BASE_URL } from "../../../shared/helpers";
 
 import styles from "./WordCard.module.css";

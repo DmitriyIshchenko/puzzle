@@ -4,12 +4,12 @@ import { Observer, Publisher } from "../../../shared/Observer";
 import { div } from "../../../ui/tags";
 
 import WordCard, { type Word } from "../card/WordCard";
-import { RowType } from "../enums";
 
 import HintSettings from "../model/HintSettings";
 import RoundState from "../model/RoundState";
 
 import styles from "./Row.module.css";
+import { RowType } from "./RowType";
 
 export interface RowData {
   type: RowType;
