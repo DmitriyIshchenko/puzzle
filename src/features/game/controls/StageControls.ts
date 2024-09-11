@@ -6,9 +6,9 @@ import type RoundState from "../model/RoundState";
 
 import { Observer } from "../../../shared/Observer";
 
-import styles from "./GameControls.module.css";
+import styles from "./StageControls.module.css";
 
-export default class GameControls extends Component implements Observer {
+export default class StageControls extends Component implements Observer {
   autocompleteButton: Button;
 
   statsButton: Button;

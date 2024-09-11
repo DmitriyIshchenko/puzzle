@@ -11,13 +11,13 @@ export interface RoundResult extends Pick<Level, "roundNumber"> {
   rating: number;
 }
 
-interface RoundSettingsData {
+interface LevelsStateData {
   currentLevel: Level;
   totalLevels: number;
   completed: Map<number, RoundResult[]>;
 }
 
-const defaultState: RoundSettingsData = {
+const defaultState: LevelsStateData = {
   currentLevel: {
     difficultyLevel: 0,
     roundNumber: 0,
@@ -28,8 +28,7 @@ const defaultState: RoundSettingsData = {
 };
 
 // TODO: create generic settings class?
-// TODO: rename this class, it's not really settings anymore
-export default class RoundSettings extends State<RoundSettingsData> {
+export default class LevelsState extends State<LevelsStateData> {
   constructor() {
     super(defaultState, "levelsData");
   }
@@ -51,7 +50,7 @@ export default class RoundSettings extends State<RoundSettingsData> {
       LEVELS[this.state.currentLevel.difficultyLevel].roundsCount;
   }
 
-  private getIncrementedRound(): RoundSettingsData {
+  private getIncrementedRound(): LevelsStateData {
     const { totalLevels } = this.state;
     const { roundNumber, difficultyLevel, totalRounds } =
       this.state.currentLevel;
@@ -132,7 +131,7 @@ export default class RoundSettings extends State<RoundSettingsData> {
   }
 
   // redefine because maps get stringified to empty objects
-  saveState(state: RoundSettingsData = this.state): void {
+  saveState(state: LevelsStateData = this.state): void {
     const completedToArray = Array.from(this.state.completed);
 
     const stateToSave = {
@@ -147,7 +146,7 @@ export default class RoundSettings extends State<RoundSettingsData> {
     const stateString = localStorage.getItem(this.key);
 
     if (stateString) {
-      const parsedState = JSON.parse(stateString) as RoundSettingsData;
+      const parsedState = JSON.parse(stateString) as LevelsStateData;
 
       const completedToMap = new Map<number, RoundResult[]>(
         parsedState.completed,

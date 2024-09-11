@@ -1,5 +1,5 @@
 import State from "../../../app/state/StatePublisher";
-import RoundSettings, { RoundResult } from "./RoundSettings";
+import LevelsState, { RoundResult } from "./LevelsState";
 import { Observer, Publisher } from "../../../shared/Observer";
 
 import { StageStatus } from "./StageStatus";
@@ -52,15 +52,15 @@ export interface MoveCardAction {
 }
 
 export default class RoundState extends State<Round> implements Observer {
-  constructor(private roundSettings: RoundSettings) {
-    const { difficultyLevel, roundNumber } = roundSettings.state.currentLevel;
+  constructor(private levelsState: LevelsState) {
+    const { difficultyLevel, roundNumber } = levelsState.state.currentLevel;
     super(prepareRound(difficultyLevel, roundNumber));
 
-    this.roundSettings.subscribe(this);
+    this.levelsState.subscribe(this);
   }
 
   update(publisher: Publisher) {
-    if (publisher instanceof RoundSettings) {
+    if (publisher instanceof LevelsState) {
       const { difficultyLevel, roundNumber } = publisher.state.currentLevel;
       this.state = prepareRound(difficultyLevel, roundNumber);
       this.startRound();
@@ -87,7 +87,7 @@ export default class RoundState extends State<Round> implements Observer {
 
   startNextStage(): void {
     if (this.state.currentStage === this.state.stages.length - 1) {
-      this.roundSettings.incrementRound();
+      this.levelsState.incrementRound();
       return;
     }
 
@@ -98,7 +98,7 @@ export default class RoundState extends State<Round> implements Observer {
     this.startStage(0);
 
     // This allows users to resume the game from the last visited round instead of the last completed one. Remove this line if it is not needed
-    this.roundSettings.saveState();
+    this.levelsState.saveState();
   }
 
   moveCard(action: MoveCardAction): void {
@@ -145,7 +145,7 @@ export default class RoundState extends State<Round> implements Observer {
     // This will allow users to start the next round when they return, if they close the app before progressing.
     if (this.isRoundCompleted()) {
       this.updateRoundResults();
-      this.roundSettings.handleCompletedRound(this.state.results);
+      this.levelsState.handleCompletedRound(this.state.results);
     }
 
     this.notifySubscribers();
@@ -165,7 +165,7 @@ export default class RoundState extends State<Round> implements Observer {
     // This will allow users to start the next round when they return, if they close the app before progressing.
     if (this.isRoundCompleted()) {
       this.updateRoundResults();
-      this.roundSettings.handleCompletedRound(this.state.results);
+      this.levelsState.handleCompletedRound(this.state.results);
     }
 
     this.notifySubscribers();

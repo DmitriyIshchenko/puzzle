@@ -2,7 +2,7 @@ import Component from "../../../shared/Component";
 import { isValidSetting } from "../../../shared/helpers";
 import { Observer, Publisher } from "../../../shared/Observer";
 import { label, option, select } from "../../../ui/tags";
-import RoundSettings from "../model/RoundSettings";
+import LevelsState from "../model/LevelsState";
 
 import styles from "./RoundControls.module.css";
 
@@ -12,13 +12,13 @@ export default class RoundControls extends Component implements Observer {
 
   roundSelect: Component;
 
-  constructor(private roundSettings: RoundSettings) {
+  constructor(private levelsState: LevelsState) {
     super({
       tag: "div",
       className: styles.controls,
     });
 
-    this.roundSettings.subscribe(this);
+    this.levelsState.subscribe(this);
 
     this.difficultySelect = select({
       id: "difficultyLevel",
@@ -54,7 +54,7 @@ export default class RoundControls extends Component implements Observer {
   }
 
   update(publisher: Publisher) {
-    if (publisher instanceof RoundSettings) {
+    if (publisher instanceof LevelsState) {
       this.generateOptions();
     }
   }
@@ -63,16 +63,16 @@ export default class RoundControls extends Component implements Observer {
     const { target } = e;
     if (
       target instanceof HTMLSelectElement &&
-      isValidSetting(target.id, this.roundSettings.state.currentLevel)
+      isValidSetting(target.id, this.levelsState.state.currentLevel)
     ) {
-      this.roundSettings.updateSetting(target.id, +target.value);
+      this.levelsState.updateSetting(target.id, +target.value);
     }
   }
 
   private generateOptions() {
     const { difficultyLevel, roundNumber, totalRounds } =
-      this.roundSettings.state.currentLevel;
-    const { totalLevels } = this.roundSettings.state;
+      this.levelsState.state.currentLevel;
+    const { totalLevels } = this.levelsState.state;
 
     const difficultyOptions = Array.from({ length: totalLevels }, (_, index) =>
       option({
@@ -83,7 +83,7 @@ export default class RoundControls extends Component implements Observer {
     );
 
     const roundOptions = Array.from({ length: totalRounds }, (_, index) => {
-      const rating = this.roundSettings.getSavedRoundRating(
+      const rating = this.levelsState.getSavedRoundRating(
         difficultyLevel,
         index,
       );

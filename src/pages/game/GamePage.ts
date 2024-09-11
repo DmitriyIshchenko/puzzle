@@ -9,12 +9,12 @@ import Modal from "../../ui/modal/Modal";
 import TranslationHint from "../../features/game/hints/TranslationHint";
 import PronunciationHint from "../../features/game/hints/PronunciationHint";
 
-import GameControls from "../../features/game/controls/GameControls";
+import StageControls from "../../features/game/controls/StageControls";
 import HintsControls from "../../features/game/hints/HintControls";
 import RoundControls from "../../features/game/controls/RoundControls";
 
 import RoundState from "../../features/game/model/RoundState";
-import RoundSettings from "../../features/game/model/RoundSettings";
+import LevelsState from "../../features/game/model/LevelsState";
 import HintSettings from "../../features/game/model/HintSettings";
 import SmallScreenSettings from "../../features/game/model/SmallScreenSettings";
 
@@ -24,7 +24,7 @@ import styles from "./GamePage.module.css";
 import RoundStats from "../../features/game/stats/RoundStats";
 
 export default class GamePage extends Component {
-  roundSettings: RoundSettings;
+  levelsState: LevelsState;
 
   roundState: RoundState;
 
@@ -42,8 +42,8 @@ export default class GamePage extends Component {
       className: styles.page,
     });
 
-    this.roundSettings = new RoundSettings();
-    this.roundState = new RoundState(this.roundSettings);
+    this.levelsState = new LevelsState();
+    this.roundState = new RoundState(this.levelsState);
     this.hintSettings = new HintSettings();
     this.smallScreenSettings = new SmallScreenSettings();
 
@@ -69,7 +69,7 @@ export default class GamePage extends Component {
     const gameField = new GameField(this.roundState, this.hintSettings);
     const paintingInfo = new PaintingInfo(this.roundState);
     const wordsPicker = new WordsPicker(this.roundState, this.hintSettings);
-    const roundControls = new GameControls(this.roundState, this.modal);
+    const roundControls = new StageControls(this.roundState, this.modal);
 
     return [gameField, paintingInfo, wordsPicker, roundControls];
   }
@@ -96,7 +96,7 @@ export default class GamePage extends Component {
   private configureControls() {
     const hintControls = new HintsControls(this.hintSettings);
 
-    const roundControls = new RoundControls(this.roundSettings);
+    const roundControls = new RoundControls(this.levelsState);
 
     const controls = div(
       {
