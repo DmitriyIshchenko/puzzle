@@ -5,12 +5,6 @@ export enum RowType {
   ASSEMBLE = "assembleArea",
 }
 
-export interface HintSettingsData {
-  translation: boolean;
-  audio: boolean;
-  background: boolean;
-}
-
 export enum StageStatus {
   NOT_COMPLETED = "notCompleted",
   CORRECT = "correct",

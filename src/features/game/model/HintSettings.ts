@@ -1,5 +1,10 @@
 import State from "../../../app/state/StatePublisher";
-import { HintSettingsData } from "../types";
+
+export interface HintSettingsData {
+  translation: boolean;
+  audio: boolean;
+  background: boolean;
+}
 
 const defaultState: HintSettingsData = {
   translation: true,
