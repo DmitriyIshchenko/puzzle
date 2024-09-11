@@ -1,5 +1,3 @@
-import { RoundResult } from "./model/RoundSettings";
-
 export enum RowType {
   PICK = "pickArea",
   ASSEMBLE = "assembleArea",
@@ -41,13 +39,4 @@ export interface Painting {
   name: string;
   imageSrc: string;
   year: string;
-}
-
-export interface Round {
-  id: string;
-  currentStage: number;
-  painting: Painting;
-  stages: Array<Stage>;
-  content: GameContent;
-  results: RoundResult;
 }

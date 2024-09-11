@@ -1,13 +1,22 @@
 import State from "../../../app/state/StatePublisher";
-import RoundSettings from "./RoundSettings";
+import RoundSettings, { RoundResult } from "./RoundSettings";
 import { Observer, Publisher } from "../../../shared/Observer";
 
-import { Round, RowType, Stage, StageStatus } from "../types";
+import { GameContent, Painting, RowType, Stage, StageStatus } from "../types";
 import {
   generateStageWords,
   prepareRound,
   RATING_THRESHOLDS,
 } from "../../../shared/helpers";
+
+export interface Round {
+  id: string;
+  currentStage: number;
+  painting: Painting;
+  stages: Array<Stage>;
+  content: GameContent;
+  results: RoundResult;
+}
 
 export interface MoveCardAction {
   type: string;
