@@ -1,8 +1,8 @@
 import { Publisher } from "../../../shared/Observer";
 import HintSettings from "../model/HintSettings";
 import RoundState from "../model/RoundState";
-import { RowType } from "../types";
 import Row from "./Row";
+import { RowType } from "./RowType";
 
 export default class PickRow extends Row {
   constructor(

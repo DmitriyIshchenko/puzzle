@@ -2,12 +2,14 @@ import Component from "../../../shared/Component";
 import { debounceListener } from "../../../shared/helpers";
 import { Observer, Publisher } from "../../../shared/Observer";
 import { div } from "../../../ui/tags";
-import WordCard from "../card/WordCard";
+
+import WordCard, { type Word } from "../card/WordCard";
+
 import HintSettings from "../model/HintSettings";
 import RoundState from "../model/RoundState";
-import { RowType, Word } from "../types";
 
 import styles from "./Row.module.css";
+import { RowType } from "./RowType";
 
 export interface RowData {
   type: RowType;

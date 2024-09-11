@@ -1,13 +1,55 @@
 import State from "../../../app/state/StatePublisher";
-import RoundSettings from "./RoundSettings";
+import RoundSettings, { RoundResult } from "./RoundSettings";
 import { Observer, Publisher } from "../../../shared/Observer";
 
-import { MoveCardAction, Round, Stage, StageStatus } from "../types";
+import { StageStatus } from "./StageStatus";
+import { type RowType } from "../fields/RowType";
+import { type Word } from "../card/WordCard";
 import {
   generateStageWords,
   prepareRound,
   RATING_THRESHOLDS,
 } from "../../../shared/helpers";
+
+export interface GameContent {
+  pickArea: Array<Word | null>;
+  assembleArea: Array<Word | null>;
+}
+
+export interface Painting {
+  author: string;
+  name: string;
+  imageSrc: string;
+  year: string;
+}
+
+export interface Stage {
+  status: StageStatus;
+  stageNumber: number;
+  sentence: string;
+  sentenceLength: number;
+  translation: string;
+  audio: string;
+}
+
+export interface Round {
+  id: string;
+  currentStage: number;
+  painting: Painting;
+  stages: Array<Stage>;
+  content: GameContent;
+  results: RoundResult;
+}
+
+export interface MoveCardAction {
+  type: string;
+  payload: {
+    indexFrom: number;
+    rowFrom: RowType;
+    indexTo: number;
+    rowTo: RowType;
+  };
+}
 
 export default class RoundState extends State<Round> implements Observer {
   constructor(private roundSettings: RoundSettings) {
@@ -136,8 +178,9 @@ export default class RoundState extends State<Round> implements Observer {
   isStageCompleted(
     stage: Stage = this.state.stages[this.state.currentStage],
   ): boolean {
-    return [StageStatus.AUTOCOMPLETED, StageStatus.CORRECT].includes(
-      stage.status,
+    return (
+      StageStatus.CORRECT === stage.status ||
+      StageStatus.AUTOCOMPLETED === stage.status
     );
   }
 

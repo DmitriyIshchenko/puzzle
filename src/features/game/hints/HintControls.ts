@@ -1,6 +1,5 @@
 import Component from "../../../shared/Component";
-import HintSettings from "../model/HintSettings";
-import { HintSettingsData } from "../types";
+import HintSettings, { HintSettingsData } from "../model/HintSettings";
 
 import { Observer, Publisher } from "../../../shared/Observer";
 import { i, input, label } from "../../../ui/tags";

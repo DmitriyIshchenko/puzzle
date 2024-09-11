@@ -1,7 +1,7 @@
 import Component from "../../../shared/Component";
 import { div, img, p } from "../../../ui/tags";
 
-import { Painting } from "../types";
+import { type Painting } from "../model/RoundState";
 import { IMAGES_BASE_URL } from "../../../shared/helpers";
 
 import styles from "./ArtworkMiniature.module.css";

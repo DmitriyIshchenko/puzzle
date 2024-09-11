@@ -1,7 +1,7 @@
 import Component from "../../../shared/Component";
 import AudioButton from "../../../ui/button/AudioButton";
 import { h3, li, p, span, ul } from "../../../ui/tags";
-import { Stage } from "../types";
+import { type Stage } from "../model/RoundState";
 
 import styles from "./SentencesList.module.css";
 

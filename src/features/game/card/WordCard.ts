@@ -2,14 +2,25 @@ import Component from "../../../shared/Component";
 import Draggable from "../../../shared/Draggable";
 import { div, span } from "../../../ui/tags";
 
+import RoundState, { type MoveCardAction } from "../model/RoundState";
 import HintSettings from "../model/HintSettings";
-import RoundState from "../model/RoundState";
-import type { RowData } from "../fields/Row";
-import { Word, MoveCardAction, RowType } from "../types";
+
+import { type RowData } from "../fields/Row";
+import { RowType } from "../fields/RowType";
 import { assertNonNull, IMAGES_BASE_URL } from "../../../shared/helpers";
 
 import styles from "./WordCard.module.css";
 import rowStyles from "../fields/Row.module.css";
+
+export interface Word {
+  readonly correctPosition: number;
+  text: string;
+  width: number;
+  isLast: boolean;
+  offset: number;
+  stage: number;
+  image: string;
+}
 
 export default class WordCard extends Draggable {
   private textSpan: Component;
