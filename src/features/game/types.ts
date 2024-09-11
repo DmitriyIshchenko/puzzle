@@ -33,10 +33,3 @@ export interface GameContent {
   pickArea: Array<Word | null>;
   assembleArea: Array<Word | null>;
 }
-
-export interface Painting {
-  author: string;
-  name: string;
-  imageSrc: string;
-  year: string;
-}

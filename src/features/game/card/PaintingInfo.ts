@@ -1,8 +1,7 @@
 import Component from "../../../shared/Component";
 import { Observer, Publisher } from "../../../shared/Observer";
 import { p } from "../../../ui/tags";
-import RoundState from "../model/RoundState";
-import { Painting } from "../types";
+import RoundState, { type Painting } from "../model/RoundState";
 
 import styles from "./PaintingInfo.module.css";
 
