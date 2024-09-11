@@ -1,6 +1,7 @@
 import Component from "./Component";
 import LEVELS from "../../data/levels";
-import { StageStatus, Word } from "../features/game/types";
+import { StageStatus } from "../features/game/types";
+import { type Word } from "../features/game/card/WordCard";
 import { type Round, type Stage } from "../features/game/model/RoundState";
 
 export const IMAGES_BASE_URL =
