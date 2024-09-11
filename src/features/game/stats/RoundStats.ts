@@ -7,7 +7,7 @@ import { div, i } from "../../../ui/tags";
 
 import RoundState, { type Stage } from "../model/RoundState";
 import { Observer, Publisher } from "../../../shared/Observer";
-import { StageStatus } from "../types";
+import { StageStatus } from "../enums";
 
 import styles from "./RoundStats.module.css";
 

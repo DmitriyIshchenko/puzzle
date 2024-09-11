@@ -3,7 +3,7 @@ import RoundState from "../model/RoundState";
 import HintSettings from "../model/HintSettings";
 
 import { Publisher } from "../../../shared/Observer";
-import { RowType, StageStatus } from "../types";
+import { RowType, StageStatus } from "../enums";
 
 import styles from "./Row.module.css";
 

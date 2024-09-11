@@ -2,7 +2,7 @@ import State from "../../../app/state/StatePublisher";
 import RoundSettings, { RoundResult } from "./RoundSettings";
 import { Observer, Publisher } from "../../../shared/Observer";
 
-import { RowType, StageStatus } from "../types";
+import { RowType, StageStatus } from "../enums";
 import { type Word } from "../card/WordCard";
 import {
   generateStageWords,

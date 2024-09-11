@@ -1,3 +1,5 @@
+// enums are places in separate file to avoid dependency cycles
+
 export enum RowType {
   PICK = "pickArea",
   ASSEMBLE = "assembleArea",

@@ -6,7 +6,7 @@ import RoundState, { type MoveCardAction } from "../model/RoundState";
 import HintSettings from "../model/HintSettings";
 
 import type { RowData } from "../fields/Row";
-import { RowType } from "../types";
+import { RowType } from "../enums";
 import { assertNonNull, IMAGES_BASE_URL } from "../../../shared/helpers";
 
 import styles from "./WordCard.module.css";
