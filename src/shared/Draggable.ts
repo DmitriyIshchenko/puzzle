@@ -1,4 +1,4 @@
-import Component from "./Component";
+import Component from "./ui/base/Component";
 
 const DRAG_THRESHOLD = 10;
 

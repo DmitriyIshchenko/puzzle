@@ -1,8 +1,7 @@
-import Component from "../../../shared/Component";
+import { Component, i, input, label } from "../../../shared/ui";
 import HintSettings, { HintSettingsData } from "../model/HintSettings";
 
 import { Observer, Publisher } from "../../../shared/Observer";
-import { i, input, label } from "../../../ui/tags";
 import { isValidSetting } from "../../../shared/helpers";
 
 import styles from "./HintControls.module.css";

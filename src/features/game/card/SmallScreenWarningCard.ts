@@ -1,9 +1,13 @@
 import { Publisher } from "../../../shared/Observer";
-import Button from "../../../ui/button/Button";
-import MessageCard, { MessageType } from "../../../ui/message/Message";
+import {
+  Button,
+  Message as MessageCard,
+  MessageType,
+} from "../../../shared/ui";
+
 import SmallScreenSettings from "../model/SmallScreenSettings";
 
-import styles from "../../../ui/message/Message.module.css";
+import styles from "../../../shared/ui/message/Message.module.css";
 
 export default class SmallScreenWarning extends MessageCard {
   constructor(private smallScreenSettings: SmallScreenSettings) {

@@ -1,14 +1,16 @@
-import Component from "../../shared/Component";
+import Component from "../base/Component";
 import Button from "../button/Button";
-import { i, span } from "../tags";
+import { i, span } from "../base/tags";
 
 import styles from "./Message.module.css";
 
-export enum MessageType {
-  INFO,
-  WARNING,
-  ERROR,
-}
+export const MessageType = {
+  INFO: "info",
+  WARNING: "warning",
+  ERROR: "error",
+} as const;
+
+export type MessageType = (typeof MessageType)[keyof typeof MessageType];
 
 const icons = {
   [MessageType.INFO]: `bi bi-info-circle ${styles.info}`,

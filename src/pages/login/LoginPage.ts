@@ -1,9 +1,8 @@
 import AuthState from "../../features/auth/AuthState";
 import Router from "../../app/router/router";
 
-import Component from "../../shared/Component";
+import { Component, h2 } from "../../shared/ui";
 import LoginForm from "../../features/auth/LoginForm";
-import { h2 } from "../../ui/tags";
 
 import styles from "./LoginPage.module.css";
 

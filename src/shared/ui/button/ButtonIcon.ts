@@ -1,5 +1,5 @@
 import Button from "./Button";
-import { i } from "../tags";
+import { i } from "../base/tags";
 
 import styles from "./ButtonIcon.module.css";
 

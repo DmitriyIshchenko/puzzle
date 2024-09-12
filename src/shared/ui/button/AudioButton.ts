@@ -1,5 +1,5 @@
 import WaveIcon from "./WaveIcon";
-import Component from "../../shared/Component";
+import Component from "../base/Component";
 
 import styles from "./Button.module.css";
 import stylesRound from "./ButtonIcon.module.css";

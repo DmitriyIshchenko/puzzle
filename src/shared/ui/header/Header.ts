@@ -1,9 +1,9 @@
-import AuthState from "../../features/auth/AuthState";
-import Router from "../../app/router/router";
+import AuthState from "../../../features/auth/AuthState";
+import Router from "../../../app/router/router";
 
-import Component from "../../shared/Component";
+import Component from "../base/Component";
 import Button from "../button/Button";
-import { div, span } from "../tags";
+import { div, span } from "../base/tags";
 
 import styles from "./Header.module.css";
 

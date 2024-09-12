@@ -1,7 +1,7 @@
-import Component from "../../../shared/Component";
+import { Component, label, option, select } from "../../../shared/ui";
 import { isValidSetting } from "../../../shared/helpers";
 import { Observer, Publisher } from "../../../shared/Observer";
-import { label, option, select } from "../../../ui/tags";
+
 import LevelsState from "../model/LevelsState";
 
 import styles from "./RoundControls.module.css";

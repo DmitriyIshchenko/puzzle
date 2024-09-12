@@ -1,4 +1,4 @@
-import Component from "../../../shared/Component";
+import { Component } from "../../../shared/ui";
 import AssembleRow from "./AssembleRow";
 
 import RoundState from "../model/RoundState";

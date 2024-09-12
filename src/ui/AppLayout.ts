@@ -1,10 +1,8 @@
+import { Component, Header, main } from "../shared/ui";
 import Router from "../app/router/router";
 import AuthState from "../features/auth/AuthState";
-import Component from "../shared/Component";
 
 import styles from "./AppLayout.module.css";
-import Header from "./header/Header";
-import { main } from "./tags";
 
 export default class AppLayout extends Component<HTMLDivElement> {
   private header: Header;

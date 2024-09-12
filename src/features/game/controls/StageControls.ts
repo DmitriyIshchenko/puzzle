@@ -1,6 +1,4 @@
-import Component from "../../../shared/Component";
-import Button from "../../../ui/button/Button";
-import type Modal from "../../../ui/modal/Modal";
+import { Component, Button, Modal } from "../../../shared/ui";
 
 import type RoundState from "../model/RoundState";
 

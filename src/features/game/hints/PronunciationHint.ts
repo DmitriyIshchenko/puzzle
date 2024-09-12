@@ -1,6 +1,5 @@
-import Component from "../../../shared/Component";
+import { Component, AudioButton } from "../../../shared/ui";
 import RoundState from "../model/RoundState";
-import AudioButton from "../../../ui/button/AudioButton";
 
 import HintSettings from "../model/HintSettings";
 import { Observer, Publisher } from "../../../shared/Observer";

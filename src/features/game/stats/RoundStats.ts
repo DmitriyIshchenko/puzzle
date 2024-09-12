@@ -1,9 +1,6 @@
-import Component from "../../../shared/Component";
-import Modal from "../../../ui/modal/Modal";
+import { Component, Button, Modal, div, i } from "../../../shared/ui";
 import ArtworkMiniature from "./ArtworkMiniature";
 import SentencesList, { SentencesListType } from "./SentencesList";
-import Button from "../../../ui/button/Button";
-import { div, i } from "../../../ui/tags";
 
 import RoundState, { type Stage } from "../model/RoundState";
 import { Observer, Publisher } from "../../../shared/Observer";

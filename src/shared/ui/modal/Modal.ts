@@ -1,6 +1,6 @@
-import Component from "../../shared/Component";
+import Component from "../base/Component";
 import ButtonIcon from "../button/ButtonIcon";
-import { div } from "../tags";
+import { div } from "../base/tags";
 
 import styles from "./Modal.module.css";
 

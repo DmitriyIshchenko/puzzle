@@ -1,6 +1,5 @@
-import Component from "../../../shared/Component";
+import { Component, div, span } from "../../../shared/ui";
 import Draggable from "../../../shared/Draggable";
-import { div, span } from "../../../ui/tags";
 
 import RoundState, { type MoveCardAction } from "../model/RoundState";
 import HintSettings from "../model/HintSettings";

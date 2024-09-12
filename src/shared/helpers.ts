@@ -1,4 +1,4 @@
-import Component from "./Component";
+import Component from "./ui/base/Component";
 import LEVELS from "../../data/levels";
 import { StageStatus } from "../features/game/model/StageStatus";
 import { type Word } from "../features/game/card/WordCard";

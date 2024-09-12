@@ -1,10 +1,9 @@
-import Component from "../../shared/Component";
+import { Component, Modal, div } from "../../shared/ui";
 import SmallScreenWarningCard from "../../features/game/card/SmallScreenWarningCard";
 
 import GameField from "../../features/game/fields/GameField";
 import WordsPicker from "../../features/game/fields/WordsPicker";
 import PaintingInfo from "../../features/game/card/PaintingInfo";
-import Modal from "../../ui/modal/Modal";
 
 import TranslationHint from "../../features/game/hints/TranslationHint";
 import PronunciationHint from "../../features/game/hints/PronunciationHint";
@@ -17,8 +16,6 @@ import RoundState from "../../features/game/model/RoundState";
 import LevelsState from "../../features/game/model/LevelsState";
 import HintSettings from "../../features/game/model/HintSettings";
 import SmallScreenSettings from "../../features/game/model/SmallScreenSettings";
-
-import { div } from "../../ui/tags";
 
 import styles from "./GamePage.module.css";
 import RoundStats from "../../features/game/stats/RoundStats";
