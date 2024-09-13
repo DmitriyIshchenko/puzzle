@@ -2,7 +2,7 @@ import { Component } from "../../../shared/ui";
 import PickRow from "./PickRow";
 
 import RoundState from "../model/RoundState";
-import HintSettings from "../model/HintSettings";
+import { HintSettings } from "../../hints";
 
 import { Observer, Publisher } from "../../../entities/state";
 

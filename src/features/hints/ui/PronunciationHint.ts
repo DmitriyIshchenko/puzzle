@@ -1,5 +1,5 @@
 import { Component, AudioButton } from "../../../shared/ui";
-import RoundState from "../model/RoundState";
+import RoundState from "../../game/model/RoundState";
 
 import HintSettings from "../model/HintSettings";
 import { Observer, Publisher } from "../../../entities/state";

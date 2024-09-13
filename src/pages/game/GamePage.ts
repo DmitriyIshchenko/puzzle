@@ -5,16 +5,18 @@ import GameField from "../../features/game/fields/GameField";
 import WordsPicker from "../../features/game/fields/WordsPicker";
 import PaintingInfo from "../../features/game/card/PaintingInfo";
 
-import TranslationHint from "../../features/game/hints/TranslationHint";
-import PronunciationHint from "../../features/game/hints/PronunciationHint";
+import {
+  HintSettings,
+  TranslationHint,
+  PronunciationHint,
+  HintControls,
+} from "../../features/hints";
 
 import StageControls from "../../features/game/controls/StageControls";
-import HintsControls from "../../features/game/hints/HintControls";
 import RoundControls from "../../features/game/controls/RoundControls";
 
 import RoundState from "../../features/game/model/RoundState";
 import LevelsState from "../../features/game/model/LevelsState";
-import HintSettings from "../../features/game/model/HintSettings";
 import SmallScreenSettings from "../../features/game/model/SmallScreenSettings";
 
 import styles from "./GamePage.module.css";
@@ -91,7 +93,7 @@ export default class GamePage extends Component {
   }
 
   private configureControls() {
-    const hintControls = new HintsControls(this.hintSettings);
+    const hintControls = new HintControls(this.hintSettings);
 
     const roundControls = new RoundControls(this.levelsState);
 

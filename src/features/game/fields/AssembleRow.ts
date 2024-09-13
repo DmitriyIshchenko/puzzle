@@ -1,7 +1,7 @@
 import Row from "./Row";
 import { RowType } from "./RowType";
 import RoundState from "../model/RoundState";
-import HintSettings from "../model/HintSettings";
+import { HintSettings } from "../../hints";
 
 import { Publisher } from "../../../entities/state";
 import { StageStatus } from "../model/StageStatus";

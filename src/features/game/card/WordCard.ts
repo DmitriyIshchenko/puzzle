@@ -2,7 +2,7 @@ import { Component, div, span } from "../../../shared/ui";
 import Draggable from "../../../entities/drag-n-drop";
 
 import RoundState, { type MoveCardAction } from "../model/RoundState";
-import HintSettings from "../model/HintSettings";
+import { HintSettings } from "../../hints";
 
 import { type RowData } from "../fields/Row";
 import { RowType } from "../fields/RowType";

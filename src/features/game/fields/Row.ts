@@ -4,7 +4,7 @@ import { Observer, Publisher } from "../../../entities/state";
 
 import WordCard, { type Word } from "../card/WordCard";
 
-import HintSettings from "../model/HintSettings";
+import { HintSettings } from "../../hints";
 import RoundState from "../model/RoundState";
 
 import styles from "./Row.module.css";
