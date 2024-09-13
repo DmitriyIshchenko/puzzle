@@ -20,7 +20,7 @@ import LevelsState from "../../features/game/model/LevelsState";
 import SmallScreenSettings from "../../features/game/model/SmallScreenSettings";
 
 import styles from "./GamePage.module.css";
-import RoundStats from "../../features/game/stats/RoundStats";
+import RoundStats from "../../widgets/stats";
 
 export default class GamePage extends Component {
   levelsState: LevelsState;

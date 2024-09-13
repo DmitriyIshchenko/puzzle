@@ -1,6 +1,6 @@
 import { Component, div, img, p } from "../../../shared/ui";
 
-import { type Painting } from "../model/RoundState";
+import { type Painting } from "../../../features/game/model/RoundState";
 import { IMAGES_BASE_URL } from "../../../shared/helpers";
 
 import styles from "./ArtworkMiniature.module.css";
