@@ -2,9 +2,7 @@ import { Component, Button, Modal, div, i } from "../../../shared/ui";
 import ArtworkMiniature from "./ArtworkMiniature";
 import SentencesList, { SentencesListType } from "./SentencesList";
 
-import RoundState, {
-  type Stage,
-} from "../../../features/game/model/RoundState";
+import { RoundState, Stage } from "../../../features/game";
 import { Observer, Publisher } from "../../../entities/state";
 import { StageStatus } from "../../../features/game/model/StageStatus";
 

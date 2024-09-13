@@ -10,10 +10,13 @@ import {
   HintControls,
 } from "../../features/hints";
 
-import { StageControls, RoundControls } from "../../features/game";
+import {
+  LevelsState,
+  RoundState,
+  StageControls,
+  RoundControls,
+} from "../../features/game";
 
-import RoundState from "../../features/game/model/RoundState";
-import LevelsState from "../../features/game/model/LevelsState";
 import {
   SmallScreenSettings,
   SmallScreenWarningCard,
