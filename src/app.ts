@@ -2,12 +2,12 @@ import AppLayout from "./ui/AppLayout";
 import Router from "./app/router/router";
 import AuthState from "./features/auth/AuthState";
 
-import LoginPage from "./pages/login/LoginPage";
-import StartPage from "./pages/start/StartPage";
+import LoginPage from "./pages/login";
+import StartPage from "./pages/start";
+import GamePage from "./pages/game";
+import NotFoundPage from "./pages/not-found";
 
 import { Pages } from "./app/router/pages";
-import NotFoundPage from "./pages/not-found/NotFoundPage";
-import GamePage from "./pages/game/GamePage";
 
 export default class App {
   appLayout: AppLayout;
