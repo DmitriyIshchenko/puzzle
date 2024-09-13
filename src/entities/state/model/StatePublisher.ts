@@ -1,4 +1,4 @@
-import { Publisher, Observer } from "../../shared/Observer";
+import { Publisher, Observer } from "../../../shared/Observer";
 
 export default class State<T> implements Publisher {
   public state: T;

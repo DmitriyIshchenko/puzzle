@@ -1,4 +1,4 @@
-import State from "../../../app/state/StatePublisher";
+import { State } from "../../../entities/state";
 import LevelsState, { RoundResult } from "./LevelsState";
 import { Observer, Publisher } from "../../../shared/Observer";
 

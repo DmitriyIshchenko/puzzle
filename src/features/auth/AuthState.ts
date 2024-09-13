@@ -1,9 +1,9 @@
-import State from "../../app/state/State";
+import { StateAuth } from "../../entities/state";
 import { UserCredentials } from "./types";
 
 const AUTH_KEY = "userCredentials";
 
-export default class AuthState extends State<UserCredentials> {
+export default class AuthState extends StateAuth<UserCredentials> {
   constructor() {
     super(AUTH_KEY);
   }

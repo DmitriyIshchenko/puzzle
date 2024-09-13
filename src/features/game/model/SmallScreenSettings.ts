@@ -1,4 +1,4 @@
-import State from "../../../app/state/StatePublisher";
+import { State } from "../../../entities/state";
 
 interface SmallScreenSettingsData {
   isWarningDisplayed: boolean;
