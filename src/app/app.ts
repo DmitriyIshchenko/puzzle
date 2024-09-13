@@ -1,13 +1,13 @@
-import AppLayout from "./ui/AppLayout";
-import Router from "./app/router/router";
-import AuthState from "./features/auth/AuthState";
+import AppLayout from "./app-layout/AppLayout";
+import Router from "./router/router";
+import AuthState from "../features/auth/AuthState";
 
-import LoginPage from "./pages/login";
-import StartPage from "./pages/start";
-import GamePage from "./pages/game";
-import NotFoundPage from "./pages/not-found";
+import LoginPage from "../pages/login";
+import StartPage from "../pages/start";
+import GamePage from "../pages/game";
+import NotFoundPage from "../pages/not-found";
 
-import { Pages } from "./app/router/pages";
+import { Pages } from "./router/pages";
 
 export default class App {
   appLayout: AppLayout;
@@ -20,8 +20,6 @@ export default class App {
     this.authState = new AuthState();
     this.router = new Router(this.createRoutes(), this.authState);
     this.appLayout = new AppLayout(this.authState, this.router);
-
-    document.body.append(this.appLayout.getElement());
   }
 
   createRoutes() {
@@ -59,5 +57,9 @@ export default class App {
         },
       },
     ];
+  }
+
+  init() {
+    document.body.append(this.appLayout.getElement());
   }
 }

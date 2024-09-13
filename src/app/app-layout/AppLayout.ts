@@ -1,6 +1,6 @@
-import { Component, Header, main } from "../shared/ui";
-import Router from "../app/router/router";
-import AuthState from "../features/auth/AuthState";
+import { Component, Header, main } from "../../shared/ui";
+import Router from "../router/router";
+import AuthState from "../../features/auth/AuthState";
 
 import styles from "./AppLayout.module.css";
 
