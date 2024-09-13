@@ -1,4 +1,4 @@
-import { Publisher } from "../../../shared/Observer";
+import { Publisher } from "../../../entities/state";
 import {
   Button,
   Message as MessageCard,

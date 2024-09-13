@@ -4,7 +4,7 @@ import PickRow from "./PickRow";
 import RoundState from "../model/RoundState";
 import HintSettings from "../model/HintSettings";
 
-import { Observer, Publisher } from "../../../shared/Observer";
+import { Observer, Publisher } from "../../../entities/state";
 
 import {
   calculateImageAspectRatio,

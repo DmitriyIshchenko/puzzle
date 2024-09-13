@@ -2,7 +2,7 @@ import { Component, AudioButton } from "../../../shared/ui";
 import RoundState from "../model/RoundState";
 
 import HintSettings from "../model/HintSettings";
-import { Observer, Publisher } from "../../../shared/Observer";
+import { Observer, Publisher } from "../../../entities/state";
 
 import styles from "./PronunciationHint.module.css";
 

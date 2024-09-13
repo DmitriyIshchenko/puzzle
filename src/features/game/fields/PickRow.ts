@@ -1,4 +1,4 @@
-import { Publisher } from "../../../shared/Observer";
+import { Publisher } from "../../../entities/state";
 import HintSettings from "../model/HintSettings";
 import RoundState from "../model/RoundState";
 import Row from "./Row";

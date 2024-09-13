@@ -3,7 +3,7 @@ import ArtworkMiniature from "./ArtworkMiniature";
 import SentencesList, { SentencesListType } from "./SentencesList";
 
 import RoundState, { type Stage } from "../model/RoundState";
-import { Observer, Publisher } from "../../../shared/Observer";
+import { Observer, Publisher } from "../../../entities/state";
 import { StageStatus } from "../model/StageStatus";
 
 import styles from "./RoundStats.module.css";

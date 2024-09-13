@@ -1,6 +1,5 @@
-import { State } from "../../../entities/state";
+import { State, Observer, Publisher } from "../../../entities/state";
 import LevelsState, { RoundResult } from "./LevelsState";
-import { Observer, Publisher } from "../../../shared/Observer";
 
 import { StageStatus } from "./StageStatus";
 import { type RowType } from "../fields/RowType";

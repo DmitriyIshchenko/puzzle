@@ -1,5 +1,5 @@
 import { Component, p } from "../../../shared/ui";
-import { Observer, Publisher } from "../../../shared/Observer";
+import { Observer, Publisher } from "../../../entities/state";
 import RoundState, { type Painting } from "../model/RoundState";
 
 import styles from "./PaintingInfo.module.css";

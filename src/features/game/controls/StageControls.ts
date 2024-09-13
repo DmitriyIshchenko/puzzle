@@ -2,7 +2,7 @@ import { Component, Button, Modal } from "../../../shared/ui";
 
 import type RoundState from "../model/RoundState";
 
-import { Observer } from "../../../shared/Observer";
+import { Observer } from "../../../entities/state";
 
 import styles from "./StageControls.module.css";
 
