@@ -10,8 +10,7 @@ import {
   HintControls,
 } from "../../features/hints";
 
-import StageControls from "../../features/game/controls/StageControls";
-import RoundControls from "../../features/game/controls/RoundControls";
+import { StageControls, RoundControls } from "../../features/game";
 
 import RoundState from "../../features/game/model/RoundState";
 import LevelsState from "../../features/game/model/LevelsState";
