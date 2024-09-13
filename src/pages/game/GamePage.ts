@@ -1,8 +1,12 @@
 import { Component, Modal } from "../../shared/ui";
 import { GameField, WordsPicker, PaintingInfo } from "../../widgets/fields";
 import Hints from "../../widgets/hints";
-import { HintSettings } from "../../features/hints";
-import { LevelsState, RoundState, StageControls } from "../../features/game";
+import {
+  LevelsState,
+  RoundState,
+  HintSettings,
+  StageControls,
+} from "../../features/game";
 import {
   SmallScreenSettings,
   SmallScreenWarningCard,

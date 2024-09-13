@@ -1,6 +1,6 @@
-import { Publisher } from "../../../entities/state";
-import { HintSettings } from "../../hints";
-import RoundState from "../model/RoundState";
+import { Publisher } from "../../../../entities/state";
+import HintSettings from "../../model/HintSettings";
+import RoundState from "../../model/RoundState";
 import Row from "./Row";
 import { RowType } from "./RowType";
 

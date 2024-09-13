@@ -1,8 +1,11 @@
 import { Component } from "../../../shared/ui";
-import AssembleRow from "../../../features/game/fields/AssembleRow";
 
-import { RoundState } from "../../../features/game";
-import { HintSettings } from "../../../features/hints";
+import {
+  RoundState,
+  HintSettings,
+  AssembleRow,
+  WordCard,
+} from "../../../features/game";
 
 import { Observer, Publisher } from "../../../entities/state";
 import {
@@ -12,7 +15,6 @@ import {
 } from "../../../shared/helpers";
 
 import styles from "./GameField.module.css";
-import WordCard from "../../../features/game/card/WordCard";
 
 export default class GameField extends Component implements Observer {
   private rows: Array<AssembleRow> = [];

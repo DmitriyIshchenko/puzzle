@@ -1,10 +1,10 @@
 import Row from "./Row";
 import { RowType } from "./RowType";
-import RoundState from "../model/RoundState";
-import { HintSettings } from "../../hints";
+import RoundState from "../../model/RoundState";
+import HintSettings from "../../model/HintSettings";
 
-import { Publisher } from "../../../entities/state";
-import { StageStatus } from "../model/StageStatus";
+import { Publisher } from "../../../../entities/state";
+import { StageStatus } from "../../model/StageStatus";
 
 import styles from "./Row.module.css";
 

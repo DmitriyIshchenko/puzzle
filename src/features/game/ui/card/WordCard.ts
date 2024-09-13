@@ -1,15 +1,15 @@
-import { Component, div, span } from "../../../shared/ui";
-import Draggable from "../../../entities/drag-n-drop";
+import { Component, div, span } from "../../../../shared/ui";
+import Draggable from "../../../../entities/drag-n-drop";
 
-import RoundState, { type MoveCardAction } from "../model/RoundState";
-import { HintSettings } from "../../hints";
+import RoundState, { type MoveCardAction } from "../../model/RoundState";
+import HintSettings from "../../model/HintSettings";
 
-import { type RowData } from "../fields/Row";
-import { RowType } from "../fields/RowType";
-import { assertNonNull, IMAGES_BASE_URL } from "../../../shared/helpers";
+import { type RowData } from "../rows/Row";
+import { RowType } from "../rows/RowType";
+import { assertNonNull, IMAGES_BASE_URL } from "../../../../shared/helpers";
 
 import styles from "./WordCard.module.css";
-import rowStyles from "../fields/Row.module.css";
+import rowStyles from "../rows/Row.module.css";
 
 export interface Word {
   readonly correctPosition: number;

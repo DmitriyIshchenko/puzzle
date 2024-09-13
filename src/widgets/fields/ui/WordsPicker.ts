@@ -1,11 +1,6 @@
 import { Component } from "../../../shared/ui";
-import PickRow from "../../../features/game/fields/PickRow";
-
-import { RoundState } from "../../../features/game";
-import { HintSettings } from "../../../features/hints";
-
+import { PickRow, RoundState, HintSettings } from "../../../features/game";
 import { Observer, Publisher } from "../../../entities/state";
-
 import {
   calculateImageAspectRatio,
   debounceListener,

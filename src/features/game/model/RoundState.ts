@@ -2,8 +2,8 @@ import { State, Observer, Publisher } from "../../../entities/state";
 import LevelsState, { RoundResult } from "./LevelsState";
 
 import { StageStatus } from "./StageStatus";
-import { type RowType } from "../fields/RowType";
-import { type Word } from "../card/WordCard";
+import { type RowType } from "../ui/rows/RowType";
+import { type Word } from "../ui/card/WordCard";
 import {
   generateStageWords,
   prepareRound,

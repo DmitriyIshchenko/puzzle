@@ -1,5 +1,9 @@
-import { LevelsState, RoundControls } from "../../../features/game";
-import { HintControls, HintSettings } from "../../../features/hints";
+import {
+  LevelsState,
+  RoundControls,
+  HintControls,
+  HintSettings,
+} from "../../../features/game";
 import { Component } from "../../../shared/ui";
 
 import styles from "./Controls.module.css";
