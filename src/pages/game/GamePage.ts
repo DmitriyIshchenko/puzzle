@@ -1,5 +1,4 @@
 import { Component, Modal, div } from "../../shared/ui";
-import SmallScreenWarningCard from "../../features/game/card/SmallScreenWarningCard";
 
 import { GameField, WordsPicker } from "../../widgets/fields";
 import PaintingInfo from "../../features/game/card/PaintingInfo";
@@ -16,7 +15,10 @@ import RoundControls from "../../features/game/controls/RoundControls";
 
 import RoundState from "../../features/game/model/RoundState";
 import LevelsState from "../../features/game/model/LevelsState";
-import SmallScreenSettings from "../../features/game/model/SmallScreenSettings";
+import {
+  SmallScreenSettings,
+  SmallScreenWarningCard,
+} from "../../features/warnings";
 
 import styles from "./GamePage.module.css";
 import RoundStats from "../../widgets/stats";
