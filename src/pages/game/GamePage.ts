@@ -3,12 +3,8 @@ import { Component, Modal, div } from "../../shared/ui";
 import { GameField, WordsPicker } from "../../widgets/fields";
 import PaintingInfo from "../../features/game/card/PaintingInfo";
 
-import {
-  HintSettings,
-  TranslationHint,
-  PronunciationHint,
-  HintControls,
-} from "../../features/hints";
+import Hints from "../../widgets/hints";
+import { HintSettings, HintControls } from "../../features/hints";
 
 import {
   LevelsState,
@@ -77,22 +73,7 @@ export default class GamePage extends Component {
   }
 
   private configureHints() {
-    const translationHint = new TranslationHint(
-      this.roundState,
-      this.hintSettings,
-    );
-    const pronunciationHint = new PronunciationHint(
-      this.roundState,
-      this.hintSettings,
-    );
-
-    const hints = div(
-      { className: styles.hints },
-      pronunciationHint,
-      translationHint,
-    );
-
-    return hints;
+    return new Hints(this.roundState, this.hintSettings);
   }
 
   private configureControls() {

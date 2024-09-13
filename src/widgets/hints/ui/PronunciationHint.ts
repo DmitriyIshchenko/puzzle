@@ -1,7 +1,6 @@
 import { Component, AudioButton } from "../../../shared/ui";
-import RoundState from "../../game/model/RoundState";
-
-import HintSettings from "../model/HintSettings";
+import { RoundState } from "../../../features/game";
+import { HintSettings } from "../../../features/hints";
 import { Observer, Publisher } from "../../../entities/state";
 
 import styles from "./PronunciationHint.module.css";
