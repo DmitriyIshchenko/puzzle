@@ -1,25 +1,17 @@
-import { Component, Modal, div } from "../../shared/ui";
-
+import { Component, Modal } from "../../shared/ui";
 import { GameField, WordsPicker } from "../../widgets/fields";
 import PaintingInfo from "../../features/game/card/PaintingInfo";
-
 import Hints from "../../widgets/hints";
-import { HintSettings, HintControls } from "../../features/hints";
-
-import {
-  LevelsState,
-  RoundState,
-  StageControls,
-  RoundControls,
-} from "../../features/game";
-
+import { HintSettings } from "../../features/hints";
+import { LevelsState, RoundState, StageControls } from "../../features/game";
 import {
   SmallScreenSettings,
   SmallScreenWarningCard,
 } from "../../features/warnings";
+import RoundStats from "../../widgets/stats";
+import Controls from "../../widgets/controls";
 
 import styles from "./GamePage.module.css";
-import RoundStats from "../../widgets/stats";
 
 export default class GamePage extends Component {
   levelsState: LevelsState;
@@ -77,19 +69,7 @@ export default class GamePage extends Component {
   }
 
   private configureControls() {
-    const hintControls = new HintControls(this.hintSettings);
-
-    const roundControls = new RoundControls(this.levelsState);
-
-    const controls = div(
-      {
-        className: styles.controls,
-      },
-      roundControls,
-      hintControls,
-    );
-
-    return controls;
+    return new Controls(this.levelsState, this.hintSettings);
   }
 
   init() {
