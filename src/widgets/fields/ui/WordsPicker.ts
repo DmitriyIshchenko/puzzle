@@ -1,8 +1,8 @@
 import { Component } from "../../../shared/ui";
-import PickRow from "./PickRow";
+import PickRow from "../../../features/game/fields/PickRow";
 
-import RoundState from "../model/RoundState";
-import { HintSettings } from "../../hints";
+import RoundState from "../../../features/game/model/RoundState";
+import { HintSettings } from "../../../features/hints";
 
 import { Observer, Publisher } from "../../../entities/state";
 

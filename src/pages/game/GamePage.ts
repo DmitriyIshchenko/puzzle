@@ -1,8 +1,7 @@
 import { Component, Modal, div } from "../../shared/ui";
 import SmallScreenWarningCard from "../../features/game/card/SmallScreenWarningCard";
 
-import GameField from "../../features/game/fields/GameField";
-import WordsPicker from "../../features/game/fields/WordsPicker";
+import { GameField, WordsPicker } from "../../widgets/fields";
 import PaintingInfo from "../../features/game/card/PaintingInfo";
 
 import {
