@@ -1,6 +1,5 @@
 import { Component, Modal } from "../../shared/ui";
-import { GameField, WordsPicker } from "../../widgets/fields";
-import PaintingInfo from "../../features/game/card/PaintingInfo";
+import { GameField, WordsPicker, PaintingInfo } from "../../widgets/fields";
 import Hints from "../../widgets/hints";
 import { HintSettings } from "../../features/hints";
 import { LevelsState, RoundState, StageControls } from "../../features/game";
@@ -59,9 +58,9 @@ export default class GamePage extends Component {
     const gameField = new GameField(this.roundState, this.hintSettings);
     const paintingInfo = new PaintingInfo(this.roundState);
     const wordsPicker = new WordsPicker(this.roundState, this.hintSettings);
-    const roundControls = new StageControls(this.roundState, this.modal);
+    const stageControls = new StageControls(this.roundState, this.modal);
 
-    return [gameField, paintingInfo, wordsPicker, roundControls];
+    return [gameField, paintingInfo, wordsPicker, stageControls];
   }
 
   private configureHints() {
