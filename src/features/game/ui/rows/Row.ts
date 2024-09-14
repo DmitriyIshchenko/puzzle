@@ -2,7 +2,8 @@ import { Component, div } from "../../../../shared/ui";
 import { debounceListener } from "../../../../shared/helpers";
 import { Observer, Publisher } from "../../../../entities/state";
 
-import WordCard, { type Word } from "../card/WordCard";
+import WordCard from "../card/WordCard";
+import { type Word } from "../../../../entities/word";
 
 import HintSettings from "../../model/HintSettings";
 import RoundState from "../../model/RoundState";

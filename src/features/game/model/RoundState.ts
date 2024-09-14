@@ -3,7 +3,7 @@ import LevelsState, { RoundResult } from "./LevelsState";
 
 import { StageStatus } from "./StageStatus";
 import { type RowType } from "../ui/rows/RowType";
-import { type Word } from "../ui/card/WordCard";
+import { type Word } from "../../../entities/word";
 import {
   generateStageWords,
   prepareRound,

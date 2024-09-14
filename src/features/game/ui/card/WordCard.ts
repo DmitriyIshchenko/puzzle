@@ -10,16 +10,7 @@ import { assertNonNull, IMAGES_BASE_URL } from "../../../../shared/helpers";
 
 import styles from "./WordCard.module.css";
 import rowStyles from "../rows/Row.module.css";
-
-export interface Word {
-  readonly correctPosition: number;
-  text: string;
-  width: number;
-  isLast: boolean;
-  offset: number;
-  stage: number;
-  image: string;
-}
+import { Word } from "../../../../entities/word";
 
 export default class WordCard extends Draggable {
   private textSpan: Component;
