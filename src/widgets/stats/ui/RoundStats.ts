@@ -4,7 +4,7 @@ import SentencesList, { SentencesListType } from "./SentencesList";
 
 import { RoundState, Stage } from "../../../features/game";
 import { Observer, Publisher } from "../../../entities/state";
-import { StageStatus } from "../../../features/game/model/StageStatus";
+import { StageStatus } from "../../../features/game/model/round/Stage";
 
 import styles from "./RoundStats.module.css";
 

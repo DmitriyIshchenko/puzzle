@@ -7,7 +7,7 @@ import {
   span,
   ul,
 } from "../../../shared/ui";
-import { type Stage } from "../../../features/game/model/RoundState";
+import { type Stage } from "../../../features/game/model/round/Stage";
 
 import styles from "./SentencesList.module.css";
 

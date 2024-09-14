@@ -1,6 +1,6 @@
 import { Component, Button, Modal } from "../../../../shared/ui";
 
-import type RoundState from "../../model/RoundState";
+import type RoundState from "../../model/round/RoundState";
 
 import { Observer } from "../../../../entities/state";
 

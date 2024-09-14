@@ -1,38 +1,10 @@
-import { State, Observer, Publisher } from "../../../entities/state";
-import LevelsState, { RoundResult } from "./LevelsState";
+import { State, Observer, Publisher } from "../../../../entities/state";
+import { RATING_THRESHOLDS } from "../../../../shared/helpers";
+import LevelsState from "../LevelsState";
 
-import { StageStatus } from "./StageStatus";
-import { type RowType } from "../ui/rows/RowType";
-import { type Word } from "../../../entities/word";
-import {
-  generateStageWords,
-  prepareRound,
-  RATING_THRESHOLDS,
-} from "../../../shared/helpers";
-import { Painting } from "../../../entities/painting";
-
-export interface GameContent {
-  pickArea: Array<Word | null>;
-  assembleArea: Array<Word | null>;
-}
-
-export interface Stage {
-  status: StageStatus;
-  stageNumber: number;
-  sentence: string;
-  sentenceLength: number;
-  translation: string;
-  audio: string;
-}
-
-export interface Round {
-  id: string;
-  currentStage: number;
-  painting: Painting;
-  stages: Array<Stage>;
-  content: GameContent;
-  results: RoundResult;
-}
+import { Stage, StageStatus, generateStageWords } from "./Stage";
+import { type RowType } from "../../ui/rows/RowType";
+import { Round, prepareRound } from "./Round";
 
 export interface MoveCardAction {
   type: string;

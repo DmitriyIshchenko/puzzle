@@ -6,7 +6,7 @@ import WordCard from "../card/WordCard";
 import { type Word } from "../../../../entities/word";
 
 import HintSettings from "../../model/HintSettings";
-import RoundState from "../../model/RoundState";
+import RoundState from "../../model/round/RoundState";
 
 import styles from "./Row.module.css";
 import { RowType } from "./RowType";

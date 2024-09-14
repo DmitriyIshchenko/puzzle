@@ -1,8 +1,4 @@
 import Component from "./ui/base/Component";
-import LEVELS from "../../data/levels";
-import { StageStatus } from "../features/game/model/StageStatus";
-import { type Word } from "../entities/word";
-import { type Round, type Stage } from "../features/game/model/RoundState";
 
 export const IMAGES_BASE_URL =
   "https://raw.githubusercontent.com/rolling-scopes-school/rss-puzzle-data/main/images";
@@ -23,38 +19,6 @@ export function calculateCardWidthPixels(sentence: string, word: string) {
   const availableSpace = ROW_WIDTH - CONCAVE_WIDTH * totalWords;
 
   return (availableSpace * word.length) / totalCharacters + CONCAVE_WIDTH;
-}
-
-export function calculateCardWidthPercentage(sentence: string, word: string) {
-  const totalCharacters = sentence.split(" ").join("").length;
-
-  return (100 * word.length) / totalCharacters;
-}
-
-export function generateStageWords(
-  stage: Stage,
-  imageSrc: string,
-): Array<Word> {
-  const { sentence, stageNumber } = stage;
-
-  let offset = 0;
-  return sentence
-    .split(" ")
-    .map((text, index, arr) => {
-      const width = calculateCardWidthPercentage(sentence, text);
-      const word = {
-        text,
-        width,
-        correctPosition: index,
-        isLast: index === arr.length - 1,
-        offset,
-        stage: stageNumber,
-        image: imageSrc,
-      };
-      offset += width;
-      return word;
-    })
-    .sort(() => Math.random() - 0.5);
 }
 
 export function assertNonNull<T>(value: T | null | undefined): T {
@@ -103,36 +67,6 @@ export function findAllInstancesOf<T>(
   });
 
   return instances;
-}
-
-export function prepareRound(difficulty: number, round: number): Round {
-  const rawData = LEVELS[difficulty].rounds[round].words;
-  const { author, name, imageSrc, id, year } =
-    LEVELS[difficulty].rounds[round].levelData;
-
-  const stages = rawData.map((entry, index) => ({
-    stageNumber: index,
-    status: StageStatus.NOT_COMPLETED,
-    sentence: entry.textExample,
-    sentenceLength: entry.textExample.split(" ").length,
-    translation: entry.textExampleTranslate,
-    audio: entry.audioExample,
-  }));
-
-  return {
-    id,
-    currentStage: 0,
-    painting: { author, name, year, imageSrc },
-    stages,
-    content: {
-      pickArea: [],
-      assembleArea: [],
-    },
-    results: {
-      roundNumber: round,
-      rating: 0,
-    },
-  };
 }
 
 export function debounceListener<T extends EventListener>(
