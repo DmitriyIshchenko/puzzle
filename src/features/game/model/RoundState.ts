@@ -9,17 +9,11 @@ import {
   prepareRound,
   RATING_THRESHOLDS,
 } from "../../../shared/helpers";
+import { Painting } from "../../../entities/painting";
 
 export interface GameContent {
   pickArea: Array<Word | null>;
   assembleArea: Array<Word | null>;
-}
-
-export interface Painting {
-  author: string;
-  name: string;
-  imageSrc: string;
-  year: string;
 }
 
 export interface Stage {
