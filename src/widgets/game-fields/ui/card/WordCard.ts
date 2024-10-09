@@ -1,18 +1,21 @@
 import { Component, div, span } from "../../../../shared/ui";
 import Draggable from "../../../../shared/lib";
 
-import RoundState, { type MoveCardAction } from "../../model/round/RoundState";
-import HintSettings from "../../model/HintSettings";
+import {
+  RoundState,
+  MoveCardAction,
+  RowType,
+} from "../../../../features/levels";
+import { HintSettings } from "../../../../features/hints";
 
 import { type RowData } from "../rows/Row";
-import { RowType } from "../rows/RowType";
 import { assertNonNull, IMAGES_BASE_URL } from "../../../../shared/helpers";
+import { Word } from "../../../../entities/word";
 
 import styles from "./WordCard.module.css";
 import rowStyles from "../rows/Row.module.css";
-import { Word } from "../../../../entities/word";
 
-export default class WordCard extends Draggable {
+export class WordCard extends Draggable {
   private textSpan: Component;
 
   constructor(

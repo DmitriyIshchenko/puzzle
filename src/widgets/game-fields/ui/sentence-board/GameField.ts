@@ -1,22 +1,20 @@
-import { Component } from "../../../shared/ui";
+import { Component } from "../../../../shared/ui";
 
-import {
-  RoundState,
-  HintSettings,
-  AssembleRow,
-  WordCard,
-} from "../../../features/game";
+import { RoundState } from "../../../../features/levels";
+import { HintSettings } from "../../../../features/hints";
+import { WordCard } from "../card/WordCard";
+import { AssembleRow } from "../rows/AssembleRow";
 
-import { Observer, Publisher } from "../../../entities/state";
+import { Observer, Publisher } from "../../../../entities/state";
 import {
   ANIMATION_DELAY_COEFFICIENT,
   calculateImageAspectRatio,
   findAllInstancesOf,
-} from "../../../shared/helpers";
+} from "../../../../shared/helpers";
 
 import styles from "./GameField.module.css";
 
-export default class GameField extends Component implements Observer {
+export class GameField extends Component implements Observer {
   private rows: Array<AssembleRow> = [];
 
   private roundId: string = "";

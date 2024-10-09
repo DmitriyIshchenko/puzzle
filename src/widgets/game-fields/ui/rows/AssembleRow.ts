@@ -1,14 +1,12 @@
-import Row from "./Row";
-import { RowType } from "./RowType";
-import RoundState from "../../model/round/RoundState";
-import HintSettings from "../../model/HintSettings";
+import { Row } from "./Row";
+import { HintSettings } from "../../../../features/hints";
+import { RoundState, RowType, StageStatus } from "../../../../features/levels";
 
 import { Publisher } from "../../../../entities/state";
-import { StageStatus } from "../../model/round/Stage";
 
 import styles from "./Row.module.css";
 
-export default class AssembleRow extends Row {
+export class AssembleRow extends Row {
   constructor(
     stageNumber: number,
     roundState: RoundState,

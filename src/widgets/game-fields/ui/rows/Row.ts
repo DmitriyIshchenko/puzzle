@@ -2,14 +2,13 @@ import { Component, div } from "../../../../shared/ui";
 import { debounceListener } from "../../../../shared/helpers";
 import { Observer, Publisher } from "../../../../entities/state";
 
-import WordCard from "../card/WordCard";
+import { WordCard } from "../card/WordCard";
 import { type Word } from "../../../../entities/word";
 
-import HintSettings from "../../model/HintSettings";
-import RoundState from "../../model/round/RoundState";
+import { HintSettings } from "../../../../features/hints";
+import { RoundState, RowType } from "../../../../features/levels";
 
 import styles from "./Row.module.css";
-import { RowType } from "./RowType";
 
 export interface RowData {
   type: RowType;
@@ -17,7 +16,7 @@ export interface RowData {
   height: number;
 }
 
-export default abstract class Row extends Component implements Observer {
+export abstract class Row extends Component implements Observer {
   private cells: Array<Component> = [];
 
   private content: Array<Word | null> = [];

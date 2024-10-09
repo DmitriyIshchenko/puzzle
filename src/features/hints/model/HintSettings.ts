@@ -12,7 +12,7 @@ const defaultState: HintSettingsData = {
   background: true,
 };
 
-export default class HintSettings extends State<HintSettingsData> {
+export class HintSettings extends State<HintSettingsData> {
   constructor() {
     super(defaultState, "hintSettings");
   }

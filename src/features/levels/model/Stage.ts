@@ -1,4 +1,4 @@
-import type { Word } from "../../../../entities/word";
+import type { Word } from "../../../entities/word";
 
 export const StageStatus = {
   NOT_COMPLETED: "notCompleted",
@@ -8,6 +8,7 @@ export const StageStatus = {
 } as const;
 
 export type StageStatus = (typeof StageStatus)[keyof typeof StageStatus];
+
 export interface Stage {
   status: StageStatus;
   stageNumber: number;
@@ -17,7 +18,7 @@ export interface Stage {
   audio: string;
 }
 
-export function calculateCardWidthPercentage(sentence: string, word: string) {
+function calculateCardWidthPercentage(sentence: string, word: string) {
   const totalCharacters = sentence.split(" ").join("").length;
 
   return (100 * word.length) / totalCharacters;

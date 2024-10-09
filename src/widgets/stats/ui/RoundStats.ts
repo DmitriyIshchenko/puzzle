@@ -2,13 +2,13 @@ import { Component, Button, Modal, div, i } from "../../../shared/ui";
 import ArtworkMiniature from "./ArtworkMiniature";
 import SentencesList, { SentencesListType } from "./SentencesList";
 
-import { RoundState, Stage } from "../../../features/game";
+import { RoundState, Stage } from "../../../features/levels";
 import { Observer, Publisher } from "../../../entities/state";
-import { StageStatus } from "../../../features/game/model/round/Stage";
+import { StageStatus } from "../../../features/levels/model/Stage";
 
 import styles from "./RoundStats.module.css";
 
-export default class RoundStats extends Component implements Observer {
+export class RoundStats extends Component implements Observer {
   private artwork: ArtworkMiniature;
 
   private rating: Component;

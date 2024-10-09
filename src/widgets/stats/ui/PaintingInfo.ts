@@ -1,11 +1,11 @@
 import { Component, p } from "../../../shared/ui";
 import { Observer, Publisher } from "../../../entities/state";
 import { Painting } from "../../../entities/painting";
-import { RoundState } from "../../../features/game";
+import { RoundState } from "../../../features/levels";
 
 import styles from "./PaintingInfo.module.css";
 
-export default class PaintingInfo extends Component implements Observer {
+export class PaintingInfo extends Component implements Observer {
   constructor(private roundState: RoundState) {
     super(
       {

@@ -1,10 +1,9 @@
 import { Publisher } from "../../../../entities/state";
-import HintSettings from "../../model/HintSettings";
-import RoundState from "../../model/round/RoundState";
-import Row from "./Row";
-import { RowType } from "./RowType";
+import { HintSettings } from "../../../../features/hints";
+import { RoundState, RowType } from "../../../../features/levels";
+import { Row } from "./Row";
 
-export default class PickRow extends Row {
+export class PickRow extends Row {
   constructor(
     public stageNumber: number,
     roundState: RoundState,

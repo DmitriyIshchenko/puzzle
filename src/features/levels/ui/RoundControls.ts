@@ -1,13 +1,14 @@
-import { Component, label, option, select } from "../../../../shared/ui";
-import { isValidSetting } from "../../../../shared/helpers";
-import { Observer, Publisher } from "../../../../entities/state";
+import { Component, label, option, select } from "../../../shared/ui";
+import { isValidSetting } from "../../../shared/helpers";
+import { Observer, Publisher } from "../../../entities/state";
 
-import LevelsState from "../../model/LevelsState";
+import { LevelsState } from "../model/LevelsState";
 
 import styles from "./RoundControls.module.css";
 
 // TODO: create generic controls class?
-export default class RoundControls extends Component implements Observer {
+// TODO: rename to LevelsControls
+export class RoundControls extends Component implements Observer {
   difficultySelect: Component;
 
   roundSelect: Component;

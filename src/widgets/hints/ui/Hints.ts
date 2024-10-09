@@ -1,4 +1,5 @@
-import { HintSettings, RoundState } from "../../../features/game";
+import { HintSettings } from "../../../features/hints";
+import { RoundState } from "../../../features/levels";
 import { Component } from "../../../shared/ui";
 
 import styles from "./Hint.module.css";

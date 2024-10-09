@@ -1,8 +1,8 @@
-import { Component, i, input, label } from "../../../../shared/ui";
-import HintSettings, { HintSettingsData } from "../../model/HintSettings";
+import { Component, i, input, label } from "../../../shared/ui";
+import { HintSettings, HintSettingsData } from "../model/HintSettings";
 
-import { Observer, Publisher } from "../../../../entities/state";
-import { isValidSetting } from "../../../../shared/helpers";
+import { Observer, Publisher } from "../../../entities/state";
+import { isValidSetting } from "../../../shared/helpers";
 
 import styles from "./HintControls.module.css";
 
@@ -23,7 +23,7 @@ const iconClasses: Record<keyof HintSettingsData, { on: string; off: string }> =
     },
   };
 
-export default class HintsControls extends Component implements Observer {
+export class HintControls extends Component implements Observer {
   constructor(private hintSettings: HintSettings) {
     super({
       tag: "form",

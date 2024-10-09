@@ -1,5 +1,6 @@
 import { Component } from "../../../shared/ui";
-import { HintSettings, RoundState } from "../../../features/game";
+import { HintSettings } from "../../../features/hints";
+import { RoundState } from "../../../features/levels";
 import { Observer, Publisher } from "../../../entities/state";
 
 import styles from "./TranslationHint.module.css";

@@ -1,14 +1,16 @@
-import { Component } from "../../../shared/ui";
-import { PickRow, RoundState, HintSettings } from "../../../features/game";
-import { Observer, Publisher } from "../../../entities/state";
+import { Component } from "../../../../shared/ui";
+import { PickRow } from "../rows/PickRow";
+import { RoundState } from "../../../../features/levels";
+import { HintSettings } from "../../../../features/hints";
+import { Observer, Publisher } from "../../../../entities/state";
 import {
   calculateImageAspectRatio,
   debounceListener,
-} from "../../../shared/helpers";
+} from "../../../../shared/helpers";
 
 import styles from "./WordsPicker.module.css";
 
-export default class WordsPicker extends Component implements Observer {
+export class WordsPicker extends Component implements Observer {
   private row: PickRow | null = null;
 
   private roundId: string = "";

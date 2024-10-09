@@ -15,7 +15,7 @@ const gameRules = [
   "When you feel ready, move on to the next challenge!",
 ];
 
-export default class StartPage extends Component {
+export class StartPage extends Component {
   constructor(private router: Router) {
     super({
       tag: "main",

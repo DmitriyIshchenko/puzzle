@@ -1,12 +1,12 @@
-import { Component, Button, Modal } from "../../../../shared/ui";
+import { Component, Button, Modal } from "../../../shared/ui";
 
-import type RoundState from "../../model/round/RoundState";
+import type { RoundState } from "../model/RoundState";
 
-import { Observer } from "../../../../entities/state";
+import { Observer } from "../../../entities/state";
 
 import styles from "./StageControls.module.css";
 
-export default class StageControls extends Component implements Observer {
+export class StageControls extends Component implements Observer {
   autocompleteButton: Button;
 
   statsButton: Button;

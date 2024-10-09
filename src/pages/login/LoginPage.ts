@@ -6,7 +6,7 @@ import LoginForm from "../../features/auth/LoginForm";
 
 import styles from "./LoginPage.module.css";
 
-export default class LoginPage extends Component {
+export class LoginPage extends Component {
   constructor(
     private authState: AuthState,
     private router: Router,

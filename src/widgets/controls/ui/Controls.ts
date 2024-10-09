@@ -1,14 +1,11 @@
-import {
-  LevelsState,
-  RoundControls,
-  HintControls,
-  HintSettings,
-} from "../../../features/game";
+import { LevelsState, RoundControls } from "../../../features/levels";
+import { HintControls, HintSettings } from "../../../features/hints";
+
 import { Component } from "../../../shared/ui";
 
 import styles from "./Controls.module.css";
 
-export default class Controls extends Component {
+export class Controls extends Component {
   constructor(levelsState: LevelsState, hintSettings: HintSettings) {
     super({
       tag: "div",

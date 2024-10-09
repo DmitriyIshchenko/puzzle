@@ -1,3 +1,3 @@
-import RoundStats from "./ui/RoundStats";
+export { RoundStats } from "./ui/RoundStats";
 
-export default RoundStats;
+export { PaintingInfo } from "./ui/PaintingInfo";

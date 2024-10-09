@@ -1,3 +1,1 @@
-import StartPage from "./StartPage";
-
-export default StartPage;
+export { StartPage } from "./StartPage";

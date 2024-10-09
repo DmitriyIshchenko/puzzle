@@ -1,10 +1,10 @@
-import LEVELS from "../../../../../data/levels";
-import { Painting } from "../../../../entities/painting";
-import type { Word } from "../../../../entities/word";
-import { RoundResult } from "../LevelsState";
+import LEVELS from "../../../../data/levels";
+import { Painting } from "../../../entities/painting";
+import type { Word } from "../../../entities/word";
+import { RoundResult } from "./LevelsState";
 import { Stage, StageStatus } from "./Stage";
 
-export interface GameContent {
+interface GameContent {
   pickArea: Array<Word | null>;
   assembleArea: Array<Word | null>;
 }

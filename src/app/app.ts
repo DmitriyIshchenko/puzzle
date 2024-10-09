@@ -2,10 +2,10 @@ import AppLayout from "./app-layout/AppLayout";
 import Router from "./router/router";
 import AuthState from "../features/auth/AuthState";
 
-import LoginPage from "../pages/login";
-import StartPage from "../pages/start";
-import GamePage from "../pages/game";
-import NotFoundPage from "../pages/not-found";
+import { LoginPage } from "../pages/login";
+import { StartPage } from "../pages/start";
+import { GamePage } from "../pages/game";
+import { NotFoundPage } from "../pages/not-found";
 
 import { Pages } from "./router/pages";
 

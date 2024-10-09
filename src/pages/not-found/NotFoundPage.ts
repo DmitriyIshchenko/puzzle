@@ -2,7 +2,7 @@ import { Component, span } from "../../shared/ui";
 
 import styles from "./NotRoundPage.module.css";
 
-export default class NotFoundPage extends Component {
+export class NotFoundPage extends Component {
   constructor() {
     super({
       tag: "main",

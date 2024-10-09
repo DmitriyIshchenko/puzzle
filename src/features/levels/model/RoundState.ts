@@ -1,10 +1,16 @@
-import { State, Observer, Publisher } from "../../../../entities/state";
-import { RATING_THRESHOLDS } from "../../../../shared/helpers";
-import LevelsState from "../LevelsState";
+import { State, Observer, Publisher } from "../../../entities/state";
+import { RATING_THRESHOLDS } from "../../../shared/helpers";
+import { LevelsState } from "./LevelsState";
 
 import { Stage, StageStatus, generateStageWords } from "./Stage";
-import { type RowType } from "../../ui/rows/RowType";
 import { Round, prepareRound } from "./Round";
+
+export const RowType = {
+  PICK: "pickArea",
+  ASSEMBLE: "assembleArea",
+} as const;
+
+export type RowType = (typeof RowType)[keyof typeof RowType];
 
 export interface MoveCardAction {
   type: string;
@@ -16,7 +22,7 @@ export interface MoveCardAction {
   };
 }
 
-export default class RoundState extends State<Round> implements Observer {
+export class RoundState extends State<Round> implements Observer {
   constructor(private levelsState: LevelsState) {
     const { difficultyLevel, roundNumber } = levelsState.state.currentLevel;
     super(prepareRound(difficultyLevel, roundNumber));

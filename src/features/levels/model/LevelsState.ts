@@ -28,7 +28,7 @@ const defaultState: LevelsStateData = {
 };
 
 // TODO: create generic settings class?
-export default class LevelsState extends State<LevelsStateData> {
+export class LevelsState extends State<LevelsStateData> {
   constructor() {
     super(defaultState, "levelsData");
   }

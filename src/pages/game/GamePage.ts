@@ -1,22 +1,18 @@
 import { Component, Modal } from "../../shared/ui";
-import { GameField, WordsPicker, PaintingInfo } from "../../widgets/fields";
+import { GameField, WordsPicker } from "../../widgets/game-fields";
+import { PaintingInfo, RoundStats } from "../../widgets/stats";
 import Hints from "../../widgets/hints";
-import {
-  LevelsState,
-  RoundState,
-  HintSettings,
-  StageControls,
-} from "../../features/game";
+import { LevelsState, RoundState, StageControls } from "../../features/levels";
+import { HintSettings } from "../../features/hints";
+import { Controls } from "../../widgets/controls";
 import {
   SmallScreenSettings,
   SmallScreenWarningCard,
 } from "../../features/warnings";
-import RoundStats from "../../widgets/stats";
-import Controls from "../../widgets/controls";
 
 import styles from "./GamePage.module.css";
 
-export default class GamePage extends Component {
+export class GamePage extends Component {
   levelsState: LevelsState;
 
   roundState: RoundState;
