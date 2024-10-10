@@ -1,11 +1,11 @@
 import { Component, div, img, p } from "../../../shared/ui";
 
-import { type Painting } from "../../../entities/painting";
+import { type Painting } from "..";
 import { IMAGES_BASE_URL } from "../../../shared/helpers";
 
 import styles from "./ArtworkMiniature.module.css";
 
-export default class ArtworkMiniature extends Component {
+export class ArtworkMiniature extends Component {
   private image: Component<HTMLImageElement>;
 
   private info: Component;

@@ -1,5 +1,5 @@
 import { Component, Button, Modal, div, i } from "../../../shared/ui";
-import ArtworkMiniature from "./ArtworkMiniature";
+import { ArtworkMiniature } from "../../../entities/painting";
 import SentencesList, { SentencesListType } from "./SentencesList";
 
 import { RoundState, Stage } from "../../../features/levels";
