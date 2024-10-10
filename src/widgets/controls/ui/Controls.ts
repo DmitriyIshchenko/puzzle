@@ -1,4 +1,4 @@
-import { LevelsState, RoundControls } from "../../../features/levels";
+import { LevelsState, LevelControls } from "../../../features/levels";
 import { HintControls, HintSettings } from "../../../features/hints";
 
 import { Component } from "../../../shared/ui";
@@ -12,7 +12,7 @@ export class Controls extends Component {
       className: styles.controls,
     });
 
-    const roundControls = new RoundControls(levelsState);
+    const roundControls = new LevelControls(levelsState);
     const hintControls = new HintControls(hintSettings);
 
     this.appendChildren([roundControls, hintControls]);

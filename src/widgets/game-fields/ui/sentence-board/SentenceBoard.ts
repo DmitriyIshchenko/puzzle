@@ -12,9 +12,9 @@ import {
   findAllInstancesOf,
 } from "../../../../shared/helpers";
 
-import styles from "./GameField.module.css";
+import styles from "./SentenceBoard.module.css";
 
-export class GameField extends Component implements Observer {
+export class SentenceBoard extends Component implements Observer {
   private rows: Array<AssembleRow> = [];
 
   private roundId: string = "";

@@ -1,5 +1,5 @@
 import { Component, Modal } from "../../shared/ui";
-import { GameField, WordsPicker } from "../../widgets/game-fields";
+import { SentenceBoard, WordsPicker } from "../../widgets/game-fields";
 import { PaintingInfo, RoundStats } from "../../widgets/stats";
 import Hints from "../../widgets/hints";
 import { LevelsState, RoundState, StageControls } from "../../features/levels";
@@ -55,7 +55,7 @@ export class GamePage extends Component {
   }
 
   private configureFields() {
-    const gameField = new GameField(this.roundState, this.hintSettings);
+    const gameField = new SentenceBoard(this.roundState, this.hintSettings);
     const paintingInfo = new PaintingInfo(this.roundState);
     const wordsPicker = new WordsPicker(this.roundState, this.hintSettings);
     const stageControls = new StageControls(this.roundState, this.modal);
