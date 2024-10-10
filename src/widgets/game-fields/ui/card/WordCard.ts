@@ -1,5 +1,5 @@
 import { Component, div, span } from "../../../../shared/ui";
-import Draggable from "../../../../shared/lib";
+import { Draggable } from "../../../../shared/lib";
 
 import {
   RoundState,

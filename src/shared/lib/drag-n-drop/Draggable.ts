@@ -2,7 +2,7 @@ import Component from "../../ui/base/Component";
 
 const DRAG_THRESHOLD = 10;
 
-export default abstract class Draggable extends Component {
+export abstract class Draggable extends Component {
   private clientX: number = 0;
 
   private clientY: number = 0;

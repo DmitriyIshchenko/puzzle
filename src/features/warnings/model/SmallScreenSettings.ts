@@ -8,7 +8,7 @@ const defaultState: SmallScreenSettingsData = {
   isWarningDisplayed: true,
 };
 
-export default class SmallScreenSettings extends State<SmallScreenSettingsData> {
+export class SmallScreenSettings extends State<SmallScreenSettingsData> {
   constructor() {
     super(defaultState, "smallScreenWarning");
   }

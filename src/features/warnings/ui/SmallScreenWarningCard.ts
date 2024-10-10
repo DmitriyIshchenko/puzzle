@@ -5,11 +5,11 @@ import {
   MessageType,
 } from "../../../shared/ui";
 
-import SmallScreenSettings from "../model/SmallScreenSettings";
+import { SmallScreenSettings } from "../model/SmallScreenSettings";
 
 import styles from "../../../shared/ui/message/Message.module.css";
 
-export default class SmallScreenWarning extends MessageCard {
+export class SmallScreenWarning extends MessageCard {
   constructor(private smallScreenSettings: SmallScreenSettings) {
     const button = new Button(
       "Got it, never show again",

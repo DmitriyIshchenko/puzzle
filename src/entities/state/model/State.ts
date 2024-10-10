@@ -4,7 +4,7 @@
   The general problem seems to be to create a Map with passed data types./
 */
 
-export default class State<T extends object> {
+export class State<T extends object> {
   private fields: Map<string, string>;
 
   constructor(private stateKey: string) {

@@ -7,7 +7,7 @@ import { HintSettings } from "../../features/hints";
 import { Controls } from "../../widgets/controls";
 import {
   SmallScreenSettings,
-  SmallScreenWarningCard,
+  SmallScreenWarning,
 } from "../../features/warnings";
 
 import styles from "./GamePage.module.css";
@@ -43,7 +43,7 @@ export class GamePage extends Component {
   }
 
   private configure() {
-    const warning = new SmallScreenWarningCard(this.smallScreenSettings);
+    const warning = new SmallScreenWarning(this.smallScreenSettings);
     const controls = this.configureControls();
     const hints = this.configureHints();
     const fields = this.configureFields();

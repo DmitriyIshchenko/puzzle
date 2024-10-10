@@ -1,6 +1,6 @@
 import { Publisher, Observer } from "./Observer";
 
-export default class State<T> implements Publisher {
+export class State<T> implements Publisher {
   public state: T;
 
   constructor(
