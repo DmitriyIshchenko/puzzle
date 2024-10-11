@@ -1,4 +1,4 @@
-import { Component } from "../ui";
+import { Component } from "../ui/base/Component";
 
 // use never since any is not allowed
 
