@@ -1,4 +1,4 @@
-import { Component, Button, Modal, div, i } from "../../../shared/ui";
+import { Component, Button, Modal, div, i } from "../../../shared";
 import { ArtworkMiniature } from "../../../entities/painting";
 import { SentencesList, SentencesListType } from "./SentencesList";
 

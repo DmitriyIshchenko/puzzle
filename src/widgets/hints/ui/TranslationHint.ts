@@ -1,4 +1,4 @@
-import { Component } from "../../../shared/ui";
+import { Component } from "../../../shared";
 import { HintSettings } from "../../../features/hints";
 import { RoundState } from "../../../features/levels";
 import { Observer, Publisher } from "../../../entities/state";

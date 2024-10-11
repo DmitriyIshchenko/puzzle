@@ -1,4 +1,4 @@
-import { IMAGES_BASE_URL } from "../../../shared/api/urls";
+import { IMAGES_BASE_URL } from "../../../shared";
 
 export async function calculateImageAspectRatio(src: string) {
   const image = await new Promise<HTMLImageElement>((resolve, reject) => {

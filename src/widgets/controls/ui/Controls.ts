@@ -1,7 +1,7 @@
 import { LevelsState, LevelControls } from "../../../features/levels";
 import { HintControls, HintSettings } from "../../../features/hints";
 
-import { Component } from "../../../shared/ui";
+import { Component } from "../../../shared";
 
 import styles from "./Controls.module.css";
 

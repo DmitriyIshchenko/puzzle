@@ -1,9 +1,5 @@
 import { Publisher } from "../../../entities/state";
-import {
-  Button,
-  Message as MessageCard,
-  MessageType,
-} from "../../../shared/ui";
+import { Button, Message as MessageCard, MessageType } from "../../../shared";
 
 import { SmallScreenSettings } from "../model/SmallScreenSettings";
 

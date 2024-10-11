@@ -1,10 +1,9 @@
-import { Component, AudioButton } from "../../../shared/ui";
+import { Component, AudioButton, BASE_URL } from "../../../shared";
 import { HintSettings } from "../../../features/hints";
 import { RoundState } from "../../../features/levels";
 import { Observer, Publisher } from "../../../entities/state";
 
 import styles from "./PronunciationHint.module.css";
-import { BASE_URL } from "../../../shared/api/urls";
 
 // TODO: maybe create a generic hint class
 export class PronunciationHint extends Component implements Observer {

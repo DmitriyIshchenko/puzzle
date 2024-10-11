@@ -1,4 +1,4 @@
-import { Component } from "../../../../shared/ui";
+import { Component, findAllInstancesOf } from "../../../../shared";
 
 import { RoundState } from "../../../../features/levels";
 import { HintSettings } from "../../../../features/hints";
@@ -8,7 +8,6 @@ import { AssembleRow } from "../rows/AssembleRow";
 import { Observer, Publisher } from "../../../../entities/state";
 import { ANIMATION_DELAY_COEFFICIENT } from "../../config/constants";
 import { calculateImageAspectRatio } from "../../lib/calculateImageAspectRatio";
-import { findAllInstancesOf } from "../../../../shared/lib";
 
 import styles from "./SentenceBoard.module.css";
 

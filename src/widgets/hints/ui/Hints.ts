@@ -1,6 +1,6 @@
 import { HintSettings } from "../../../features/hints";
 import { RoundState } from "../../../features/levels";
-import { Component } from "../../../shared/ui";
+import { Component } from "../../../shared";
 import { PronunciationHint } from "./PronunciationHint";
 import { TranslationHint } from "./TranslationHint";
 

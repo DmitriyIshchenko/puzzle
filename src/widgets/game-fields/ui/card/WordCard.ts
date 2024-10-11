@@ -1,5 +1,11 @@
-import { Component, div, span } from "../../../../shared/ui";
-import { Draggable, assertNonNull } from "../../../../shared/lib";
+import {
+  Component,
+  div,
+  span,
+  Draggable,
+  assertNonNull,
+  IMAGES_BASE_URL,
+} from "../../../../shared";
 
 import {
   RoundState,
@@ -9,7 +15,6 @@ import {
 import { HintSettings } from "../../../../features/hints";
 
 import { type RowData } from "../rows/Row";
-import { IMAGES_BASE_URL } from "../../../../shared/api/urls";
 import { Word } from "../../../../entities/word";
 
 import styles from "./WordCard.module.css";

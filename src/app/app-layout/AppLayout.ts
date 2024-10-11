@@ -1,4 +1,4 @@
-import { Component, Header, main } from "../../shared/ui";
+import { Component, Header, main } from "../../shared";
 import { Router } from "../router/router";
 import { AuthState } from "../../features/auth/AuthState";
 

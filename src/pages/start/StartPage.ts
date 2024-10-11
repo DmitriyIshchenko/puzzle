@@ -1,7 +1,7 @@
 import { Router } from "../../app/router/router";
 import { Pages } from "../../app/router/pages";
 
-import { Component, Button, div, h2, h3, li, p, ul } from "../../shared/ui";
+import { Component, Button, div, h2, h3, li, p, ul } from "../../shared";
 
 import styles from "./StartPage.module.css";
 

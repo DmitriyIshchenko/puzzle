@@ -1,5 +1,10 @@
-import { Component, label, option, select } from "../../../shared/ui";
-import { isValidSetting } from "../../../shared/lib";
+import {
+  Component,
+  label,
+  option,
+  select,
+  isValidSetting,
+} from "../../../shared";
 import { Observer, Publisher } from "../../../entities/state";
 
 import { LevelsState } from "../model/LevelsState";

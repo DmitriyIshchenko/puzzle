@@ -1,12 +1,4 @@
-import {
-  Component,
-  AudioButton,
-  h3,
-  li,
-  p,
-  span,
-  ul,
-} from "../../../shared/ui";
+import { Component, AudioButton, h3, li, p, span, ul } from "../../../shared";
 import { type Stage } from "../../../features/levels/model/Stage";
 
 import styles from "./SentencesList.module.css";

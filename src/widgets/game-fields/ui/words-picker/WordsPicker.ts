@@ -1,10 +1,9 @@
-import { Component } from "../../../../shared/ui";
+import { Component, debounceListener } from "../../../../shared";
 import { PickRow } from "../rows/PickRow";
 import { RoundState } from "../../../../features/levels";
 import { HintSettings } from "../../../../features/hints";
 import { Observer, Publisher } from "../../../../entities/state";
 import { calculateImageAspectRatio } from "../../lib/calculateImageAspectRatio";
-import { debounceListener } from "../../../../shared/lib";
 
 import styles from "./WordsPicker.module.css";
 

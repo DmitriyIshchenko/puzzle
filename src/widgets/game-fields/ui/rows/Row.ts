@@ -1,5 +1,4 @@
-import { Component, div } from "../../../../shared/ui";
-import { debounceListener } from "../../../../shared/lib";
+import { Component, div, debounceListener } from "../../../../shared";
 import { Observer, Publisher } from "../../../../entities/state";
 
 import { WordCard } from "../card/WordCard";

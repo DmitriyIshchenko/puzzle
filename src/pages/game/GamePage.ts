@@ -1,4 +1,4 @@
-import { Component, Modal } from "../../shared/ui";
+import { Component, Modal } from "../../shared";
 import { SentenceBoard, WordsPicker } from "../../widgets/game-fields";
 import { PaintingInfo, RoundStats } from "../../widgets/stats";
 import { Hints } from "../../widgets/hints";

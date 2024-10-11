@@ -1,4 +1,4 @@
-import { Component, span } from "../../shared/ui";
+import { Component, span } from "../../shared";
 
 import styles from "./NotRoundPage.module.css";
 

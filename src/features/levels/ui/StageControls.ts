@@ -1,4 +1,4 @@
-import { Component, Button, Modal } from "../../../shared/ui";
+import { Component, Button, Modal } from "../../../shared";
 
 import type { RoundState } from "../model/RoundState";
 
