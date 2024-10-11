@@ -1,12 +1,12 @@
 import { HintSettings } from "../../../features/hints";
 import { RoundState } from "../../../features/levels";
 import { Component } from "../../../shared/ui";
+import { PronunciationHint } from "./PronunciationHint";
+import { TranslationHint } from "./TranslationHint";
 
-import styles from "./Hint.module.css";
-import PronunciationHint from "./PronunciationHint";
-import TranslationHint from "./TranslationHint";
+import styles from "./Hints.module.css";
 
-export default class Hints extends Component {
+export class Hints extends Component {
   constructor(roundState: RoundState, hintSettings: HintSettings) {
     super({
       tag: "div",

@@ -1,4 +1,4 @@
-import Component, { ElementFuncProps } from "./Component";
+import { Component, ElementFuncProps } from "./Component";
 
 export const div = (
   props: ElementFuncProps<HTMLDivElement>,

@@ -1,5 +1,5 @@
-import WaveIcon from "./WaveIcon";
-import Component from "../base/Component";
+import { WaveIcon } from "./WaveIcon";
+import { Component } from "../base/Component";
 
 import styles from "./Button.module.css";
 import stylesRound from "./ButtonIcon.module.css";
@@ -13,7 +13,7 @@ enum AudioStatus {
 const BASE_URL =
   "https://github.com/rolling-scopes-school/rss-puzzle-data/raw/main";
 
-export default class AudioButton extends Component<HTMLButtonElement> {
+export class AudioButton extends Component<HTMLButtonElement> {
   private audio: HTMLAudioElement | null = null;
 
   private status: AudioStatus = AudioStatus.IDLE;

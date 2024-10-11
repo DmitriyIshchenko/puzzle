@@ -1,10 +1,10 @@
-import Component from "../base/Component";
-import ButtonIcon from "../button/ButtonIcon";
+import { Component } from "../base/Component";
+import { ButtonIcon } from "../button/ButtonIcon";
 import { div } from "../base/tags";
 
 import styles from "./Modal.module.css";
 
-export default class Modal extends Component<HTMLDialogElement> {
+export class Modal extends Component<HTMLDialogElement> {
   private content: Component;
 
   constructor() {

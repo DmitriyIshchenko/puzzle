@@ -1,5 +1,5 @@
-import Component from "../base/Component";
-import Button from "../button/Button";
+import { Component } from "../base/Component";
+import { Button } from "../button/Button";
 import { i, span } from "../base/tags";
 
 import styles from "./Message.module.css";
@@ -18,7 +18,7 @@ const icons = {
   [MessageType.ERROR]: `bi bi-exclamation-circle ${styles.error}`,
 };
 
-export default class MessageCard extends Component {
+export class Message extends Component {
   constructor(text: string, type: MessageType, button?: Button) {
     super({
       tag: "div",

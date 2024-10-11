@@ -1,7 +1,7 @@
 import { Component, Modal } from "../../shared/ui";
 import { SentenceBoard, WordsPicker } from "../../widgets/game-fields";
 import { PaintingInfo, RoundStats } from "../../widgets/stats";
-import Hints from "../../widgets/hints";
+import { Hints } from "../../widgets/hints";
 import { LevelsState, RoundState, StageControls } from "../../features/levels";
 import { HintSettings } from "../../features/hints";
 import { Controls } from "../../widgets/controls";

@@ -1,10 +1,10 @@
 import { Component, Header, main } from "../../shared/ui";
-import Router from "../router/router";
-import AuthState from "../../features/auth/AuthState";
+import { Router } from "../router/router";
+import { AuthState } from "../../features/auth/AuthState";
 
 import styles from "./AppLayout.module.css";
 
-export default class AppLayout extends Component<HTMLDivElement> {
+export class AppLayout extends Component<HTMLDivElement> {
   private header: Header;
 
   private outlet: Component;

@@ -11,7 +11,7 @@ export type ElementFuncProps<T extends HTMLElement = HTMLElement> = Omit<
   "tag"
 >;
 
-export default class Component<T extends HTMLElement = HTMLElement> {
+export class Component<T extends HTMLElement = HTMLElement> {
   protected element: T;
 
   private children: Array<Component> = [];

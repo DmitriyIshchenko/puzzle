@@ -1,8 +1,8 @@
-import AuthState from "../../features/auth/AuthState";
-import Router from "../../app/router/router";
+import { AuthState } from "../../features/auth/AuthState";
+import { Router } from "../../app/router/router";
 
 import { Component, h2 } from "../../shared/ui";
-import LoginForm from "../../features/auth/LoginForm";
+import { LoginForm } from "../../features/auth/LoginForm";
 
 import styles from "./LoginPage.module.css";
 

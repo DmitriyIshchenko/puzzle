@@ -5,7 +5,7 @@ import { Observer, Publisher } from "../../../entities/state";
 
 import styles from "./TranslationHint.module.css";
 
-export default class TranslationHint extends Component implements Observer {
+export class TranslationHint extends Component implements Observer {
   private isShown: boolean | null = null;
 
   private text: string = "";

@@ -9,7 +9,7 @@ const BASE_URL =
   "https://github.com/rolling-scopes-school/rss-puzzle-data/raw/main";
 
 // TODO: maybe create a generic hint class
-export default class PronunciationHint extends Component implements Observer {
+export class PronunciationHint extends Component implements Observer {
   private playButton: AudioButton;
 
   private isShown: boolean | null = null;

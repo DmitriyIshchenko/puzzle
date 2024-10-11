@@ -1,3 +1,1 @@
-import Hints from "./ui/Hints";
-
-export default Hints;
+export { Hints } from "./ui/Hints";

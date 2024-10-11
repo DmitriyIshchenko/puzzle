@@ -17,7 +17,7 @@ const lines = [
 
 const SVG_URI = "http://www.w3.org/2000/svg";
 
-export default class WaveIcon {
+export class WaveIcon {
   public svg: SVGSVGElement;
 
   constructor() {

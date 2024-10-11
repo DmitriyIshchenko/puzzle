@@ -3,7 +3,7 @@ import { UserCredentials } from "./types";
 
 const AUTH_KEY = "userCredentials";
 
-export default class AuthState extends StateAuth<UserCredentials> {
+export class AuthState extends StateAuth<UserCredentials> {
   constructor() {
     super(AUTH_KEY);
   }

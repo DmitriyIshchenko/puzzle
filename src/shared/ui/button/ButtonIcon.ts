@@ -1,9 +1,9 @@
-import Button from "./Button";
+import { Button } from "./Button";
 import { i } from "../base/tags";
 
 import styles from "./ButtonIcon.module.css";
 
-export default class ButtonIcon extends Button {
+export class ButtonIcon extends Button {
   constructor(
     icon: string | SVGSVGElement,
     onClick: EventListener | null,

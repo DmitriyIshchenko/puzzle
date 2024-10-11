@@ -16,7 +16,7 @@ export enum SentencesListType {
   UNSOLVED,
 }
 
-export default class SentencesList extends Component {
+export class SentencesList extends Component {
   private list: Component<HTMLUListElement>;
 
   private count: Component<HTMLSpanElement>;

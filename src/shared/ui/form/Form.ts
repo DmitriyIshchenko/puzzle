@@ -1,7 +1,7 @@
-import Component from "../base/Component";
+import { Component } from "../base/Component";
 
-import Input from "../input/Input";
-import Button from "../button/Button";
+import { Input } from "../input/Input";
+import { Button } from "../button/Button";
 import { div, label, span } from "../base/tags";
 
 import { Validatable, validate } from "../../validation";
@@ -20,7 +20,7 @@ interface FormField {
   params: TextInputParams;
 }
 
-export default class Form extends Component<HTMLFormElement> {
+export class Form extends Component<HTMLFormElement> {
   protected textInputs: Array<FormField> = [];
 
   constructor(

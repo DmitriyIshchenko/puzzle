@@ -1,8 +1,8 @@
-import Component, { Props } from "../base/Component";
+import { Component, Props } from "../base/Component";
 
 import styles from "./Input.module.css";
 
-export default class Input extends Component<HTMLInputElement> {
+export class Input extends Component<HTMLInputElement> {
   constructor(props: Props<HTMLInputElement>) {
     super({
       ...props,

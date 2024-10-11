@@ -1,6 +1,6 @@
-import AppLayout from "./app-layout/AppLayout";
-import Router from "./router/router";
-import AuthState from "../features/auth/AuthState";
+import { AppLayout } from "./app-layout/AppLayout";
+import { Router } from "./router/router";
+import { AuthState } from "../features/auth/AuthState";
 
 import { LoginPage } from "../pages/login";
 import { StartPage } from "../pages/start";
@@ -9,7 +9,7 @@ import { NotFoundPage } from "../pages/not-found";
 
 import { Pages } from "./router/pages";
 
-export default class App {
+export class App {
   appLayout: AppLayout;
 
   authState: AuthState;

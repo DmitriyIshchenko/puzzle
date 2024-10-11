@@ -1,13 +1,13 @@
-import AuthState from "../../../features/auth/AuthState";
-import Router from "../../../app/router/router";
+import { AuthState } from "../../../features/auth/AuthState";
+import { Router } from "../../../app/router/router";
 
-import Component from "../base/Component";
-import Button from "../button/Button";
+import { Component } from "../base/Component";
+import { Button } from "../button/Button";
 import { div, span } from "../base/tags";
 
 import styles from "./Header.module.css";
 
-export default class Header extends Component {
+export class Header extends Component {
   private userEl: Component;
 
   constructor(

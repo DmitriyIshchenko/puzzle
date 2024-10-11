@@ -1,4 +1,4 @@
-import Component from "./ui/base/Component";
+import { Component } from "./ui/base/Component";
 
 export const IMAGES_BASE_URL =
   "https://raw.githubusercontent.com/rolling-scopes-school/rss-puzzle-data/main/images";
