@@ -1,5 +1,5 @@
 import { State, Observer, Publisher } from "../../../entities/state";
-import { RATING_THRESHOLDS } from "../../../shared/helpers";
+import { RATING_THRESHOLDS } from "../config/constants";
 import { LevelsState } from "./LevelsState";
 
 import { Stage, StageStatus, generateStageWords } from "./Stage";

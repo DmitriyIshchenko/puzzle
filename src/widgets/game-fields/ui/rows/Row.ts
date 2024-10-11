@@ -1,5 +1,5 @@
 import { Component, div } from "../../../../shared/ui";
-import { debounceListener } from "../../../../shared/helpers";
+import { debounceListener } from "../../../../shared/lib";
 import { Observer, Publisher } from "../../../../entities/state";
 
 import { WordCard } from "../card/WordCard";

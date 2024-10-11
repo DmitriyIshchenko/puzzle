@@ -4,9 +4,7 @@ import { RoundState } from "../../../features/levels";
 import { Observer, Publisher } from "../../../entities/state";
 
 import styles from "./PronunciationHint.module.css";
-
-const BASE_URL =
-  "https://github.com/rolling-scopes-school/rss-puzzle-data/raw/main";
+import { BASE_URL } from "../../../shared/api/urls";
 
 // TODO: maybe create a generic hint class
 export class PronunciationHint extends Component implements Observer {

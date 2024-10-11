@@ -6,11 +6,9 @@ import { WordCard } from "../card/WordCard";
 import { AssembleRow } from "../rows/AssembleRow";
 
 import { Observer, Publisher } from "../../../../entities/state";
-import {
-  ANIMATION_DELAY_COEFFICIENT,
-  calculateImageAspectRatio,
-  findAllInstancesOf,
-} from "../../../../shared/helpers";
+import { ANIMATION_DELAY_COEFFICIENT } from "../../config/constants";
+import { calculateImageAspectRatio } from "../../lib/calculateImageAspectRatio";
+import { findAllInstancesOf } from "../../../../shared/lib";
 
 import styles from "./SentenceBoard.module.css";
 

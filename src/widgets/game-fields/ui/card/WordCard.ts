@@ -1,5 +1,5 @@
 import { Component, div, span } from "../../../../shared/ui";
-import { Draggable } from "../../../../shared/lib";
+import { Draggable, assertNonNull } from "../../../../shared/lib";
 
 import {
   RoundState,
@@ -9,7 +9,7 @@ import {
 import { HintSettings } from "../../../../features/hints";
 
 import { type RowData } from "../rows/Row";
-import { assertNonNull, IMAGES_BASE_URL } from "../../../../shared/helpers";
+import { IMAGES_BASE_URL } from "../../../../shared/api/urls";
 import { Word } from "../../../../entities/word";
 
 import styles from "./WordCard.module.css";

@@ -3,15 +3,13 @@ import { Component } from "../base/Component";
 
 import styles from "./Button.module.css";
 import stylesRound from "./ButtonIcon.module.css";
+import { BASE_URL } from "../../api/urls";
 
 enum AudioStatus {
   IDLE,
   READY,
   PLAYING,
 }
-
-const BASE_URL =
-  "https://github.com/rolling-scopes-school/rss-puzzle-data/raw/main";
 
 export class AudioButton extends Component<HTMLButtonElement> {
   private audio: HTMLAudioElement | null = null;

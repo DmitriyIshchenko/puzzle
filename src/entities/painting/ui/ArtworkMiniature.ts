@@ -1,7 +1,7 @@
 import { Component, div, img, p } from "../../../shared/ui";
 
 import { type Painting } from "..";
-import { IMAGES_BASE_URL } from "../../../shared/helpers";
+import { IMAGES_BASE_URL } from "../../../shared/api/urls";
 
 import styles from "./ArtworkMiniature.module.css";
 
