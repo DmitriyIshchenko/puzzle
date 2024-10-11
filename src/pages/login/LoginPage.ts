@@ -1,13 +1,12 @@
-import AuthState from "../../features/auth/AuthState";
-import Router from "../../app/router/router";
+import { AuthState } from "../../features/auth/model/AuthState";
+import { Router } from "../../app/router/router";
 
-import Component from "../../shared/Component";
-import LoginForm from "../../features/auth/LoginForm";
-import { h2 } from "../../ui/tags";
+import { Component, h2 } from "../../shared";
+import { LoginForm } from "../../features/auth/ui/LoginForm";
 
 import styles from "./LoginPage.module.css";
 
-export default class LoginPage extends Component {
+export class LoginPage extends Component {
   constructor(
     private authState: AuthState,
     private router: Router,

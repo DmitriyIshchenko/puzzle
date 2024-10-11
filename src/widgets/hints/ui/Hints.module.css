@@ -1,0 +1,9 @@
+.hints {
+  display: grid;
+  justify-items: center;
+  align-items: center;
+
+  grid-template-columns: 35px 1fr;
+  grid-template-rows: 35px;
+  gap: 20px;
+}

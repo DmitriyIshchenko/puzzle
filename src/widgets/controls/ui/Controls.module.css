@@ -1,0 +1,8 @@
+.controls {
+  display: grid;
+  grid-template-columns: auto 1fr;
+
+  @container (width < 768px) {
+    padding-inline: 20px;
+  }
+}

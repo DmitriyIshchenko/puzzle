@@ -1,5 +1,5 @@
 import { Pages, RESOURCE_SELECTOR } from "./pages";
-import AuthState from "../../features/auth/AuthState";
+import { AuthState } from "../../features/auth/model/AuthState";
 
 export interface Route {
   path: string;
@@ -11,7 +11,7 @@ interface UrlData {
   resource: string;
 }
 
-export default class Router {
+export class Router {
   constructor(
     private routes: Array<Route>,
     private authState: AuthState,
