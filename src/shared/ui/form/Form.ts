@@ -4,7 +4,7 @@ import { Input } from "../input/Input";
 import { Button } from "../button/Button";
 import { div, label, span } from "../base/tags";
 
-import { Validatable, validate } from "../../validation";
+import { Validatable, validate } from "../../../features/auth/model/validation";
 
 import styles from "./Form.module.css";
 

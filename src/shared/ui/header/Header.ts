@@ -1,4 +1,4 @@
-import { AuthState } from "../../../features/auth/AuthState";
+import { AuthState } from "../../../features/auth/model/AuthState";
 import { Router } from "../../../app/router/router";
 
 import { Component } from "../base/Component";

@@ -1,7 +1,11 @@
-import { StateAuth } from "../../entities/state";
-import { UserCredentials } from "./types";
+import { StateAuth } from "../../../entities/state";
 
 const AUTH_KEY = "userCredentials";
+
+interface UserCredentials {
+  firstName: string;
+  surname: string;
+}
 
 export class AuthState extends StateAuth<UserCredentials> {
   constructor() {

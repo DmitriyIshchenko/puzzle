@@ -1,5 +1,5 @@
 import { Pages, RESOURCE_SELECTOR } from "./pages";
-import { AuthState } from "../../features/auth/AuthState";
+import { AuthState } from "../../features/auth/model/AuthState";
 
 export interface Route {
   path: string;

@@ -1,6 +1,6 @@
 import { AppLayout } from "./app-layout/AppLayout";
 import { Router } from "./router/router";
-import { AuthState } from "../features/auth/AuthState";
+import { AuthState } from "../features/auth/model/AuthState";
 
 import { LoginPage } from "../pages/login";
 import { StartPage } from "../pages/start";
