@@ -1,10 +1,8 @@
-import Component from "../../shared/Component";
-
-import { span } from "../../ui/tags";
+import { Component, span } from "../../shared";
 
 import styles from "./NotRoundPage.module.css";
 
-export default class NotFoundPage extends Component {
+export class NotFoundPage extends Component {
   constructor() {
     super({
       tag: "main",

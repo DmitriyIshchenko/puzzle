@@ -1,30 +1,19 @@
-import Component from "../../shared/Component";
-import SmallScreenWarningCard from "../../features/game/card/SmallScreenWarningCard";
-
-import GameField from "../../features/game/fields/GameField";
-import WordsPicker from "../../features/game/fields/WordsPicker";
-import PaintingInfo from "../../features/game/card/PaintingInfo";
-import Modal from "../../ui/modal/Modal";
-
-import TranslationHint from "../../features/game/hints/TranslationHint";
-import PronunciationHint from "../../features/game/hints/PronunciationHint";
-
-import GameControls from "../../features/game/controls/GameControls";
-import HintsControls from "../../features/game/hints/HintControls";
-import RoundControls from "../../features/game/controls/RoundControls";
-
-import RoundState from "../../features/game/model/RoundState";
-import RoundSettings from "../../features/game/model/RoundSettings";
-import HintSettings from "../../features/game/model/HintSettings";
-import SmallScreenSettings from "../../features/game/model/SmallScreenSettings";
-
-import { div } from "../../ui/tags";
+import { Component, Modal } from "../../shared";
+import { SentenceBoard, WordsPicker } from "../../widgets/game-fields";
+import { PaintingInfo, RoundStats } from "../../widgets/stats";
+import { Hints } from "../../widgets/hints";
+import { LevelsState, RoundState, StageControls } from "../../features/levels";
+import { HintSettings } from "../../features/hints";
+import { Controls } from "../../widgets/controls";
+import {
+  SmallScreenSettings,
+  SmallScreenWarning,
+} from "../../features/warnings";
 
 import styles from "./GamePage.module.css";
-import RoundStats from "../../features/game/stats/RoundStats";
 
-export default class GamePage extends Component {
-  roundSettings: RoundSettings;
+export class GamePage extends Component {
+  levelsState: LevelsState;
 
   roundState: RoundState;
 
@@ -42,8 +31,8 @@ export default class GamePage extends Component {
       className: styles.page,
     });
 
-    this.roundSettings = new RoundSettings();
-    this.roundState = new RoundState(this.roundSettings);
+    this.levelsState = new LevelsState();
+    this.roundState = new RoundState(this.levelsState);
     this.hintSettings = new HintSettings();
     this.smallScreenSettings = new SmallScreenSettings();
 
@@ -54,7 +43,7 @@ export default class GamePage extends Component {
   }
 
   private configure() {
-    const warning = new SmallScreenWarningCard(this.smallScreenSettings);
+    const warning = new SmallScreenWarning(this.smallScreenSettings);
     const controls = this.configureControls();
     const hints = this.configureHints();
     const fields = this.configureFields();
@@ -66,47 +55,20 @@ export default class GamePage extends Component {
   }
 
   private configureFields() {
-    const gameField = new GameField(this.roundState, this.hintSettings);
+    const gameField = new SentenceBoard(this.roundState, this.hintSettings);
     const paintingInfo = new PaintingInfo(this.roundState);
     const wordsPicker = new WordsPicker(this.roundState, this.hintSettings);
-    const roundControls = new GameControls(this.roundState, this.modal);
+    const stageControls = new StageControls(this.roundState, this.modal);
 
-    return [gameField, paintingInfo, wordsPicker, roundControls];
+    return [gameField, paintingInfo, wordsPicker, stageControls];
   }
 
   private configureHints() {
-    const translationHint = new TranslationHint(
-      this.roundState,
-      this.hintSettings,
-    );
-    const pronunciationHint = new PronunciationHint(
-      this.roundState,
-      this.hintSettings,
-    );
-
-    const hints = div(
-      { className: styles.hints },
-      pronunciationHint,
-      translationHint,
-    );
-
-    return hints;
+    return new Hints(this.roundState, this.hintSettings);
   }
 
   private configureControls() {
-    const hintControls = new HintsControls(this.hintSettings);
-
-    const roundControls = new RoundControls(this.roundSettings);
-
-    const controls = div(
-      {
-        className: styles.controls,
-      },
-      roundControls,
-      hintControls,
-    );
-
-    return controls;
+    return new Controls(this.levelsState, this.hintSettings);
   }
 
   init() {

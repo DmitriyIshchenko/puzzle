@@ -19,25 +19,6 @@
   }
 }
 
-.hints {
-  display: grid;
-  justify-items: center;
-  align-items: center;
-
-  grid-template-columns: 35px 1fr;
-  grid-template-rows: 35px;
-  gap: 20px;
-}
-
-.controls {
-  display: grid;
-  grid-template-columns: auto 1fr;
-
-  @container (width < 768px) {
-    padding-inline: 20px;
-  }
-}
-
 .warning {
   text-align: center;
   font-weight: 400;
