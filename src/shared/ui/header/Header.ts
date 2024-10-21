@@ -42,7 +42,7 @@ export class Header extends Component {
 
   private getUserName() {
     return `Welcome, 
-    ${this.authState.getValue("firstName")} ${this.authState.getValue("surname")}!`;
+    ${this.authState.state.firstName} ${this.authState.state.surname}!`;
   }
 
   updateUser() {
