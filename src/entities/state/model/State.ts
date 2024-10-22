@@ -1,48 +1,42 @@
-/*
-  TODO: currently it stores only strings. There definitely will be other data types, 
-  so you need to find a way to make it generic to store any type.
-  The general problem seems to be to create a Map with passed data types./
-*/
+import { Publisher, Observer } from "./Observer";
 
-export class State<T extends object> {
-  private fields: Map<string, string>;
+export class State<T> implements Publisher {
+  public state: T;
 
-  constructor(private stateKey: string) {
-    this.fields = this.loadState();
-
-    // NOTE: possible problems with multiple tabs open at the same time
-    window.addEventListener("beforeunload", this.saveState.bind(this));
+  constructor(
+    private defaultState: T,
+    protected key: string = "",
+  ) {
+    this.state = this.loadState();
   }
 
-  loadState() {
-    const fieldsString = localStorage.getItem(this.stateKey);
+  private subscribers: Array<Observer> = [];
 
-    if (fieldsString) {
-      const parsed = JSON.parse(fieldsString) as T;
+  protected loadState() {
+    const stateString = localStorage.getItem(this.key);
 
-      const entries = Object.entries(parsed);
+    if (stateString) return JSON.parse(stateString) as T;
 
-      return new Map<string, string>(entries);
+    return this.defaultState;
+  }
+
+  saveState(state = this.state) {
+    if (this.key) {
+      localStorage.setItem(this.key, JSON.stringify(state));
     }
-
-    return new Map<string, string>();
   }
 
-  saveState() {
-    const fields = JSON.stringify(Object.fromEntries(this.fields.entries()));
-
-    localStorage.setItem(this.stateKey, fields);
+  subscribe(subscriber: Observer): void {
+    this.subscribers.push(subscriber);
   }
 
-  resetState() {
-    this.fields.clear();
+  unsubscribe(subscriber: Observer): void {
+    this.subscribers = this.subscribers.filter((item) => item !== subscriber);
   }
 
-  setValue(name: string, value: string) {
-    return this.fields.set(name, value);
-  }
-
-  getValue(name: string) {
-    return this.fields.get(name) || "";
+  notifySubscribers(): void {
+    this.subscribers.forEach((subscriber) => {
+      subscriber.update(this);
+    });
   }
 }

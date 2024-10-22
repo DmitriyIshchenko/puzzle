@@ -1,34 +1,33 @@
-import { StateAuth } from "../../../entities/state";
-
-const AUTH_KEY = "userCredentials";
+import { State } from "../../../entities/state";
 
 interface UserCredentials {
   firstName: string;
   surname: string;
 }
 
-export class AuthState extends StateAuth<UserCredentials> {
+const defaultState: UserCredentials = {
+  firstName: "",
+  surname: "",
+};
+
+export class AuthState extends State<UserCredentials> {
   constructor() {
-    super(AUTH_KEY);
+    super(defaultState, "userCredentials");
   }
 
-  login(credentials: UserCredentials) {
-    // TODO: this smells. There is a lot of entries all over the app, consider creating helper function to extract entries from object
-    const entries = Object.entries(credentials) as [string, string][];
-
-    entries.forEach(([name, value]) => this.setValue(name, value));
-    this.saveState();
+  login(userCredentials: UserCredentials) {
+    this.saveState(userCredentials);
+    this.state = userCredentials;
   }
 
   logout() {
-    // NOTE: although it may seem somewhat unrelated to do it within this state, I believe it's a much simpler solution than trying to synchronize multiple states/components, so I decided to go with it
     localStorage.removeItem("hintSettings");
 
-    this.resetState();
+    this.state = defaultState;
     this.saveState();
   }
 
   get isAuthenticated() {
-    return !!this.getValue("firstName");
+    return !!this.state.surname;
   }
 }
