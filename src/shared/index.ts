@@ -4,6 +4,7 @@ export { debounceListener } from "./lib/debounceListener";
 export { findAllInstancesOf } from "./lib/findAllInstancesOf";
 export { isValidSetting } from "./lib/isValidSetting";
 export { assertNonNull } from "./lib/assertNonNull";
+export { ValidationPatterns } from "./lib/validation";
 
 export {
   Component,
